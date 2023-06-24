@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const connectDB = require("./database/connectDB");
 // Enable live reload for all the files inside the project directory
 require("electron-reload")(__dirname);
@@ -8,6 +8,7 @@ async function createWindow() {
 		height: 600,
 		webPreferences: {
 			nodeIntegration: true,
+			preload: __dirname + "/preload.js",
 		},
 	});
 	await connectDB();
@@ -35,4 +36,9 @@ app.on("activate", () => {
 	if (BrowserWindow.getAllWindows().length === 0) {
 		createWindow();
 	}
+});
+
+// Handle IPC event to require modules in the renderer process
+ipcMain.handle("require", (event, module) => {
+	return require(module);
 });

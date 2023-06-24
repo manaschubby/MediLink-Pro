@@ -23,6 +23,22 @@ const diagnosisSchema = new mongoose.Schema({
 	// Add more fields related to diagnosis as needed
 });
 
+//Create a Schema for Medications
+const medicationSchema = new mongoose.Schema({
+	name: {
+		type: String,
+		required: true,
+	},
+	dosage: {
+		type: String,
+		required: true,
+	},
+	frequency: {
+		type: String,
+		required: true,
+	},
+});
+
 // Create a schema for Patients
 const patientSchema = new mongoose.Schema({
 	firstName: {
@@ -57,13 +73,7 @@ const patientSchema = new mongoose.Schema({
 	allergies: {
 		type: [String],
 	},
-	medications: [
-		{
-			name: String,
-			dosage: String,
-			frequency: String,
-		},
-	],
+	medications: [medicationSchema],
 	insurance: {
 		provider: String,
 		policyNumber: String,
@@ -118,6 +128,7 @@ const Diagnosis = mongoose.model("Diagnosis", diagnosisSchema);
 const Patient = mongoose.model("Patient", patientSchema);
 const Appointment = mongoose.model("Appointment", appointmentSchema);
 const Report = mongoose.model("Report", reportSchema);
+const Medication = mongoose.model("Medication", medicationSchema);
 
 // Export the models
 module.exports = {
@@ -126,4 +137,5 @@ module.exports = {
 	Patient,
 	Appointment,
 	Report,
+	Medication,
 };

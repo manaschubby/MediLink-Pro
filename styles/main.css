@@ -34,6 +34,10 @@ body {
     justify-content: flex-start;
     gap: 10px;
     padding-left: 0px;
+    width: 100%;
+}
+.sidebar li{
+    width: 100%;
 }
 .sidebar a {
     text-decoration: none;
@@ -43,6 +47,17 @@ body {
     width: 100%;
     text-align: center;
     display: block;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.active {
+    background-color: #333;
+    color: #fff !important;
+}
+.sidebar a:hover {
+    text-decoration: none;
+    background-color: #333;
+    color: #fff !important;
 }
 
 .webview {

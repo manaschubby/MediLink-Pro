@@ -19,9 +19,9 @@
   
     <div class="sidebar">
       <ul>
-        <li><a onclick="changeIframeSource(`./pages/Dashboard.html`)">Dashboard</a></li>
-        <li><a onclick="changeIframeSource(`./pages/Patients.html`)">Patients</a></li>
-        <li><a href="#">Appointments</a></li>
+        <li><a id="Dashboard-link" onclick="changeIframeSource(`./pages/Dashboard.html`, `Dashboard-link`)">Dashboard</a></li>
+        <li><a id="Patients-Link" onclick="changeIframeSource(`./pages/Patients.html`, `Patients-Link`)">Patients</a></li>
+        <li><a id="Appointments Link" href="#">Appointments</a></li>
         <li><a href="#">Reports</a></li>
         <li><a href="#">Settings</a></li>
         <!-- Add more sidebar items as needed -->
@@ -34,7 +34,7 @@
     </div>
   
     <!-- Add your JavaScript files here if needed -->
-    <script src="./scripts/main.js"></script>
+    <script src="./scripts/main.js" preload="./preload.js"></script>
   </body>
   
   </html>
