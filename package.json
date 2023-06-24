@@ -22,5 +22,8 @@
 	"homepage": "https://github.com/manaschubby/MediLink-Pro#readme",
 	"devDependencies": {
 		"electron": "^25.2.0"
+	},
+	"dependencies": {
+		"electron-reload": "^2.0.0-alpha.1"
 	}
 }
