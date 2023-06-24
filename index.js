@@ -1,7 +1,8 @@
 const { app, BrowserWindow } = require("electron");
+const connectDB = require("./database/connectDB");
 // Enable live reload for all the files inside the project directory
 require("electron-reload")(__dirname);
-function createWindow() {
+async function createWindow() {
 	const mainWindow = new BrowserWindow({
 		width: 800,
 		height: 600,
@@ -9,7 +10,7 @@ function createWindow() {
 			nodeIntegration: true,
 		},
 	});
-
+	await connectDB();
 	// Load the index.html file of the application
 	mainWindow.loadFile("index.html");
 
@@ -18,8 +19,8 @@ function createWindow() {
 }
 
 // Event listener for when Electron has finished initialization
-app.whenReady().then(() => {
-	createWindow();
+app.whenReady().then(async () => {
+	await createWindow();
 
 	// Event listener for macOS when all windows are closed
 	app.on("window-all-closed", () => {

@@ -24,6 +24,13 @@
 		"electron": "^25.2.0"
 	},
 	"dependencies": {
-		"electron-reload": "^2.0.0-alpha.1"
+		"dotenv": "^16.3.1",
+		"electron-reload": "^2.0.0-alpha.1",
+		"mongoose": "^7.3.1"
+	},
+	"frontend": {
+		"config": {
+			"applicationName": "Theia Electron Example"
+		}
 	}
 }
