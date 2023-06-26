@@ -1,36 +1,43 @@
 {
 	"name": "medilink-pro",
-	"version": "1.0.0",
+	"version": "0.1.0",
 	"description": "Streamline medical care and research. Digitize patient data, enhance accessibility, optimize healthcare workflows.",
-	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/manaschubby/MediLink-Pro.git"
-	},
-	"keywords": [
-		"ElectronJS",
-		"MongoDB"
-	],
-	"author": "Manas Ashwin",
-	"license": "Apache-2.0 license",
-	"bugs": {
-		"url": "https://github.com/manaschubby/MediLink-Pro/issues"
-	},
-	"homepage": "https://github.com/manaschubby/MediLink-Pro#readme",
-	"devDependencies": {
-		"electron": "^25.2.0"
-	},
+	"private": true,
+	"main": "main.js",
 	"dependencies": {
-		"dotenv": "^16.3.1",
+		"@testing-library/jest-dom": "^5.16.5",
+		"@testing-library/react": "^13.4.0",
+		"@testing-library/user-event": "^13.5.0",
+		"electron": "^25.2.0",
 		"electron-reload": "^2.0.0-alpha.1",
-		"mongoose": "^7.3.1"
+		"mongoose": "^7.3.1",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-scripts": "5.0.1",
+		"web-vitals": "^2.1.4"
 	},
-	"frontend": {
-		"config": {
-			"applicationName": "Theia Electron Example"
-		}
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
 	}
 }
