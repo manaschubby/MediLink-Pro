@@ -1,5 +1,6 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, ipcRenderer } = require("electron");
 const connectDB = require("./database/connectDB");
+const { getPatients } = require("./ipcHandlers");
 // Enable live reload for all the files inside the project directory
 require("electron-reload")(__dirname, {
 	electron: require(`${__dirname}/node_modules/electron`),
@@ -40,7 +41,9 @@ app.on("activate", () => {
 	}
 });
 
-// Handle IPC event to require modules in the renderer process
 ipcMain.handle("require", (event, module) => {
 	return require(module);
+});
+ipcMain.on("get-patients", (e, arg) => {
+	return getPatients(e);
 });
