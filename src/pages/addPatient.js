@@ -1,4 +1,12 @@
-import { Box, Button, Select, TextField, Typography } from "@mui/material";
+import {
+	Box,
+	Button,
+	Menu,
+	MenuItem,
+	Select,
+	TextField,
+	Typography,
+} from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
@@ -82,20 +90,23 @@ const AddPatient = () => {
 			</Box>
 			<Select
 				label="Blood Type"
+				title="Blood Type"
 				sx={{
 					width: "20rem",
 					mt: "1rem",
 				}}
 				variant="outlined"
+				defaultValue={""}
 			>
-				<option value="A+">A+</option>
-				<option value="A-">A-</option>
-				<option value="B+">B+</option>
-				<option value="B-">B-</option>
-				<option value="AB+">AB+</option>
-				<option value="AB-">AB-</option>
-				<option value="O+">O+</option>
-				<option value="O-">O-</option>
+				<MenuItem value={""}>Select Blood Group</MenuItem>
+				<MenuItem value={"A+"}>A+</MenuItem>
+				<MenuItem value={"A-"}>A-</MenuItem>
+				<MenuItem value={"B+"}>B+</MenuItem>
+				<MenuItem value={"B-"}>B-</MenuItem>
+				<MenuItem value={"AB+"}>AB+</MenuItem>
+				<MenuItem value={"AB-"}>AB-</MenuItem>
+				<MenuItem value={"O+"}>O+</MenuItem>
+				<MenuItem value={"O-"}>O-</MenuItem>
 			</Select>
 
 			<DatePicker

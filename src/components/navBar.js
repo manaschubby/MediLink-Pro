@@ -24,14 +24,29 @@ const NavBar = () => {
 				alignItems: "center",
 				padding: "1rem",
 				backgroundColor: bluishColors[4],
-				maxHeight: "40px",
+				maxHeight: "60px",
 				zIndex: "1000",
+				pl: "5px",
 			}}
 		>
+			<img
+				style={{
+					position: "absolute",
+					objectFit: "contain",
+					height: "60px",
+				}}
+				src="/logo.png"
+				alt="MediLink Pro Logo"
+			/>
 			<Typography
-				variant="h6"
+				variant="h4"
 				component="div"
-				sx={{ flexGrow: 1, color: "white" }}
+				sx={{
+					pl: "7rem",
+					flexGrow: 1,
+					color: "white",
+					fontWeight: "bold",
+				}}
 			>
 				<Link sx={{ textDecoration: "none", color: "white" }} href="/">
 					MediLink Pro
