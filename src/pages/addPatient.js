@@ -1,6 +1,7 @@
 import {
 	Box,
 	Button,
+	InputLabel,
 	Menu,
 	MenuItem,
 	Select,
@@ -88,17 +89,20 @@ const AddPatient = () => {
 					Female
 				</Button>
 			</Box>
+			<InputLabel id="demo-simple-select-label">Blood Type</InputLabel>
 			<Select
 				label="Blood Type"
 				title="Blood Type"
+				labelId="demo-simple-select-label"
 				sx={{
 					width: "20rem",
 					mt: "1rem",
+					color: "black",
 				}}
 				variant="outlined"
-				defaultValue={""}
+				defaultValue={"default"}
 			>
-				<MenuItem value={""}>Select Blood Group</MenuItem>
+				<MenuItem value={"default"}>Select Blood Group</MenuItem>
 				<MenuItem value={"A+"}>A+</MenuItem>
 				<MenuItem value={"A-"}>A-</MenuItem>
 				<MenuItem value={"B+"}>B+</MenuItem>
@@ -264,6 +268,7 @@ const AddPatient = () => {
 				}}
 			>
 				<TextField
+					inputRef={diagnosisRef}
 					sx={{
 						width: "20rem",
 						mt: "1rem",
@@ -324,6 +329,7 @@ const AddPatient = () => {
 				}}
 			>
 				<TextField
+					inputRef={medicationNameRef}
 					sx={{
 						width: "20rem",
 						mt: "1rem",
@@ -332,6 +338,7 @@ const AddPatient = () => {
 					variant="outlined"
 				/>
 				<TextField
+					inputRef={medicationDosageRef}
 					sx={{
 						width: "20rem",
 						mt: "1rem",
@@ -340,6 +347,7 @@ const AddPatient = () => {
 					variant="outlined"
 				/>
 				<TextField
+					inputRef={medicationFrequencyRef}
 					sx={{
 						width: "20rem",
 						mt: "1rem",

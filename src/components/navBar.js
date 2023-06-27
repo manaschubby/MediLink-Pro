@@ -8,6 +8,7 @@ const NavBar = () => {
 		textDecoration: "none",
 		padding: "0.5rem",
 		transition: "all 0.2s ease-in-out",
+		borderRadius: "0.5rem",
 		"&:hover": {
 			textDecoration: "underline",
 			backgroundColor: bluishColors[3],
