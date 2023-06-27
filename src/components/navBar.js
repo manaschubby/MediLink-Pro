@@ -16,12 +16,16 @@ const NavBar = () => {
 	return (
 		<Box
 			sx={{
+				width: "100vw",
+				position: "fixed",
 				display: "flex",
 				justifyContent: "space-between",
 				gap: "1rem",
 				alignItems: "center",
 				padding: "1rem",
 				backgroundColor: bluishColors[4],
+				maxHeight: "40px",
+				zIndex: "1000",
 			}}
 		>
 			<Typography
@@ -33,13 +37,16 @@ const NavBar = () => {
 					MediLink Pro
 				</Link>
 			</Typography>
+			<Link sx={linkStyle} href="/">
+				Dashboard
+			</Link>
 			<Link sx={linkStyle} href="/patients">
 				Patients
 			</Link>
 			<Link sx={linkStyle} href="/appointments">
 				Appointments
 			</Link>
-			<Link sx={linkStyle} href="/search">
+			<Link mr={"3rem"} sx={linkStyle} href="/search">
 				<Search />
 			</Link>
 		</Box>

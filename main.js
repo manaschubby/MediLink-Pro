@@ -18,6 +18,18 @@ async function createWindow() {
 	// Load the index.html file of the application
 	mainWindow.loadURL("http://localhost:3000");
 
+	const addPatientWindow = new BrowserWindow({
+		parent: mainWindow,
+		modal: true,
+		show: false,
+		webPreferences: {
+			nodeIntegration: true,
+			contextIsolation: false,
+			enableRemoteModule: true,
+		},
+	});
+	addPatientWindow.loadURL("http://localhost:3000/add-patient");
+
 	// Open the DevTools for debugging purposes
 	mainWindow.webContents.openDevTools();
 }

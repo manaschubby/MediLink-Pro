@@ -54,28 +54,7 @@ const HashRouter = createBrowserRouter([
 function App() {
 	useEffect(() => {}, []);
 
-	return (
-		<RouterProvider router={HashRouter} />
-		// <HashRouter>
-		// 	<div className="App">
-		// 		<NavBar />
-		// 		<Switch>
-		// 			<Route path="/patients">
-		// 				<Patients />
-		// 			</Route>
-		// 			<Route path="/appointments">
-		// 				<Appointments />
-		// 			</Route>
-		// 			<Route path="/search">
-		// 				<Search />
-		// 			</Route>
-		// 			<Route path="/">
-		// 				<Dashboard />
-		// 			</Route>
-		// 		</Switch>
-		// 	</div>
-		// </HashRouter>
-	);
+	return <RouterProvider router={HashRouter} />;
 }
 
 export default App;

@@ -87,6 +87,10 @@ const patientSchema = new mongoose.Schema({
 		type: String,
 		enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
 	},
+	inReview: {
+		type: Boolean,
+		default: false,
+	},
 	// Add more fields related to patients as needed
 });
 
