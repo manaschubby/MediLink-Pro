@@ -20,6 +20,7 @@ const AddPatient = () => {
 	const [dateOfBirth, setDateOfBirth] = React.useState(new Date());
 	const [symptoms, setSymptoms] = React.useState([]);
 	const [diagnosis, setDiagnosis] = React.useState([]);
+	const [dateOfDiagnosis, setDateOfDiagnosis] = React.useState(new Date());
 	const [medications, setMedications] = React.useState([]);
 	const [allergies, setAllergies] = React.useState([]);
 
@@ -117,6 +118,7 @@ const AddPatient = () => {
 			<DatePicker
 				label={"Date of Birth"}
 				value={dayjs(dateOfBirth)}
+				maxDate={dayjs(new Date())}
 				sx={{
 					width: "20rem",
 					mt: "1rem",
@@ -278,12 +280,29 @@ const AddPatient = () => {
 					label="Name"
 					variant="outlined"
 				/>
+				<DatePicker
+					label={"Date of Diagnosis"}
+					value={dayjs(dateOfDiagnosis)}
+					sx={{
+						width: "20rem",
+						mt: "1rem",
+						mr: "1rem",
+					}}
+					maxDate={dayjs(new Date())}
+					onChange={(newValue) => {
+						setDateOfDiagnosis(newValue);
+					}}
+				/>
 				<Button
 					sx={{
 						mt: "1rem",
 					}}
 					onClick={() => {
-						setDiagnosis([...diagnosis, diagnosisRef.current.value]);
+						const newDiagnosis = {
+							name: diagnosisRef.current.value,
+							date: dateOfDiagnosis,
+						};
+						setDiagnosis([...diagnosis, newDiagnosis]);
 						diagnosisRef.current.value = "";
 					}}
 					variant="outlined"
