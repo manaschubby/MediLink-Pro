@@ -25,7 +25,17 @@ const AddPatient = () => {
 	const [allergies, setAllergies] = React.useState([]);
 
 	// Refs
+	const firstNameRef = useRef();
+	const lastNameRef = useRef();
+	const bloodGroup = useRef();
 	const dateRef = useRef();
+	const phoneRef = useRef();
+	const emailRef = useRef();
+	const addressRef = useRef();
+	const cityRef = useRef();
+	const stateRef = useRef();
+	const zipRef = useRef();
+
 	const symptomRef = useRef();
 	const diagnosisRef = useRef();
 	const medicationNameRef = useRef();
@@ -33,6 +43,48 @@ const AddPatient = () => {
 	const medicationFrequencyRef = useRef();
 	const allergyRef = useRef();
 
+	const validate = () => {
+		if (firstNameRef.current.value == "") {
+			alert("First Name cannot be empty");
+			return false;
+		}
+		if (lastNameRef.current.value == "") {
+			alert("Last Name cannot be empty");
+			return false;
+		}
+		if (bloodGroup.current.value == "default") {
+			alert("Blood Group cannot be empty");
+			return false;
+		}
+		return true;
+	};
+
+	const handleAddPatient = () => {
+		console.log(dateRef.current.value);
+		if (!validate()) {
+			ipcRenderer.send("create-patient", {
+				firstName: firstNameRef.current.value,
+				lastName: lastNameRef.current.value,
+				dateOfBirth: dateRef.current.value,
+				gender: gender ? "Male" : "Female",
+				address: {
+					street: addressRef.current.value,
+					city: cityRef.current.value,
+					state: stateRef.current.value,
+					postalCode: zipRef.current.value,
+				},
+				contact: {
+					phone: phoneRef.current.value,
+					email: emailRef.current.value,
+				},
+				symptoms: symptoms,
+				diagnosis: diagnosis,
+				allergies: allergies,
+				medications: medications,
+				bloodGroup: bloodGroup.current.value,
+			});
+		}
+	};
 	return (
 		<Box
 			sx={{
@@ -55,6 +107,7 @@ const AddPatient = () => {
 				}}
 			>
 				<input
+					ref={firstNameRef}
 					type="text"
 					style={{
 						fontSize: "1rem",
@@ -63,6 +116,7 @@ const AddPatient = () => {
 					placeholder="First Name"
 				/>
 				<input
+					ref={lastNameRef}
 					type="text"
 					style={{
 						fontSize: "1rem",
@@ -93,6 +147,7 @@ const AddPatient = () => {
 			</Box>
 			<InputLabel id="demo-simple-select-label">Blood Type</InputLabel>
 			<Select
+				inputRef={bloodGroup}
 				label="Blood Type"
 				title="Blood Type"
 				labelId="demo-simple-select-label"
@@ -168,6 +223,7 @@ const AddPatient = () => {
 				}}
 			>
 				<TextField
+					inputRef={addressRef}
 					sx={{
 						width: "20rem",
 						mt: "1rem",
@@ -176,6 +232,7 @@ const AddPatient = () => {
 					variant="outlined"
 				/>
 				<TextField
+					inputRef={cityRef}
 					sx={{
 						width: "20rem",
 						mt: "1rem",
@@ -184,6 +241,7 @@ const AddPatient = () => {
 					variant="outlined"
 				/>
 				<TextField
+					inputRef={stateRef}
 					sx={{
 						width: "20rem",
 						mt: "1rem",
@@ -192,6 +250,7 @@ const AddPatient = () => {
 					variant="outlined"
 				/>
 				<TextField
+					inputRef={zipRef}
 					sx={{
 						width: "20rem",
 						mt: "1rem",
@@ -497,7 +556,7 @@ const AddPatient = () => {
 					mt: "1rem",
 				}}
 				onClick={() => {
-					ipcRenderer.send("add-patient-submit");
+					handleAddPatient();
 				}}
 				variant="contained"
 				color="success"
