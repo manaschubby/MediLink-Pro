@@ -7,6 +7,7 @@ const symptomSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+
 	// Add more fields related to symptoms as needed
 });
 
@@ -90,6 +91,16 @@ const patientSchema = new mongoose.Schema({
 	inReview: {
 		type: Boolean,
 		default: false,
+	},
+	appointments: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Appointment",
+		},
+	],
+	dateAdded: {
+		type: Date,
+		default: Date.now,
 	},
 	// Add more fields related to patients as needed
 });

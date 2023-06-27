@@ -18,18 +18,6 @@ async function createWindow() {
 	// Load the index.html file of the application
 	mainWindow.loadURL("http://localhost:3000");
 
-	const addPatientWindow = new BrowserWindow({
-		parent: mainWindow,
-		modal: true,
-		show: false,
-		webPreferences: {
-			nodeIntegration: true,
-			contextIsolation: false,
-			enableRemoteModule: true,
-		},
-	});
-	addPatientWindow.loadURL("http://localhost:3000/add-patient");
-
 	// Open the DevTools for debugging purposes
 	mainWindow.webContents.openDevTools();
 }
@@ -58,4 +46,27 @@ ipcMain.handle("require", (event, module) => {
 });
 ipcMain.on("get-patients", (e, arg) => {
 	return getPatients(e);
+});
+ipcMain.on("add-patient", (e, arg) => {
+	const addPatientWindow = new BrowserWindow({
+		parent: BrowserWindow.getFocusedWindow(),
+		modal: true,
+		show: false,
+		width: 900,
+		height: 600,
+		webPreferences: {
+			nodeIntegration: true,
+			contextIsolation: false,
+			enableRemoteModule: true,
+		},
+	});
+	addPatientWindow.loadURL("http://localhost:3000/add-patient");
+	addPatientWindow.once("ready-to-show", () => {
+		addPatientWindow.show();
+	});
+});
+
+ipcMain.on("add-patient-submit", (e, arg) => {
+	const currentWindow = BrowserWindow.getFocusedWindow();
+	currentWindow.hide();
 });

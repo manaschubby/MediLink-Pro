@@ -13,6 +13,9 @@ import Patients from "./pages/patients";
 import Appointments from "./pages/appointments";
 import Search from "./pages/search";
 import Dashboard from "./pages/dashboard";
+import AddPatient from "./pages/addPatient";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const Template = () => {
 	useEffect(() => {
@@ -49,12 +52,20 @@ const HashRouter = createBrowserRouter([
 			},
 		],
 	},
+	{
+		path: "/add-patient",
+		element: <AddPatient />,
+	},
 ]);
 
 function App() {
 	useEffect(() => {}, []);
 
-	return <RouterProvider router={HashRouter} />;
+	return (
+		<LocalizationProvider dateAdapter={AdapterDayjs}>
+			<RouterProvider router={HashRouter} />
+		</LocalizationProvider>
+	);
 }
 
 export default App;
