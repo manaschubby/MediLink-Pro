@@ -5,7 +5,7 @@ ElectronJS and MongoDB-based patient data management system. Store, search, and 
 
 - Clone the repository and install dependencies
 ```bash
-git clone
+git clone https://github.com/manaschubby/MediLink-Pro.git
 cd MediLink-Pro
 npm install
 ```
