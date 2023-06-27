@@ -13,6 +13,9 @@ npm install
 ```bash
 npm start
 ```
+- Duplicate the .env.example file and rename it to .env
+- Add your MongoDB connection string to the .env file
+
 - Run the Electron app
 ```bash
 npm run electron
