@@ -31,6 +31,7 @@ const AddPatient = () => {
 	const medicationDosageRef = useRef();
 	const medicationFrequencyRef = useRef();
 	const allergyRef = useRef();
+
 	return (
 		<Box
 			sx={{
@@ -224,7 +225,7 @@ const AddPatient = () => {
 						setSymptoms([...symptoms, symptomRef.current.value]);
 						symptomRef.current.value = "";
 					}}
-					variant="contained"
+					variant="outlined"
 					color="success"
 				>
 					Add
@@ -272,6 +273,7 @@ const AddPatient = () => {
 					sx={{
 						width: "20rem",
 						mt: "1rem",
+						mr: "1rem",
 					}}
 					label="Name"
 					variant="outlined"
@@ -284,7 +286,7 @@ const AddPatient = () => {
 						setDiagnosis([...diagnosis, diagnosisRef.current.value]);
 						diagnosisRef.current.value = "";
 					}}
-					variant="contained"
+					variant="outlined"
 					color="success"
 				>
 					Add
@@ -333,6 +335,7 @@ const AddPatient = () => {
 					sx={{
 						width: "20rem",
 						mt: "1rem",
+						mr: "1rem",
 					}}
 					label="Name"
 					variant="outlined"
@@ -342,6 +345,7 @@ const AddPatient = () => {
 					sx={{
 						width: "20rem",
 						mt: "1rem",
+						mr: "1rem",
 					}}
 					label="Dosage"
 					variant="outlined"
@@ -351,6 +355,7 @@ const AddPatient = () => {
 					sx={{
 						width: "20rem",
 						mt: "1rem",
+						mr: "1rem",
 					}}
 					label="Frequency"
 					variant="outlined"
@@ -370,7 +375,7 @@ const AddPatient = () => {
 						medicationDosageRef.current.value = "";
 						medicationFrequencyRef.current.value = "";
 					}}
-					variant="contained"
+					variant="outlined"
 					color="success"
 				>
 					Add
@@ -406,8 +411,66 @@ const AddPatient = () => {
 					</Box>
 				);
 			})}
+			<Typography mt={"1rem"} variant="h6">
+				Allergen
+			</Typography>
+			<Box
+				sx={{
+					display: "flex",
+					flexDirection: "row",
+				}}
+			>
+				<TextField
+					inputRef={allergyRef}
+					sx={{
+						width: "20rem",
+						mt: "1rem",
+						mr: "1rem",
+					}}
+					label="Name"
+					variant="outlined"
+				/>
+				<Button
+					sx={{
+						mt: "1rem",
+					}}
+					onClick={() => {
+						setAllergies([...allergies, allergyRef.current.value]);
+						allergyRef.current.value = "";
+					}}
+					variant="outlined"
+					color="success"
+				>
+					Add
+				</Button>
+			</Box>
+			<Typography mt={"1rem"} variant="h6">
+				{allergies.length > 0 && "Allergies"}
+			</Typography>
+			{allergies.map((allergy, index) => {
+				return (
+					<Box
+						sx={{
+							display: "flex",
+							flexDirection: "row",
+							justifyContent: "space-between",
+							alignItems: "center",
+						}}
+					>
+						<Typography variant="body1">{allergy}</Typography>
 
-			{/* Add more fields related to medications as needed */}
+						<Button
+							onClick={() => {
+								setAllergies(allergies.filter((allergy, i) => i != index));
+							}}
+							variant="text"
+							color="error"
+						>
+							Delete
+						</Button>
+					</Box>
+				);
+			})}
 
 			<Button
 				sx={{
