@@ -2,21 +2,22 @@ import { Box, Button, Typography } from "@mui/material";
 import SideBar from "../components/sideBar";
 import usePatients from "../hooks/usePatients";
 import { useMemo, useState } from "react";
+import PatientTable from "../components/patients/patientTable";
 const electron = window.require("electron");
 const { ipcRenderer } = electron;
 
 const Patients = () => {
-	const { patients, patientsLoaded } = usePatients();
+	const { patients, patientsLoaded, reloadPatients } = usePatients();
 	const [selectedFilter, setSelectedFilter] = useState("All");
 	const patientList = useMemo(() => {
 		return patients.filter((patient) => {
 			if (selectedFilter == "All") {
 				return true;
 			} else if (selectedFilter == "Active") {
-				return patient.active;
+				return patient.inReview;
 			}
 		});
-	}, [patients, selectedFilter]);
+	}, [patients, selectedFilter, patientsLoaded]);
 
 	const handleAddPatient = () => {
 		ipcRenderer.send("add-patient");
@@ -57,21 +58,17 @@ const Patients = () => {
 								{selectedFilter == "All" ? "Patients" : "Active Patients"}
 							</Typography>
 						)}
-						{patientList.map((patient) => {
-							return (
-								<Box
-									sx={{
-										display: "flex",
-										flexDirection: "column",
-										gap: "0.5rem",
-									}}
-								>
-									<Typography variant="body1">{patient.name}</Typography>
-									<Typography variant="body2">{patient.phone}</Typography>
-								</Box>
-							);
-						})}
 					</Box>
+				</Box>
+				<Box
+					sx={{
+						mt: "1rem",
+						display: "flex",
+						flexDirection: "column",
+						gap: "1rem",
+					}}
+				>
+					<PatientTable patients={patientList} />
 				</Box>
 			</Box>
 		</div>

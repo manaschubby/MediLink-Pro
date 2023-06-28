@@ -1,6 +1,8 @@
 import {
 	Box,
 	Button,
+	CircularProgress,
+	Dialog,
 	InputLabel,
 	Menu,
 	MenuItem,
@@ -14,7 +16,9 @@ import dayjs from "dayjs";
 import React, { useRef } from "react";
 const electron = window.require("electron");
 const { ipcRenderer } = electron;
-const AddPatient = () => {
+const AddPatient = (props) => {
+	const { edit } = props;
+
 	// State Variables
 	const [gender, setGender] = React.useState(false);
 	const [dateOfBirth, setDateOfBirth] = React.useState(new Date());
@@ -23,6 +27,8 @@ const AddPatient = () => {
 	const [dateOfDiagnosis, setDateOfDiagnosis] = React.useState(new Date());
 	const [medications, setMedications] = React.useState([]);
 	const [allergies, setAllergies] = React.useState([]);
+
+	const [loadingOpen, setLoadingOpen] = React.useState(false);
 
 	// Refs
 	const firstNameRef = useRef();
@@ -43,17 +49,15 @@ const AddPatient = () => {
 	const medicationFrequencyRef = useRef();
 	const allergyRef = useRef();
 
+	// Check if required fields are present
 	const validate = () => {
 		if (firstNameRef.current.value == "") {
-			alert("First Name cannot be empty");
 			return false;
 		}
 		if (lastNameRef.current.value == "") {
-			alert("Last Name cannot be empty");
 			return false;
 		}
 		if (bloodGroup.current.value == "default") {
-			alert("Blood Group cannot be empty");
 			return false;
 		}
 		return true;
@@ -61,7 +65,7 @@ const AddPatient = () => {
 
 	const handleAddPatient = () => {
 		console.log(dateRef.current.value);
-		if (!validate()) {
+		if (validate()) {
 			ipcRenderer.send("create-patient", {
 				firstName: firstNameRef.current.value,
 				lastName: lastNameRef.current.value,
@@ -83,6 +87,11 @@ const AddPatient = () => {
 				medications: medications,
 				bloodGroup: bloodGroup.current.value,
 			});
+			ipcRenderer.on("patient-created", (event, patient) => {
+				ipcRenderer.send("add-patient-submit");
+			});
+		} else {
+			alert("Please fill in Name and Blood Group fields.");
 		}
 	};
 	return (
@@ -97,6 +106,31 @@ const AddPatient = () => {
 				scrollbarWidth: "10px",
 			}}
 		>
+			<Button
+				onClick={() => {
+					if (
+						window.confirm(
+							"Are you sure you want to cancel? All changes will be lost."
+						)
+					) {
+						ipcRenderer.send("add-patient-submit");
+					}
+				}}
+				variant="contained"
+				color="error"
+				sx={{
+					width: "10rem",
+					mt: "1rem",
+					position: "fixed",
+					right: "1rem",
+					top: "1rem",
+				}}
+			>
+				Cancel
+			</Button>
+			<Dialog open={loadingOpen}>
+				<CircularProgress />
+			</Dialog>
 			<Typography variant="h4">Add Patient</Typography>
 			<Typography variant="h6">Personal Information</Typography>
 			<Box
@@ -193,6 +227,7 @@ const AddPatient = () => {
 				}}
 			>
 				<TextField
+					inputRef={phoneRef}
 					sx={{
 						width: "20rem",
 						mt: "1rem",
@@ -201,6 +236,7 @@ const AddPatient = () => {
 					variant="outlined"
 				/>
 				<TextField
+					inputRef={emailRef}
 					sx={{
 						width: "20rem",
 						mt: "1rem",
