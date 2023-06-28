@@ -10,6 +10,7 @@ import {
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "./patientTable.css"
 const electron = window.require("electron");
 const { ipcRenderer } = electron;
 
@@ -57,8 +58,9 @@ const PatientTable = (props) => {
 					<TableBody>
 						{patients.map((patient) => (
 							<TableRow
+								class="trr"
 								key={patient._id}
-								sx={{ "&:last-child td, &:last-child th": { border: 0 },cursor: "pointer" }}
+								sx={{ "&:last-child td, &:last-child th": { border: 0 },cursor: "pointer", }}
 								onClick={() => {
 									navigate(`/patient/${patient._id}`);
 								}}
