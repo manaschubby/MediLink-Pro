@@ -16,7 +16,7 @@ import Dashboard from "./pages/dashboard";
 import AddPatient from "./pages/addPatient";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import EditPatient from "./pages/editPatient";
+// import EditPatient from "./pages/editPatient";
 
 const Template = () => {
 	return (
