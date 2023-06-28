@@ -54,6 +54,24 @@ ipcMain.on("create-patient", (e, arg) => {
 ipcMain.on("get-patient", (e, arg) => {
 	return getPatient(e, arg);
 });
+ipcMain.on("edit-patient", (e, arg) => {
+	const editPatientWindow = new BrowserWindow({
+		parent: BrowserWindow.getFocusedWindow(),
+		modal: true,
+		show: false,
+		width: 900,
+		height: 600,
+		webPreferences: {
+			nodeIntegration: true,
+			contextIsolation: false,
+			enableRemoteModule: true,
+		},
+	});
+	editPatientWindow.loadURL(`http://localhost:3000/patients/${arg}`);
+	editPatientWindow.once("ready-to-show", () => {
+		editPatientWindow.show();
+	});
+});
 
 ipcMain.on("add-patient", (e, arg) => {
 	const addPatientWindow = new BrowserWindow({

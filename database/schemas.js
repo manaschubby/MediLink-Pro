@@ -102,6 +102,12 @@ const patientSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now,
 	},
+	visitHistory: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Report",
+		},
+	],
 	// Add more fields related to patients as needed
 });
 

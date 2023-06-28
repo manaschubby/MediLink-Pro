@@ -66,6 +66,7 @@ const AddPatient = (props) => {
 	const handleAddPatient = () => {
 		console.log(dateRef.current.value);
 		if (validate()) {
+			setLoadingOpen(true);
 			ipcRenderer.send("create-patient", {
 				firstName: firstNameRef.current.value,
 				lastName: lastNameRef.current.value,
@@ -88,6 +89,7 @@ const AddPatient = (props) => {
 				bloodGroup: bloodGroup.current.value,
 			});
 			ipcRenderer.on("patient-created", (event, patient) => {
+				setLoadingOpen(false);
 				ipcRenderer.send("add-patient-submit");
 			});
 		} else {
@@ -419,7 +421,9 @@ const AddPatient = (props) => {
 							alignItems: "center",
 						}}
 					>
-						<Typography variant="body1">{diagnosis}</Typography>
+						<Typography variant="body1">
+							{diagnosis.name} {dayjs(diagnosis.date).format("DD/MM/YYYY")}
+						</Typography>
 						<Button
 							onClick={() => {
 								setDiagnosis(diagnosis.filter((diagnosis, i) => i != index));
