@@ -16,6 +16,7 @@ const Dashboard = () => {
 					height: "100%",
 					backgroundColor: "#f5f5f5",
 					padding: "1rem",
+					
 				}}
 			>
 				<Typography variant="h3">Dashboard</Typography>
@@ -27,6 +28,7 @@ const Dashboard = () => {
 							backgroundColor: "white",
 							borderRadius: "0.5rem",
 							p: "1rem",
+							paddingRight:"2.5rem"
 						}}
 					>
 						<Box
@@ -73,6 +75,8 @@ const Dashboard = () => {
 							backgroundColor: "white",
 							borderRadius: "0.5rem",
 							p: "1rem",
+							paddingRight:"2.5rem",
+							marginRight:"3rem"
 						}}
 					>
 						<Typography variant="h5">Active Patients</Typography>
