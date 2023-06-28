@@ -6,6 +6,7 @@ const symptomSchema = new mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
+		unique: true,
 	},
 
 	// Add more fields related to symptoms as needed
