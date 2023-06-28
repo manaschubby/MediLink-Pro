@@ -126,8 +126,10 @@ const AddPatient = (props) => {
 			flexDirection: "row",
 			scrollBehavior: "smooth",
 			scrollbarWidth: "10px",
+		
 		}}>	
 		<div style={{width:"30%",
+					height:"4000px"
 					// padding:"2rem",						
 						}}>
 
@@ -471,7 +473,7 @@ const AddPatient = (props) => {
 		<Box
 			sx={{
 				height: "100%",	
-				backgroundColor: "#FFF5EE",
+				backgroundColor: "#fff",
 				// padding: "4.7rem",
 				// marginTop:"2rem",
 				paddingLeft:"2rem",
