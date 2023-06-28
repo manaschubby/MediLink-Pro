@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain, ipcRenderer } = require("electron");
 const connectDB = require("./database/connectDB");
-const { getPatients } = require("./ipcHandlers");
+const { getPatients, getPatient } = require("./ipcHandlers");
 const { createPatient } = require("./ipcHandlers");
 // Enable live reload for all the files inside the project directory
 require("electron-reload")(__dirname, {
@@ -53,24 +53,6 @@ ipcMain.on("create-patient", (e, arg) => {
 });
 ipcMain.on("get-patient", (e, arg) => {
 	return getPatient(e, arg);
-});
-ipcMain.on("edit-patient", (e, arg) => {
-	const editPatientWindow = new BrowserWindow({
-		parent: BrowserWindow.getFocusedWindow(),
-		modal: true,
-		show: false,
-		width: 900,
-		height: 600,
-		webPreferences: {
-			nodeIntegration: true,
-			contextIsolation: false,
-			enableRemoteModule: true,
-		},
-	});
-	editPatientWindow.loadURL(`http://localhost:3000/patients/${arg}`);
-	editPatientWindow.once("ready-to-show", () => {
-		editPatientWindow.show();
-	});
 });
 
 ipcMain.on("add-patient", (e, arg) => {
