@@ -47,18 +47,18 @@ const PatientTable = (props) => {
 				<Table sx={{ minWidth: 650 }} aria-label="simple table">
 					<TableHead>
 						<TableRow>
-							<TableCell>Name</TableCell>
-							<TableCell align="right">Age</TableCell>
-							<TableCell align="right">Latest Diagnosis</TableCell>
-							<TableCell align="right">Status</TableCell>
-							<TableCell align="right">Last Visit</TableCell>
+							<TableCell sx={{fontWeight:"bold",fontSize:"1rem"}}>Name</TableCell>
+							<TableCell align="right" sx={{fontWeight:"bold",fontSize:"1rem"}}>Age</TableCell>
+							<TableCell align="right" sx={{fontWeight:"bold",fontSize:"1rem"}}>Latest Diagnosis</TableCell>
+							<TableCell align="right" sx={{fontWeight:"bold",fontSize:"1rem"}}>Status</TableCell>
+							<TableCell align="right" sx={{fontWeight:"bold",fontSize:"1rem"}}>Last Visit</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
 						{patients.map((patient) => (
 							<TableRow
 								key={patient._id}
-								sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+								sx={{ "&:last-child td, &:last-child th": { border: 0 },cursor: "pointer" }}
 								onClick={() => {
 									navigate(`/patient/${patient._id}`);
 								}}
