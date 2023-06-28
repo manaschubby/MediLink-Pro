@@ -1,4 +1,9 @@
-const { Patient } = require("./database/schemas");
+const {
+	Patient,
+	Diagnosis,
+	Symptom,
+	Medication,
+} = require("./database/schemas");
 
 const getPatients = async (event, ipcMain) => {
 	const patients = await Patient.find({})
@@ -17,8 +22,18 @@ const getPatient = async (event, arg) => {
 };
 
 const createPatient = async (event, arg) => {
-	const patient = await Patient.create(arg);
-	return event.reply("patient-created", patient);
+	const { diagnosis, medications, symptoms } = arg;
+	const diagnoses = await Diagnosis.insertMany(diagnosis);
+	const addMedications = await Medication.insertMany(medications);
+	const addSymptoms = await Symptom.insertMany(symptoms);
+	const patient = await Patient.create({
+		...arg,
+		diagnosis: diagnoses,
+		medications: addMedications,
+		symptoms: addSymptoms,
+	});
+
+	return event.reply("patient-created", JSON.stringify(patient));
 };
 
 module.exports = { getPatients, createPatient, getPatient };

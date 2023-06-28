@@ -21,6 +21,7 @@ export default function usePatients(id = null) {
 		ipcRenderer.send("get-patients");
 		ipcRenderer.on("patients", (event, patients) => {
 			patients = JSON.parse(patients);
+			console.log(patients);
 			setPatients(patients);
 			setPatientsLoaded(true);
 		});

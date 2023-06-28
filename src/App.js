@@ -16,7 +16,6 @@ import Dashboard from "./pages/dashboard";
 import AddPatient from "./pages/addPatient";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import EditPatient from "./pages/editPatient";
 
 const Template = () => {
 	return (
@@ -48,15 +47,15 @@ const HashRouter = createBrowserRouter([
 				path: "patients",
 				element: <Patients />,
 			},
-			{
-				path: "/patients/:id",
-				element: <AddPatient edit />,
-			},
 		],
 	},
 	{
 		path: "/add-patient",
 		element: <AddPatient />,
+	},
+	{
+		path: "/patients/:id",
+		element: <AddPatient edit />,
 	},
 ]);
 
