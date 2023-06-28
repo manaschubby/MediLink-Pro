@@ -111,7 +111,10 @@ const Patient = () => {
 								p: "1rem",
 							}}
 						>
-							<Typography variant="h5">Patient Files</Typography>
+							<Box sx={{ display: "flex", justifyContent: "space-between" }}>
+								<Typography variant="h5">Patient Files</Typography>
+								<Button sx={{ fontSize: "1rem" }}>Add File</Button>
+							</Box>
 							<Typography variant="body1" gutterBottom>
 								No Files Uploaded
 							</Typography>
