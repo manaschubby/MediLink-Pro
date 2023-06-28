@@ -22,15 +22,15 @@ const PatientTable = (props) => {
 		if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
 		return age;
 	};
-	useEffect(() => {
-		if (patients.length > 0) {
-			console.log(
-				patients[0].diagnosis.sort((diagnosis1, diagnosis2) => {
-					return new Date(diagnosis2.date) - new Date(diagnosis1.date);
-				})[0].name
-			);
-		}
-	}, [patients]);
+	// useEffect(() => {
+	// 	if (patients.length > 0) {
+	// 		console.log(
+	// 			patients[0].diagnosis.sort((diagnosis1, diagnosis2) => {
+	// 				return new Date(diagnosis2.date) - new Date(diagnosis1.date);
+	// 			})[0].name
+	// 		);
+	// 	}
+	// }, [patients]);
 	const renderDiagnosis = (patient) => {
 		if (patient.diagnosis.length > 0) {
 			const latestDiagnosis = patient.diagnosis.sort(
