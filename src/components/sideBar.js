@@ -55,6 +55,20 @@ const SideBar = (props) => {
 						</Box>
 					</>
 				);
+			case "appointments":
+				const { handleAddAppointment } = props;
+				return (
+					<Button
+						sx={{
+							my: "1rem",
+							color: "white",
+						}}
+						variant="text"
+						onClick={handleAddAppointment}
+					>
+						<Add />
+					</Button>
+				);
 		}
 	};
 	return (
