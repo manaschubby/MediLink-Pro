@@ -95,7 +95,7 @@ const AddPatient = (props) => {
 		}
 	};
 	return (
-
+//top navbar
 	<Box 
 		sx={{
 			height: "100%",
@@ -111,19 +111,43 @@ const AddPatient = (props) => {
 			<CircularProgress />
 		</Dialog>
 		</Box>,
+
+//Main box(includes two boxes)
+
+		<Box
+		sx={{
+			height: "100%",
+			backgroundColor: "#fff",
+			// padding: "4.7rem",
+			padding:"1rem",
+			paddingTop:"5rem",
+			display: "flex",
+			// paddingBlockStart:"2rem",
+			flexDirection: "row",
+			scrollBehavior: "smooth",
+			scrollbarWidth: "10px",
+		}}>	
+		<div style={{width:"30%",
+					// padding:"2rem",						
+						}}>
+
+		{/* //left box */}
 		<Box
 			sx={{
 				height: "100%",
-				backgroundColor: "#f5f5f5",
-				padding: "4.7rem",
-				paddingTop:"7rem",
+				backgroundColor: "#FAF9F6",
+				// padding: "4.7rem",
+				// paddingTop:"7rem",
+				// padding:"2rem",
+				paddingLeft:"2rem",
+				paddingRight:"2rem",
 				display: "flex",
 				// paddingBlockStart:"2rem",
 				flexDirection: "column",
 				scrollBehavior: "smooth",
 				scrollbarWidth: "10px",
 			}}>	
-			<Typography variant="h4">Search Information</Typography>
+			<Typography variant="h3">Search Information</Typography>
 			
 			<Typography mt={"1rem"} variant="h6">
 				Patient's Name
@@ -438,6 +462,37 @@ const AddPatient = (props) => {
 				Search
 			</Button>
 		</Box>
+		</div>
+		<div style={{width:"70%",
+					// padding:"2rem",						
+						}}>
+
+		{/* box2 */}
+		<Box
+			sx={{
+				height: "100%",	
+				backgroundColor: "#FFF5EE",
+				// padding: "4.7rem",
+				// marginTop:"2rem",
+				paddingLeft:"2rem",
+				
+				// marginLeft:"20px",
+				display: "flex",
+				// paddingBlockStart:"2rem",
+				flexDirection: "column",
+				scrollBehavior: "smooth",
+				scrollbarWidth: "10px",
+				// width:"30%"
+			}}
+		>
+		<Typography variant="h3">Results:</Typography>
+
+			
+
+		</Box>
+		</div>
+
+	</Box>
 	);
 };
 
