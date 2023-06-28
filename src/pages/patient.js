@@ -10,25 +10,36 @@ import {
 import usePatient from "../hooks/usePatient";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
-
+import "./patient.css";
 const Patient = () => {
 	const { id } = useParams();
 	const { patient, patientLoaded } = usePatient(id);
 	return (
 		<div>
 			<SideBar type="dashboard" />
+			
 			{patientLoaded ? (
 				<Box
-					sx={{
+					sx={{	
 						top: "72px",
 						position: "absolute",
+						alignItems:"center",
+						alignContent:"center",
 						left: "80px",
 						width: "calc(100vw - 112px)",
-						height: "100%",
+						height: "fit-content",
 						backgroundColor: "#f5f5f5",
-						padding: "1rem",
+						padding: "1rem"
 					}}
 				>
+					<Box 
+						sx={{
+							width: "75%",
+							marginRight:"9%",
+							marginLeft:"16%",
+							padding:"1rem"
+						}}	
+					>
 					<Typography variant="h3">{patient.firstName}</Typography>
 					{/*
                     Actions
@@ -40,18 +51,19 @@ const Patient = () => {
 							alignItems: "center",
 							mt: "1rem",
 							mb: "1rem",
+							width: "73%",
 						}}
 					>
 						<Box sx={{ display: "flex", gap: "1rem" }}>
 							<Box sx={{ display: "flex", gap: "1rem" }}>
-								<Button sx={{ fontSize: "1rem" }}>Add Appointment</Button>
-								<Button sx={{ fontSize: "1rem" }}>Add Diagnosis</Button>
-								<Button sx={{ fontSize: "1rem" }}>Add Medication</Button>
+								<Button sx={{ fontSize: "1rem", backgroundColor:"#E1F5FE" }}>Add Appointment</Button>
+								<Button sx={{ fontSize: "1rem", backgroundColor:"#E1F5FE" }}>Add Diagnosis</Button>
+								<Button sx={{ fontSize: "1rem", backgroundColor:"#E1F5FE" }}>Add Medication</Button>
 							</Box>
 						</Box>
-						<Box sx={{ display: "flex", gap: "1rem" }}>
-							<Button sx={{ fontSize: "1rem" }}>Edit Patient</Button>
-							<Button sx={{ fontSize: "1rem" }}>Delete Patient</Button>
+						<Box sx={{ display: "flex", gap: "1rem"}}>
+							<Button sx={{ fontSize: "1rem", backgroundColor:"#E1F5FE" }}>Edit Patient</Button>
+							<Button sx={{ fontSize: "1rem", backgroundColor:"#E1F5FE" }}>Delete Patient</Button>
 						</Box>
 					</Box>
 					{/*
@@ -60,7 +72,7 @@ const Patient = () => {
 					<Box sx={{ display: "flex", gap: "1rem" }}>
 						<Box
 							sx={{
-								width: "100%",
+								width: "75%",
 								height: "100%",
 								backgroundColor: "white",
 								borderRadius: "0.5rem",
@@ -104,7 +116,7 @@ const Patient = () => {
 					<Box sx={{ display: "flex", gap: "1rem", mt: "1rem" }}>
 						<Box
 							sx={{
-								width: "100%",
+								width: "75%",
 								height: "100%",
 								backgroundColor: "white",
 								borderRadius: "0.5rem",
@@ -113,7 +125,7 @@ const Patient = () => {
 						>
 							<Box sx={{ display: "flex", justifyContent: "space-between" }}>
 								<Typography variant="h5">Patient Files</Typography>
-								<Button sx={{ fontSize: "1rem" }}>Add File</Button>
+								<Button sx={{ fontSize: "1rem", backgroundColor:"#E1F5FE" }}>Add File</Button>
 							</Box>
 							<Typography variant="body1" gutterBottom>
 								No Files Uploaded
@@ -126,7 +138,7 @@ const Patient = () => {
 					<Box sx={{ display: "flex", gap: "1rem", mt: "1rem" }}>
 						<Box
 							sx={{
-								width: "100%",
+								width: "75%",
 								height: "100%",
 								backgroundColor: "white",
 								borderRadius: "0.5rem",
@@ -138,6 +150,7 @@ const Patient = () => {
 								sx={{
 									display: "flex",
 									justifyContent: "space-between",
+				
 								}}
 							>
 								<Typography variant="body1" gutterBottom>
@@ -164,6 +177,7 @@ const Patient = () => {
 								sx={{
 									display: "flex",
 									justifyContent: "space-between",
+									
 								}}
 							>
 								<Typography variant="body1" gutterBottom>
@@ -179,6 +193,7 @@ const Patient = () => {
 								sx={{
 									display: "flex",
 									justifyContent: "space-between",
+				
 								}}
 							>
 								<Typography variant="body1" gutterBottom>
@@ -192,6 +207,7 @@ const Patient = () => {
 								sx={{
 									display: "flex",
 									justifyContent: "space-between",
+									
 								}}
 							>
 								<Typography variant="body1" gutterBottom>
@@ -206,6 +222,7 @@ const Patient = () => {
 								sx={{
 									display: "flex",
 									justifyContent: "space-between",
+				
 								}}
 							>
 								<Typography variant="body1" gutterBottom>
@@ -245,6 +262,7 @@ const Patient = () => {
 								sx={{
 									display: "flex",
 									justifyContent: "space-between",
+									
 								}}
 							>
 								<Typography variant="body1" gutterBottom>
@@ -330,6 +348,7 @@ const Patient = () => {
 											sx={{
 												display: "flex",
 												justifyContent: "space-between",
+												
 											}}
 										>
 											<Typography variant="body1" gutterBottom>
@@ -360,6 +379,7 @@ const Patient = () => {
 												sx={{
 													display: "flex",
 													justifyContent: "space-between",
+													
 												}}
 											>
 												<Typography variant="body1" gutterBottom>
@@ -384,6 +404,7 @@ const Patient = () => {
 											sx={{
 												display: "flex",
 												justifyContent: "space-between",
+												
 											}}
 										>
 											<Typography variant="body1" gutterBottom>
@@ -411,6 +432,7 @@ const Patient = () => {
 											sx={{
 												display: "flex",
 												justifyContent: "flex-start",
+												
 											}}
 										>
 											<Typography variant="body1" gutterBottom>
@@ -426,6 +448,7 @@ const Patient = () => {
 							)}
 						</Box>
 					</Box>
+				  </Box>
 				</Box>
 			) : (
 				<Modal open={true}>
