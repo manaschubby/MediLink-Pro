@@ -1,4 +1,10 @@
-const { app, BrowserWindow, ipcMain, ipcRenderer } = require("electron");
+const {
+	app,
+	BrowserWindow,
+	ipcMain,
+	ipcRenderer,
+	dialog,
+} = require("electron");
 const connectDB = require("./database/connectDB");
 const { getPatients, getPatient } = require("./ipcHandlers");
 const { createPatient } = require("./ipcHandlers");
@@ -6,10 +12,13 @@ const { createPatient } = require("./ipcHandlers");
 require("electron-reload")(__dirname, {
 	electron: require(`${__dirname}/node_modules/electron`),
 });
+
 async function createWindow() {
 	const mainWindow = new BrowserWindow({
 		width: 1000,
 		height: 600,
+		minWidth: 780,
+		minHeight: 600,
 		webPreferences: {
 			nodeIntegration: true,
 			contextIsolation: false,
@@ -68,6 +77,7 @@ ipcMain.on("add-patient", (e, arg) => {
 			enableRemoteModule: true,
 		},
 	});
+	addPatientWindow.removeMenu();
 	addPatientWindow.loadURL("http://localhost:3000/add-patient");
 	addPatientWindow.once("ready-to-show", () => {
 		addPatientWindow.show();
@@ -77,4 +87,19 @@ ipcMain.on("add-patient", (e, arg) => {
 ipcMain.on("add-patient-submit", (e, arg) => {
 	const currentWindow = BrowserWindow.getFocusedWindow();
 	currentWindow.hide();
+});
+
+ipcMain.on("add-file", (e, arg) => {
+	// A files dialog box will be opened and it should disable the main window
+	// until the dialog box is closed
+	const currentWindow = BrowserWindow.getFocusedWindow();
+	dialog
+		.showOpenDialog(currentWindow, {
+			properties: ["openFile"],
+		})
+		.then((result) => {
+			if (!result.canceled) {
+				e.reply("file-path", result.filePaths[0]);
+			}
+		});
 });

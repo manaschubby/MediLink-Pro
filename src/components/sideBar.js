@@ -75,6 +75,7 @@ const SideBar = (props) => {
 		<Box
 			sx={{
 				top: "72px",
+				left: "0",
 				position: "fixed",
 				margin: "0",
 				display: "flex",

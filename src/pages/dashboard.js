@@ -16,7 +16,6 @@ const Dashboard = () => {
 					height: "100%",
 					backgroundColor: "#f5f5f5",
 					padding: "1rem",
-					
 				}}
 			>
 				<Typography variant="h3">Dashboard</Typography>
@@ -28,7 +27,7 @@ const Dashboard = () => {
 							backgroundColor: "white",
 							borderRadius: "0.5rem",
 							p: "1rem",
-							paddingRight:"2.5rem"
+							paddingRight: "2.5rem",
 						}}
 					>
 						<Box
@@ -75,11 +74,21 @@ const Dashboard = () => {
 							backgroundColor: "white",
 							borderRadius: "0.5rem",
 							p: "1rem",
-							paddingRight:"2.5rem",
-							marginRight:"3rem"
+							paddingRight: "2.5rem",
+							marginRight: "3rem",
 						}}
 					>
-						<Typography variant="h5">Active Patients</Typography>
+						<Box
+							sx={{
+								display: "flex",
+								justifyContent: "space-between",
+							}}
+						>
+							<Typography variant="h5">Active Patients</Typography>
+							<Button href="/patients" variant="text">
+								View All
+							</Button>
+						</Box>
 						<Box
 							sx={{
 								display: "flex",
