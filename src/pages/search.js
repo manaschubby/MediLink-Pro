@@ -16,464 +16,414 @@ import dayjs from "dayjs";
 import React, { useRef } from "react";
 const electron = window.require("electron");
 const { ipcRenderer } = electron;
-const AddPatient = (props) => {
-	const { edit } = props;
-
+const AddPatient = () => {
 	// State Variables
-	const [gender, setGender] = React.useState(false);
-	const [dateOfBirth, setDateOfBirth] = React.useState(new Date());
+	const [loadingOpen, setLoadingOpen] = React.useState(false);
 	const [symptoms, setSymptoms] = React.useState([]);
 	const [diagnosis, setDiagnosis] = React.useState([]);
-	const [dateOfDiagnosis, setDateOfDiagnosis] = React.useState(new Date());
 	const [medications, setMedications] = React.useState([]);
 	const [allergies, setAllergies] = React.useState([]);
 
-	const [loadingOpen, setLoadingOpen] = React.useState(false);
-
 	// Refs
-	const firstNameRef = useRef();
-	const lastNameRef = useRef();
+	const nameRef = useRef();
 	const bloodGroup = useRef();
-	const dateRef = useRef();
 	const phoneRef = useRef();
 	const emailRef = useRef();
-	const addressRef = useRef();
-	const cityRef = useRef();
-	const stateRef = useRef();
-	const zipRef = useRef();
 
 	const symptomRef = useRef();
 	const diagnosisRef = useRef();
 	const medicationNameRef = useRef();
-	const medicationDosageRef = useRef();
-	const medicationFrequencyRef = useRef();
 	const allergyRef = useRef();
 
-	// Check if required fields are present
-	const validate = () => {
-		if (firstNameRef.current.value == "") {
-			return false;
-		}
-		if (lastNameRef.current.value == "") {
-			return false;
-		}
-		if (bloodGroup.current.value == "default") {
-			return false;
-		}
-		return true;
+	// Functions
+	const handleSearch = () => {
+		setLoadingOpen(true);
+		setTimeout(() => {
+			setLoadingOpen(false);
+		}, 1000);
 	};
 
-	const handleAddPatient = () => {
-		console.log(dateRef.current.value);
-		if (validate()) {
-			ipcRenderer.send("create-patient", {
-				firstName: firstNameRef.current.value,
-				lastName: lastNameRef.current.value,
-				dateOfBirth: dateRef.current.value,
-				gender: gender ? "Male" : "Female",
-				address: {
-					street: addressRef.current.value,
-					city: cityRef.current.value,
-					state: stateRef.current.value,
-					postalCode: zipRef.current.value,
-				},
-				contact: {
-					phone: phoneRef.current.value,
-					email: emailRef.current.value,
-				},
-				symptoms: symptoms,
-				diagnosis: diagnosis,
-				allergies: allergies,
-				medications: medications,
-				bloodGroup: bloodGroup.current.value,
-			});
-			ipcRenderer.on("patient-created", (event, patient) => {
-				ipcRenderer.send("add-patient-submit");
-			});
-		} else {
-			alert("Please fill in Name and Blood Group fields.");
-		}
-	};
 	return (
-		//top navbar
-		(
-			<Box
+		//Main box(includes two boxes)
+
+		<Box
+			key={2}
+			sx={{
+				maxHeight: "calc(100vh - 5rem)",
+				backgroundColor: "#fff",
+				paddingTop: "5rem",
+				display: "flex",
+				flexDirection: "row",
+				scrollBehavior: "smooth",
+				scrollbarWidth: "10px",
+				overflowY: "scroll",
+			}}
+		>
+			<Dialog
+				open={loadingOpen}
 				sx={{
-					height: "100%",
-					backgroundColor: "#f5f5f5",
-					padding: "4.7rem",
+					background: "transparent",
+				}}
+			>
+				<CircularProgress
+					sx={{
+						background: "transparent",
+					}}
+				/>
+			</Dialog>
+
+			{/* //left box */}
+			<Box
+				key={3}
+				sx={{
+					width: "30%",
+					height: "calc(100vh - 5rem)",
+					backgroundColor: "#FAF9F6",
+					paddingLeft: "2rem",
+					paddingRight: "2rem",
 					display: "flex",
-					// paddingBlockStart:"2rem",
 					flexDirection: "column",
 					scrollBehavior: "smooth",
 					scrollbarWidth: "10px",
+					overflowY: "scroll",
 				}}
+				component={"div"}
 			>
-				<Dialog open={loadingOpen}>
-					<CircularProgress />
-				</Dialog>
-			</Box>
-		),
-		(
-			//Main box(includes two boxes)
+				<Typography variant="h3">Search Information</Typography>
 
+				<Typography mt={"1rem"} variant="h6">
+					Patient's Name
+				</Typography>
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "row",
+					}}
+				>
+					<TextField
+						inputRef={nameRef}
+						sx={{
+							width: "20rem",
+							mt: "0.3.2rem",
+							mr: "1rem",
+						}}
+						label="Name"
+						variant="outlined"
+					/>
+				</Box>
+
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						gap: "1rem",
+						my: "1rem",
+					}}
+				>
+					<Select
+						inputRef={bloodGroup}
+						label="Blood Type"
+						title="Blood Type"
+						labelId="demo-simple-select-label"
+						sx={{
+							mt: "0.3rem",
+							color: "black",
+						}}
+						variant="outlined"
+						defaultValue={"default"}
+					>
+						<MenuItem value={"default"}>Select Blood Group</MenuItem>
+						<MenuItem value={"A+"}>A+</MenuItem>
+						<MenuItem value={"A-"}>A-</MenuItem>
+						<MenuItem value={"B+"}>B+</MenuItem>
+						<MenuItem value={"B-"}>B-</MenuItem>
+						<MenuItem value={"AB+"}>AB+</MenuItem>
+						<MenuItem value={"AB-"}>AB-</MenuItem>
+						<MenuItem value={"O+"}>O+</MenuItem>
+						<MenuItem value={"O-"}>O-</MenuItem>
+					</Select>
+				</Box>
+
+				<Typography mt={"1rem"} variant="h6">
+					Symptoms
+				</Typography>
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "row",
+					}}
+				>
+					<TextField
+						inputRef={symptomRef}
+						sx={{
+							width: "20rem",
+							mt: "0.3rem",
+							mr: "1rem",
+						}}
+						label="Name"
+						variant="outlined"
+					/>
+					<Button
+						sx={{
+							mt: "0.3rem",
+						}}
+						onClick={() => {
+							setSymptoms([...symptoms, symptomRef.current.value]);
+							symptomRef.current.value = "";
+						}}
+						variant="outlined"
+						color="success"
+					>
+						Add
+					</Button>
+				</Box>
+				<Typography mt={"1rem"} variant="h6">
+					{symptoms.length > 0 && "Symptoms"}
+				</Typography>
+				{symptoms.map((symptom, index) => {
+					return (
+						<Box
+							sx={{
+								display: "flex",
+								flexDirection: "row",
+								justifyContent: "space-between",
+								alignItems: "center",
+							}}
+						>
+							<Typography variant="body1">{symptom}</Typography>
+							<Button
+								onClick={() => {
+									setSymptoms(symptoms.filter((symptom, i) => i != index));
+								}}
+								variant="text"
+								color="error"
+							>
+								Delete
+							</Button>
+						</Box>
+					);
+				})}
+				{/* Add more fields related to symptoms as needed */}
+
+				<Typography mt={"1rem"} variant="h6">
+					Diagnosis
+				</Typography>
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "row",
+					}}
+				>
+					<TextField
+						inputRef={diagnosisRef}
+						sx={{
+							width: "20rem",
+							mt: "0.3rem",
+							mr: "1rem",
+						}}
+						label="Name"
+						variant="outlined"
+					/>
+
+					<Button
+						sx={{
+							mt: "0.3rem",
+						}}
+						onClick={() => {
+							setDiagnosis([...diagnosis, diagnosisRef.current.value]);
+							diagnosisRef.current.value = "";
+						}}
+						variant="outlined"
+						color="success"
+					>
+						Add
+					</Button>
+				</Box>
+				<Typography mt={"1rem"} variant="h6">
+					{diagnosis.length > 0 && "Diagnosis"}
+				</Typography>
+				{diagnosis.map((diagnosis, index) => {
+					return (
+						<Box
+							sx={{
+								display: "flex",
+								flexDirection: "row",
+								justifyContent: "space-between",
+								alignItems: "center",
+							}}
+						>
+							<Typography variant="body1">{diagnosis}</Typography>
+							<Button
+								onClick={() => {
+									setDiagnosis(diagnosis.filter((diagnosis, i) => i != index));
+								}}
+								variant="text"
+								color="error"
+							>
+								Delete
+							</Button>
+						</Box>
+					);
+				})}
+
+				{/* Add more fields related to diagnosis as needed */}
+
+				<Typography mt={"1rem"} variant="h6">
+					Medications
+				</Typography>
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "row",
+					}}
+				>
+					<TextField
+						inputRef={medicationNameRef}
+						sx={{
+							width: "20rem",
+							mt: "0.3rem",
+							mr: "1rem",
+						}}
+						label="Name"
+						variant="outlined"
+					/>
+
+					<Button
+						sx={{
+							mt: "0.3rem",
+						}}
+						onClick={() => {
+							setMedications([...medications, medicationNameRef.current.value]);
+							medicationNameRef.current.value = "";
+						}}
+						variant="outlined"
+						color="success"
+					>
+						Add
+					</Button>
+				</Box>
+				<Typography mt={"1rem"} variant="h6">
+					{medications.length > 0 && "Medications"}
+				</Typography>
+				{medications.map((medication, index) => {
+					return (
+						<Box
+							sx={{
+								display: "flex",
+								flexDirection: "row",
+								justifyContent: "space-between",
+								alignItems: "center",
+							}}
+						>
+							<Typography variant="body1">{medication}</Typography>
+							<Button
+								onClick={() => {
+									setMedications(
+										medications.filter((medication, i) => i != index)
+									);
+								}}
+								variant="text"
+								color="error"
+							>
+								Delete
+							</Button>
+						</Box>
+					);
+				})}
+				<Typography mt={"1rem"} variant="h6">
+					Allergen
+				</Typography>
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "row",
+					}}
+				>
+					<TextField
+						inputRef={allergyRef}
+						sx={{
+							width: "20rem",
+							mt: "1rem",
+							mr: "1rem",
+						}}
+						label="Name"
+						variant="outlined"
+					/>
+					<Button
+						sx={{
+							mt: "1rem",
+						}}
+						onClick={() => {
+							setAllergies([...allergies, allergyRef.current.value]);
+							allergyRef.current.value = "";
+						}}
+						variant="outlined"
+						color="success"
+					>
+						Add
+					</Button>
+				</Box>
+				<Typography mt={"1rem"} variant="h6">
+					Contact Information
+				</Typography>
+				<Box
+					sx={{
+						display: "flex",
+						gap: "1rem",
+					}}
+				>
+					<TextField
+						inputRef={phoneRef}
+						sx={{
+							width: "20rem",
+							mt: "0.3rem",
+						}}
+						label="Phone Number"
+						variant="outlined"
+					/>
+					<TextField
+						inputRef={emailRef}
+						sx={{
+							width: "20rem",
+							mt: "0.3rem",
+						}}
+						label="Email"
+						variant="outlined"
+					/>
+				</Box>
+
+				<Button
+					sx={{
+						width: "20rem",
+						mt: "2rem",
+						mb: "2rem",
+					}}
+					onClick={handleSearch}
+					variant="contained"
+					color="success"
+				>
+					Search
+				</Button>
+			</Box>
+			{/* box2 */}
 			<Box
+				key={4}
+				component={"div"}
 				sx={{
-					height: "100%",
+					width: "70%",
 					backgroundColor: "#fff",
-					// padding: "4.7rem",
-					padding: "1rem",
-					paddingTop: "5rem",
+					maxHeight: "100vh",
+					paddingLeft: "2rem",
 					display: "flex",
-					// paddingBlockStart:"2rem",
-					flexDirection: "row",
+					flexDirection: "column",
 					scrollBehavior: "smooth",
 					scrollbarWidth: "10px",
 					overflowY: "scroll",
 				}}
 			>
-				{/* //left box */}
-				<Box
-					sx={{
-						width: "30%",
-						backgroundColor: "#FAF9F6",
-						// padding: "4.7rem",
-						// paddingTop:"7rem",
-						// padding:"2rem",
-						paddingLeft: "2rem",
-						paddingRight: "2rem",
-						display: "flex",
-						// paddingBlockStart:"2rem",
-						flexDirection: "column",
-						scrollBehavior: "smooth",
-						scrollbarWidth: "10px",
-						overflowY: "scroll",
-					}}
-				>
-					<Typography variant="h3">Search Information</Typography>
-
-					<Typography mt={"1rem"} variant="h6">
-						Patient's Name
-					</Typography>
-					<Box
-						sx={{
-							display: "flex",
-							flexDirection: "row",
-						}}
-					>
-						<TextField
-							inputRef={firstNameRef}
-							sx={{
-								width: "20rem",
-								mt: "0.3.2rem",
-								mr: "1rem",
-							}}
-							label="Name"
-							variant="outlined"
-						/>
-					</Box>
-
-					<Box
-						sx={{
-							display: "flex",
-							flexDirection: "column",
-							gap: "1rem",
-							my: "1rem",
-						}}
-					>
-						<Select
-							inputRef={bloodGroup}
-							label="Blood Type"
-							title="Blood Type"
-							labelId="demo-simple-select-label"
-							sx={{
-								mt: "0.3rem",
-								color: "black",
-							}}
-							variant="outlined"
-							defaultValue={"default"}
-						>
-							<MenuItem value={"default"}>Select Blood Group</MenuItem>
-							<MenuItem value={"A+"}>A+</MenuItem>
-							<MenuItem value={"A-"}>A-</MenuItem>
-							<MenuItem value={"B+"}>B+</MenuItem>
-							<MenuItem value={"B-"}>B-</MenuItem>
-							<MenuItem value={"AB+"}>AB+</MenuItem>
-							<MenuItem value={"AB-"}>AB-</MenuItem>
-							<MenuItem value={"O+"}>O+</MenuItem>
-							<MenuItem value={"O-"}>O-</MenuItem>
-						</Select>
-					</Box>
-
-					<Typography mt={"1rem"} variant="h6">
-						Symptoms
-					</Typography>
-					<Box
-						sx={{
-							display: "flex",
-							flexDirection: "row",
-						}}
-					>
-						<TextField
-							inputRef={symptomRef}
-							sx={{
-								width: "20rem",
-								mt: "0.3rem",
-								mr: "1rem",
-							}}
-							label="Name"
-							variant="outlined"
-						/>
-						<Button
-							sx={{
-								mt: "0.3rem",
-							}}
-							onClick={() => {
-								setSymptoms([...symptoms, symptomRef.current.value]);
-								symptomRef.current.value = "";
-							}}
-							variant="outlined"
-							color="success"
-						>
-							Add
-						</Button>
-					</Box>
-					<Typography mt={"1rem"} variant="h6">
-						{symptoms.length > 0 && "Symptoms"}
-					</Typography>
-					{symptoms.map((symptom, index) => {
-						return (
-							<Box
-								sx={{
-									display: "flex",
-									flexDirection: "row",
-									justifyContent: "space-between",
-									alignItems: "center",
-								}}
-							>
-								<Typography variant="body1">{symptom}</Typography>
-								<Button
-									onClick={() => {
-										setSymptoms(symptoms.filter((symptom, i) => i != index));
-									}}
-									variant="text"
-									color="error"
-								>
-									Delete
-								</Button>
-							</Box>
-						);
-					})}
-					{/* Add more fields related to symptoms as needed */}
-
-					<Typography mt={"1rem"} variant="h6">
-						Diagnosis
-					</Typography>
-					<Box
-						sx={{
-							display: "flex",
-							flexDirection: "row",
-						}}
-					>
-						<TextField
-							inputRef={diagnosisRef}
-							sx={{
-								width: "20rem",
-								mt: "0.3rem",
-								mr: "1rem",
-							}}
-							label="Name"
-							variant="outlined"
-						/>
-
-						<Button
-							sx={{
-								mt: "0.3rem",
-							}}
-							onClick={() => {
-								const newDiagnosis = {
-									name: diagnosisRef.current.value,
-									date: dateOfDiagnosis,
-								};
-								setDiagnosis([...diagnosis, newDiagnosis]);
-								diagnosisRef.current.value = "";
-							}}
-							variant="outlined"
-							color="success"
-						>
-							Add
-						</Button>
-					</Box>
-					<Typography mt={"1rem"} variant="h6">
-						{diagnosis.length > 0 && "Diagnosis"}
-					</Typography>
-					{diagnosis.map((diagnosis, index) => {
-						return (
-							<Box
-								sx={{
-									display: "flex",
-									flexDirection: "row",
-									justifyContent: "space-between",
-									alignItems: "center",
-								}}
-							>
-								<Typography variant="body1">{diagnosis}</Typography>
-								<Button
-									onClick={() => {
-										setDiagnosis(
-											diagnosis.filter((diagnosis, i) => i != index)
-										);
-									}}
-									variant="text"
-									color="error"
-								>
-									Delete
-								</Button>
-							</Box>
-						);
-					})}
-
-					{/* Add more fields related to diagnosis as needed */}
-
-					<Typography mt={"1rem"} variant="h6">
-						Medications
-					</Typography>
-					<Box
-						sx={{
-							display: "flex",
-							flexDirection: "row",
-						}}
-					>
-						<TextField
-							inputRef={medicationNameRef}
-							sx={{
-								width: "20rem",
-								mt: "0.3rem",
-								mr: "1rem",
-							}}
-							label="Name"
-							variant="outlined"
-						/>
-
-						<Button
-							sx={{
-								mt: "0.3rem",
-							}}
-							onClick={() => {
-								const newMedication = {
-									name: medicationNameRef.current.value,
-									dosage: medicationDosageRef.current.value,
-									frequency: medicationFrequencyRef.current.value,
-								};
-								setMedications([...medications, newMedication]);
-								medicationNameRef.current.value = "";
-								medicationDosageRef.current.value = "";
-								medicationFrequencyRef.current.value = "";
-							}}
-							variant="outlined"
-							color="success"
-						>
-							Add
-						</Button>
-					</Box>
-					<Typography mt={"1rem"} variant="h6">
-						{medications.length > 0 && "Medications"}
-					</Typography>
-					{medications.map((medication, index) => {
-						return (
-							<Box
-								sx={{
-									display: "flex",
-									flexDirection: "row",
-									justifyContent: "space-between",
-									alignItems: "center",
-								}}
-							>
-								<Typography variant="body1">{medication.name}</Typography>
-								<Typography variant="body1">{medication.dosage}</Typography>
-								<Typography variant="body1">{medication.frequency}</Typography>
-								<Button
-									onClick={() => {
-										setMedications(
-											medications.filter((medication, i) => i != index)
-										);
-									}}
-									variant="text"
-									color="error"
-								>
-									Delete
-								</Button>
-							</Box>
-						);
-					})}
-
-					<Typography mt={"1rem"} variant="h6">
-						Contact Information
-					</Typography>
-					<Box
-						sx={{
-							display: "flex",
-							gap: "1rem",
-						}}
-					>
-						<TextField
-							inputRef={phoneRef}
-							sx={{
-								width: "20rem",
-								mt: "0.3rem",
-							}}
-							label="Phone Number"
-							variant="outlined"
-						/>
-						<TextField
-							inputRef={emailRef}
-							sx={{
-								width: "20rem",
-								mt: "0.3rem",
-							}}
-							label="Email"
-							variant="outlined"
-						/>
-					</Box>
-
-					<Button
-						sx={{
-							width: "20rem",
-							mt: "2rem",
-						}}
-						onClick={() => {
-							handleAddPatient();
-						}}
-						variant="contained"
-						color="success"
-					>
-						Search
-					</Button>
-				</Box>
-				{/* box2 */}
-				<Box
-					sx={{
-						width: "70%",
-						backgroundColor: "#fff",
-						maxHeight: "10vh",
-						// padding: "4.7rem",
-						// marginTop:"2rem",
-						paddingLeft: "2rem",
-
-						// marginLeft:"20px",
-						display: "flex",
-						// paddingBlockStart:"2rem",
-						flexDirection: "column",
-						scrollBehavior: "smooth",
-						scrollbarWidth: "10px",
-						overflowY: "scroll",
-						// width:"30%"
-					}}
-				>
-					<Typography variant="h3">Results:</Typography>
-				</Box>
+				<Typography variant="h3">Results:</Typography>
 			</Box>
-		)
+		</Box>
 	);
 };
 
