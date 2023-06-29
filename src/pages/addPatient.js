@@ -397,7 +397,7 @@ const AddPatient = (props) => {
 					onClick={() => {
 						const newDiagnosis = {
 							name: diagnosisRef.current.value,
-							date: dateOfDiagnosis,
+							date: new Date(dateOfDiagnosis),
 						};
 						setDiagnosis([...diagnosis, newDiagnosis]);
 						diagnosisRef.current.value = "";

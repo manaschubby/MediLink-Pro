@@ -1,4 +1,4 @@
-import { Add, Settings } from "@mui/icons-material";
+import { Add, ArrowBack, Settings } from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 
@@ -68,6 +68,21 @@ const SideBar = (props) => {
 					>
 						<Add />
 					</Button>
+				);
+			case "patient":
+				return (
+					<>
+						<Button
+							sx={{
+								my: "1rem",
+								color: "white",
+							}}
+							variant="text"
+							href="/patients"
+						>
+							<ArrowBack />
+						</Button>
+					</>
 				);
 		}
 	};

@@ -4,6 +4,7 @@ import {
 	Box,
 	Button,
 	CircularProgress,
+	Dialog,
 	Modal,
 	Typography,
 	useMediaQuery,
@@ -16,11 +17,15 @@ import useAddFile from "../hooks/useAddFile";
 const Patient = () => {
 	const { id } = useParams();
 
+	// Hooks
 	const { showAddFile, file } = useAddFile();
-
 	const { patient, patientLoaded } = usePatient(id);
-
 	const isTabletOrMobile = useMediaQuery("(max-width: 1224px)");
+
+	// State Variables
+	const [addAppointmentOpen, setAddAppointmentOpen] = React.useState(false);
+
+	// Styles
 	const rowTitleStyle = { color: "rgba(0,0,0, 0.6)" };
 
 	return (
@@ -29,7 +34,50 @@ const Patient = () => {
 				overflow: "hidden",
 			}}
 		>
-			<SideBar type="dashboard" />
+			<SideBar type="patient" />
+			<Dialog open={addAppointmentOpen}>
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						gap: "1rem",
+						padding: "1rem",
+					}}
+				>
+					<Typography variant="h4">Add Appointment</Typography>
+					<Box
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							gap: "1rem",
+						}}
+					>
+						<Typography variant="h6">Date</Typography>
+						<Typography variant="h6">Time</Typography>
+						<Typography variant="h6">Notes</Typography>
+					</Box>
+					<Box
+						sx={{
+							display: "flex",
+							justifyContent: "flex-end",
+							gap: "1rem",
+						}}
+					>
+						<Button
+							onClick={() => {
+								setAddAppointmentOpen(false);
+							}}
+							variant="contained"
+							color="error"
+						>
+							Cancel
+						</Button>
+						<Button variant="contained" color="success">
+							Add
+						</Button>
+					</Box>
+				</Box>
+			</Dialog>
 
 			{patientLoaded ? (
 				<Box
@@ -79,7 +127,12 @@ const Patient = () => {
 										flexWrap: "nowrap",
 									}}
 								>
-									<Button sx={{ fontSize: "1rem", backgroundColor: "#E1F5FE" }}>
+									<Button
+										onClick={() => {
+											setAddAppointmentOpen(true);
+										}}
+										sx={{ fontSize: "1rem", backgroundColor: "#E1F5FE" }}
+									>
 										Add Appointment
 									</Button>
 									<Button sx={{ fontSize: "1rem", backgroundColor: "#E1F5FE" }}>

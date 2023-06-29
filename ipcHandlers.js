@@ -29,9 +29,12 @@ const getPatient = async (event, arg) => {
 
 const createPatient = async (event, arg) => {
 	const { diagnosis, medications, symptoms } = arg;
+	const newSymptoms = symptoms.map((symptom) => {
+		return { name: symptom };
+	});
 	const diagnoses = await Diagnosis.insertMany(diagnosis);
 	const addMedications = await Medication.insertMany(medications);
-	const addSymptoms = await Symptom.insertMany(symptoms);
+	const addSymptoms = await Symptom.insertMany(newSymptoms);
 	const patient = await Patient.create({
 		...arg,
 		diagnosis: diagnoses,

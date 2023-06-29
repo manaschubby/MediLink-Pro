@@ -85,6 +85,7 @@ ipcMain.on("add-patient", (e, arg) => {
 });
 
 ipcMain.on("add-patient-submit", (e, arg) => {
+	ipcMain.emit("patient-created", arg);
 	const currentWindow = BrowserWindow.getFocusedWindow();
 	currentWindow.hide();
 });
