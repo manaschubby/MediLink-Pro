@@ -12,7 +12,6 @@ import {
 import usePatient from "../hooks/usePatient";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
-import "./patient.css";
 import useAddFile from "../hooks/useAddFile";
 const Patient = () => {
 	const { id } = useParams();
@@ -27,6 +26,12 @@ const Patient = () => {
 
 	// Styles
 	const rowTitleStyle = { color: "rgba(0,0,0, 0.6)" };
+
+	const h5Style = {
+		color: "blue",
+		pt: "1rem",
+		pb: "1rem",
+	};
 
 	return (
 		<div
@@ -171,7 +176,9 @@ const Patient = () => {
 									p: "1rem",
 								}}
 							>
-								<Typography variant="h5">Visit History</Typography>
+								<Typography variant="h5" sx={h5Style}>
+									Visit History
+								</Typography>
 								{patient.visitHistory.length > 0 ? (
 									patient.visitHistory
 										.sort((visit1, visit2) => {
@@ -216,7 +223,9 @@ const Patient = () => {
 								}}
 							>
 								<Box sx={{ display: "flex", justifyContent: "space-between" }}>
-									<Typography variant="h5">Patient Files</Typography>
+									<Typography variant="h5" sx={h5Style}>
+										Patient Files
+									</Typography>
 									<Button
 										onClick={showAddFile}
 										sx={{ fontSize: "1rem", backgroundColor: "#E1F5FE" }}
@@ -252,7 +261,9 @@ const Patient = () => {
 									p: "1rem",
 								}}
 							>
-								<Typography variant="h5">Patient Details</Typography>
+								<Typography variant="h5" sx={h5Style}>
+									Patient Details
+								</Typography>
 								<Box
 									sx={{
 										display: "flex",
@@ -293,7 +304,9 @@ const Patient = () => {
 										{dayjs().diff(patient.dateOfBirth, "year")} years
 									</Typography>
 								</Box>
-								<Typography variant="h5">Contact Details</Typography>
+								<Typography variant="h5" sx={h5Style}>
+									Contact Details
+								</Typography>
 								<Box
 									sx={{
 										display: "flex",
@@ -320,7 +333,9 @@ const Patient = () => {
 										{patient.email}
 									</Typography>
 								</Box>
-								<Typography variant="h5">Address</Typography>
+								<Typography variant="h5" sx={h5Style}>
+									Address
+								</Typography>
 								<Box
 									sx={{
 										display: "flex",
@@ -375,7 +390,9 @@ const Patient = () => {
 								</Box>
 								{patient.insurance ? (
 									<>
-										<Typography variant="h5">Insurance Details</Typography>
+										<Typography variant="h5" sx={h5Style}>
+											Insurance Details
+										</Typography>
 										<Box
 											sx={{
 												display: "flex",
@@ -412,9 +429,13 @@ const Patient = () => {
 										</Box>
 									</>
 								) : (
-									<Typography variant="h5">No Insurance Details</Typography>
+									<Typography variant="h5" sx={h5Style}>
+										No Insurance Details
+									</Typography>
 								)}
-								<Typography variant="h5">Emergency Contact</Typography>
+								<Typography variant="h5" sx={h5Style}>
+									Emergency Contact
+								</Typography>
 								{patient.emergencyContact && (
 									<Box
 										sx={{
@@ -449,7 +470,9 @@ const Patient = () => {
 										No Emergency Contact
 									</Typography>
 								)}
-								<Typography variant="h5">Symptoms</Typography>
+								<Typography variant="h5" sx={h5Style}>
+									Symptoms
+								</Typography>
 								{patient.symptoms.length > 0 ? (
 									patient.symptoms.map((symptom) => {
 										return (
@@ -470,7 +493,9 @@ const Patient = () => {
 										No Symptoms Logged
 									</Typography>
 								)}
-								<Typography variant="h5">Diagnosis</Typography>
+								<Typography variant="h5" sx={h5Style}>
+									Diagnosis
+								</Typography>
 								{patient.diagnosis.length > 0 ? (
 									patient.diagnosis
 										.sort((diagnosis1, diagnosis2) => {
@@ -500,7 +525,9 @@ const Patient = () => {
 										No Diagnosis Logged
 									</Typography>
 								)}
-								<Typography variant="h5">Medications</Typography>
+								<Typography variant="h5" sx={h5Style}>
+									Medications
+								</Typography>
 								{patient.medications.length > 0 ? (
 									patient.medications.map((medication) => {
 										return (
@@ -527,7 +554,9 @@ const Patient = () => {
 										No Medications Logged
 									</Typography>
 								)}
-								<Typography variant="h5">Allergies</Typography>
+								<Typography variant="h5" sx={h5Style}>
+									Allergies
+								</Typography>
 								{patient.allergies.length > 0 ? (
 									patient.allergies.map((allergy) => {
 										return (
