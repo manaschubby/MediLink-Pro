@@ -18,6 +18,8 @@ const getPatients = async (event, ipcMain) => {
 
 const getPatient = async (event, arg) => {
 	const patient = await Patient.findById(arg)
+		.populate("diagnosis.disease")
+		.populate("medications.medicine")
 		.populate({
 			path: "appointments",
 			populate: { path: "patient" },

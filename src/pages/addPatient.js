@@ -71,6 +71,15 @@ const AddPatient = (props) => {
 				returnVal = false;
 			}
 		});
+		// Check repeat disease in diagnosis
+		diagnosis.forEach((disease, index) => {
+			if (diagnosis.indexOf(disease) != index) {
+				alert(
+					"Diagnosis disease cannot be repeated. If you need to add a new diagnosis for the same disease, please add the patient first and then add each diagnosis separately from the patient's page."
+				);
+				returnVal = false;
+			}
+		});
 		return returnVal;
 	};
 
