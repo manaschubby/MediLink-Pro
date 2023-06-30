@@ -18,6 +18,7 @@ export default function usePatients() {
 		ipcRenderer.on("patient-created", (event, patient) => {
 			reloadPatients();
 		});
+
 		return () => {
 			ipcRenderer.removeAllListeners("patients");
 			ipcRenderer.removeAllListeners("patient-created");

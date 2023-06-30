@@ -1,8 +1,10 @@
 import { Search } from "@mui/icons-material";
 import { Box, Link, Typography } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 const bluishColors = ["#e3f2fd", "#bbdefb", "#90caf9", "#64b5f6", "#42a5f5"];
 const NavBar = () => {
+	const navigate = useNavigate();
 	const linkStyle = {
 		color: "white",
 		textDecoration: "none",
@@ -27,16 +29,21 @@ const NavBar = () => {
 				backgroundColor: bluishColors[4],
 				maxHeight: "60px",
 				zIndex: "1000",
-				pl: "5px",
+				pl: "1rem",
+				scrollbarWidth: "none",
+				overflowX: "hidden",
 			}}
 		>
 			<img
 				style={{
 					position: "absolute",
 					objectFit: "contain",
-					height: "60px",
+					height: "90px",
 				}}
-				src="/logo.png"
+				onClick={() => {
+					navigate("/");
+				}}
+				src="/favicon.ico"
 				alt="MediLink Pro Logo"
 			/>
 			<Typography
@@ -49,9 +56,7 @@ const NavBar = () => {
 					fontWeight: "bold",
 				}}
 			>
-				<Link sx={{ textDecoration: "none", color: "white" }} href="/">
-					MediLink Pro
-				</Link>
+				<Link sx={{ textDecoration: "none", color: "white" }} href="/"></Link>
 			</Typography>
 			<Link sx={linkStyle} href="/">
 				Dashboard

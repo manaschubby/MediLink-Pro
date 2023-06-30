@@ -52,21 +52,42 @@ const AddPatient = (props) => {
 	// Check if required fields are present
 	const validate = () => {
 		if (firstNameRef.current.value == "") {
+			alert("Please enter a first name.");
 			return false;
 		}
 		if (lastNameRef.current.value == "") {
+			alert("Please enter a last name.");
 			return false;
 		}
 		if (bloodGroup.current.value == "default") {
+			alert("Please select a blood group.");
 			return false;
 		}
-		return true;
+		let returnVal = true;
+		// Check repeat medicine in medications
+		medications.forEach((medication, index) => {
+			if (medications.indexOf(medication) != index) {
+				alert("Medications cannot be repeated.");
+				returnVal = false;
+			}
+		});
+		// Check repeat disease in diagnosis
+		diagnosis.forEach((disease, index) => {
+			if (diagnosis.indexOf(disease) != index) {
+				alert(
+					"Diagnosis disease cannot be repeated. If you need to add a new diagnosis for the same disease, please add the patient first and then add each diagnosis separately from the patient's page."
+				);
+				returnVal = false;
+			}
+		});
+		return returnVal;
 	};
 
 	const handleAddPatient = () => {
 		console.log(dateRef.current.value);
 		if (validate()) {
 			setLoadingOpen(true);
+
 			ipcRenderer.send("create-patient", {
 				firstName: firstNameRef.current.value,
 				lastName: lastNameRef.current.value,
@@ -92,8 +113,6 @@ const AddPatient = (props) => {
 				setLoadingOpen(false);
 				ipcRenderer.send("add-patient-submit");
 			});
-		} else {
-			alert("Please fill in Name and Blood Group fields.");
 		}
 	};
 	return (
