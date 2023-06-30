@@ -39,6 +39,7 @@ const NavBar = () => {
 					position: "absolute",
 					objectFit: "contain",
 					height: "90px",
+					cursor: "pointer",
 				}}
 				onClick={() => {
 					navigate("/");
@@ -52,7 +53,7 @@ const NavBar = () => {
 				sx={{
 					pl: "7rem",
 					flexGrow: 1,
-					color: "white",
+					color: "white",	
 					fontWeight: "bold",
 				}}
 			>
