@@ -12,7 +12,7 @@ const Dashboard = () => {
 					top: "72px",
 					position: "absolute",
 					left: "80px",
-					width: "calc(100vw - 112px)",
+					width: "calc(100vw - 128px)",
 					height: "100%",
 					backgroundColor: "#f5f5f5",
 					padding: "1rem",

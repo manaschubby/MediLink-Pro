@@ -15,7 +15,10 @@ const SideBar = (props) => {
 						<Button
 							sx={{
 								my: "1rem",
+								mx: "auto",
+								width: "80%",
 								color: "white",
+								border: "1px solid #e3f2fd",
 							}}
 							variant="text"
 							onClick={handleAddPatient}
@@ -62,6 +65,7 @@ const SideBar = (props) => {
 						sx={{
 							my: "1rem",
 							color: "white",
+							border: "1px solid white",
 						}}
 						variant="text"
 						onClick={handleAddAppointment}
@@ -98,7 +102,7 @@ const SideBar = (props) => {
 				width: "80px",
 				backgroundColor: "#42a5f5",
 				height: "calc(100% - 72px)",
-				overflowY: "scroll",
+				overflow: "hidden",
 			}}
 		>
 			{buttons()}

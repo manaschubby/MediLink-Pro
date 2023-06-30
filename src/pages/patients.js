@@ -37,7 +37,7 @@ const Patients = () => {
 					top: "72px",
 					position: "absolute",
 					left: "80px",
-					width: "calc(100vw - 112px)",
+					width: "calc(100vw - 128px)",
 					height: "100%",
 					backgroundColor: "#f5f5f5",
 					padding: "1rem",
@@ -48,7 +48,7 @@ const Patients = () => {
 						display: "flex",
 						justifyContent: "space-between",
 						alignItems: "center",
-						paddingRight:"4rem"
+						paddingRight: "4rem",
 					}}
 				>
 					<Typography variant="h3">Patients</Typography>
@@ -67,7 +67,7 @@ const Patients = () => {
 						display: "flex",
 						flexDirection: "column",
 						gap: "1rem",
-						paddingRight:"2.5rem"
+						paddingRight: "2.5rem",
 					}}
 				>
 					<PatientTable patients={patientList} />
