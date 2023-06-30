@@ -37,7 +37,7 @@ const Dashboard = () => {
 							}}
 						>
 							<Typography variant="h5">Upcoming Appointments</Typography>
-							<Button variant="text">View All</Button>
+							<Button href="/appointments" variant="text">View All</Button>
 						</Box>
 						<Box sx={{ display: "flex", flexDirection: "column", mt: "1rem" }}>
 							<Box sx={{ display: "flex", justifyContent: "space-between" }}>
