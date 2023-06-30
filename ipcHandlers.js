@@ -3,6 +3,7 @@ const {
 	Diagnosis,
 	Symptom,
 	Medication,
+	Medicine,
 } = require("./database/schemas");
 
 const getPatients = async (event, ipcMain) => {
@@ -27,13 +28,78 @@ const getPatient = async (event, arg) => {
 	return event.reply("patient", JSON.stringify(patient));
 };
 
+// Creation functions
+
+// Check the uniqueness of the syymptom
+const checkSymptom = async (symptom) => {
+	const foundSymptom = await Symptom.findOne({ name: symptom });
+	if (foundSymptom) {
+		return foundSymptom;
+	}
+	return null;
+};
+// Check the uniqueness of the diagnosis
+const checkDiagnosis = async (diagnosis) => {
+	const foundDiagnosis = await Diagnosis.findOne({ name: diagnosis });
+	if (foundDiagnosis) {
+		return foundDiagnosis;
+	}
+	return null;
+};
+
+// Check the uniqueness of the medicine
+const checkMedicine = async (medicine) => {
+	const foundMedicine = await Medicine.findOne({ name: medicine });
+	if (foundMedicine) {
+		return foundMedicine;
+	}
+	return null;
+};
+
 const createPatient = async (event, arg) => {
 	const { diagnosis, medications, symptoms } = arg;
-	const newSymptoms = symptoms.map((symptom) => {
-		return { name: symptom };
+
+	// Unique Symptoms
+	let newSymptoms = symptoms.filter((symptom) => {
+		if (checkSymptom(symptom.toLowerCase())) {
+			return false;
+		}
+		return true;
 	});
-	const diagnoses = await Diagnosis.insertMany(diagnosis);
-	const addMedications = await Medication.insertMany(medications);
+	newSymptoms = newSymptoms.map((symptom) => {
+		return { name: symptom.toLowerCase(), date: symptom.date };
+	});
+
+	// Unique Diagnoses
+	let newDiagnosis = diagnosis.filter((diagnosis) => {
+		if (checkDiagnosis(diagnosis.name.toLowerCase())) {
+			return false;
+		}
+		return true;
+	});
+	newDiagnosis = newDiagnosis.map((diagnosis) => {
+		return { name: diagnosis.name.toLowerCase(), date: diagnosis.date };
+	});
+
+	// Format Medications
+	const newMedications = medications.map(async (medication) => {
+		let medicine = checkMedicine(medication.name.toLowerCase());
+		if (!medicine) {
+			medicine = await Medicine.create({
+				name: medication.name.toLowerCase(),
+				dosage: medication.dosage,
+				frequency: medication.frequency,
+			});
+		}
+		return {
+			medicine: medicine,
+			dosage: medication.dosage,
+			frequency: medication.frequency,
+		};
+	});
+
+	const diagnoses = await Diagnosis.insertMany(newDiagnosis);
+	const addMedications = await Medication.insertMany(newMedications);
 	const addSymptoms = await Symptom.insertMany(newSymptoms);
 	const patient = await Patient.create({
 		...arg,
