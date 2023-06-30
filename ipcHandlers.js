@@ -1,6 +1,7 @@
 const {
 	Patient,
 	Diagnosis,
+	Disease,
 	Symptom,
 	Medication,
 	Medicine,
@@ -30,7 +31,7 @@ const getPatient = async (event, arg) => {
 
 // Creation functions
 
-// Check the uniqueness of the syymptom
+// Check the uniqueness of the syymptom and return the symptom if it exists
 const checkSymptom = async (symptom) => {
 	const foundSymptom = await Symptom.findOne({ name: symptom });
 	if (foundSymptom) {
@@ -38,16 +39,15 @@ const checkSymptom = async (symptom) => {
 	}
 	return null;
 };
-// Check the uniqueness of the diagnosis
-const checkDiagnosis = async (diagnosis) => {
-	const foundDiagnosis = await Diagnosis.findOne({ name: diagnosis });
-	if (foundDiagnosis) {
-		return foundDiagnosis;
+// Check the uniqueness of the diagnosis and return the diagnosis if it exists
+const checkDisease = async (disease) => {
+	const foundDisease = await Disease.findOne({ name: disease });
+	if (foundDisease) {
+		return foundDisease;
 	}
 	return null;
 };
-
-// Check the uniqueness of the medicine
+// Check the uniqueness of the medicine and return the medicine if it exists
 const checkMedicine = async (medicine) => {
 	const foundMedicine = await Medicine.findOne({ name: medicine });
 	if (foundMedicine) {
@@ -60,25 +60,27 @@ const createPatient = async (event, arg) => {
 	const { diagnosis, medications, symptoms } = arg;
 
 	// Unique Symptoms
-	let newSymptoms = symptoms.filter((symptom) => {
-		if (checkSymptom(symptom.toLowerCase())) {
-			return false;
+	const newSymptoms = symptoms.map(async (symptom) => {
+		let newSymptom = await checkSymptom(symptom.name.toLowerCase());
+		if (!newSymptom) {
+			newSymptom = await Symptom.create({
+				name: symptom.name.toLowerCase(),
+				date: symptom.date,
+			});
 		}
-		return true;
-	});
-	newSymptoms = newSymptoms.map((symptom) => {
-		return { name: symptom.toLowerCase(), date: symptom.date };
+		return { name: newSymptom, date: symptom.date };
 	});
 
-	// Unique Diagnoses
-	let newDiagnosis = diagnosis.filter((diagnosis) => {
-		if (checkDiagnosis(diagnosis.name.toLowerCase())) {
-			return false;
+	// Format Diagnosis
+	const newDiagnosis = diagnosis.map(async (disease) => {
+		let newDisease = await checkDisease(disease.name.toLowerCase());
+		if (!newDisease) {
+			newDisease = await Disease.create({
+				name: disease.name.toLowerCase(),
+				date: disease.date,
+			});
 		}
-		return true;
-	});
-	newDiagnosis = newDiagnosis.map((diagnosis) => {
-		return { name: diagnosis.name.toLowerCase(), date: diagnosis.date };
+		return { disease: newDisease._id, date: disease.date };
 	});
 
 	// Format Medications
@@ -87,12 +89,10 @@ const createPatient = async (event, arg) => {
 		if (!medicine) {
 			medicine = await Medicine.create({
 				name: medication.name.toLowerCase(),
-				dosage: medication.dosage,
-				frequency: medication.frequency,
 			});
 		}
 		return {
-			medicine: medicine,
+			medicine: medicine._id,
 			dosage: medication.dosage,
 			frequency: medication.frequency,
 		};

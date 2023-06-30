@@ -12,12 +12,21 @@ const symptomSchema = new mongoose.Schema({
 	// Add more fields related to symptoms as needed
 });
 
-// Create a schema for Diagnosis
-const diagnosisSchema = new mongoose.Schema({
+// Disease Schema
+const diseaseSchema = new mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
 		unique: true,
+	},
+});
+
+// Create a schema for Diagnosis
+const diagnosisSchema = new mongoose.Schema({
+	disease: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Disease",
+		required: true,
 	},
 	date: {
 		type: Date,
@@ -158,6 +167,7 @@ const reportSchema = new mongoose.Schema({
 // Create models from the schemas
 const Symptom = mongoose.model("Symptom", symptomSchema);
 const Diagnosis = mongoose.model("Diagnosis", diagnosisSchema);
+const Disease = mongoose.model("Disease", diseaseSchema);
 const Patient = mongoose.model("Patient", patientSchema);
 const Appointment = mongoose.model("Appointment", appointmentSchema);
 const Report = mongoose.model("Report", reportSchema);
@@ -168,6 +178,7 @@ const Medicine = mongoose.model("Medicine", medicineSchema);
 module.exports = {
 	Symptom,
 	Diagnosis,
+	Disease,
 	Patient,
 	Appointment,
 	Report,
