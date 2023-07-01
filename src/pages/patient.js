@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import SideBar from "../components/sideBar";
 import {
 	Box,
@@ -9,22 +9,37 @@ import {
 	Typography,
 	useMediaQuery,
 } from "@mui/material";
+
 import usePatient from "../hooks/usePatient";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import useAddFile from "../hooks/useAddFile";
+import { DatePicker } from "@mui/x-date-pickers";
+
 const Patient = () => {
 	const { id } = useParams();
-
+	
 	// Hooks
 	const { showAddFile, file } = useAddFile();
 	const { patient, patientLoaded, makePatientActive, makePatientInactive } =
-		usePatient(id);
+	usePatient(id);
 	const isTabletOrMobile = useMediaQuery("(max-width: 1224px)");
-
+	
 	// State Variables
 	const [addAppointmentOpen, setAddAppointmentOpen] = React.useState(false);
+	const [addDiagnosisOpen, setAddDiagnosisOpen] = React.useState(false);
+	const [addMedicationOpen, setAddMedicationOpen] = React.useState(false);
+	const [dateOfDiagnosis, setDateOfDiagnosis] = React.useState(new Date());
+	const [diagnosis, setDiagnosis] = React.useState([]);
+	const [medications, setMedications] = React.useState([]);
 
+	
+	//Refs
+	const diagnosisRef = useRef();
+	const medicationNameRef = useRef();
+	const medicationDosageRef = useRef();
+	const medicationFrequencyRef = useRef();
+	
 	// Styles
 	const rowTitleStyle = { color: "rgba(0,0,0, 0.6)" };
 
@@ -41,7 +56,9 @@ const Patient = () => {
 			}}
 		>
 			<SideBar type="patient" />
+
 			<Dialog open={addAppointmentOpen}>
+			{/* Changes left */}
 				<Box
 					sx={{
 						display: "flex",
@@ -79,6 +96,165 @@ const Patient = () => {
 							Cancel
 						</Button>
 						<Button variant="contained" color="success">
+							Add
+						</Button>
+					</Box>
+				</Box>
+			</Dialog>
+			<Dialog open={addDiagnosisOpen}>
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						gap: "1rem",
+						padding: "1rem",
+					}}
+				>
+					<Typography variant="h4">Add Diagnosis</Typography>
+					<Box
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							gap: "1rem",
+						}}
+					>
+						<Typography variant="h6">Name:
+							<input type="text"
+								ref={diagnosisRef}
+								style={{
+									fontSize: "1rem",
+									padding: "0.5rem",
+									width:"18rem",
+									margin:"1rem"
+								}} />
+
+						</Typography>
+						<DatePicker
+							label={"Date of Diagnosis"}
+							value={dayjs(dateOfDiagnosis)}
+							sx={{
+								width: "25rem",
+								mt: "1rem",
+								mr: "1rem",
+							}}
+							maxDate={dayjs(new Date())}
+							onChange={(newValue) => {
+								setDateOfDiagnosis(newValue);
+							}}
+						/>
+					</Box>
+					<Box
+						sx={{
+							display: "flex",
+							justifyContent: "flex-end",
+							gap: "1rem",
+						}}
+					>
+						<Button
+							onClick={() => {
+								//Changes left
+								setAddDiagnosisOpen(false);
+							}}
+							variant="contained"
+							color="error"
+						>
+							Cancel
+						</Button>
+
+						<Button
+							onClick={() => {
+						const newDiagnosis = {
+						name: diagnosisRef.current.value,
+							date: new Date(dateOfDiagnosis),
+						};
+						setDiagnosis([...diagnosis, newDiagnosis]);
+						diagnosisRef.current.value = "";
+					}}
+						 variant="contained" color="success">
+							Add
+						</Button>
+					</Box>
+				</Box>
+			</Dialog>
+			<Dialog open={addMedicationOpen}>
+				<Box
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						gap: "1rem",
+						padding: "1rem",
+					}}
+				>
+					<Typography variant="h4">Add Medication</Typography>
+					<Box
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							gap: "1rem",
+						}}
+					>
+						<Typography variant="h6">Name:
+						<input type="text"
+								ref={medicationNameRef}
+								style={{
+									fontSize: "1rem",
+									padding: "0.5rem",
+									width:"18rem",
+									margin:"1rem"
+								}} />
+						</Typography>
+						<Typography variant="h6">Dosage:
+						<input type="text"
+								ref={medicationDosageRef}
+								style={{
+									fontSize: "1rem",
+									padding: "0.5rem",
+									width:"18rem",
+									margin:"1rem"
+								}} />
+						</Typography>
+						<Typography variant="h6">Frequency:
+						<input type="text"
+								ref={medicationFrequencyRef}
+								style={{
+									fontSize: "1rem",
+									padding: "0.5rem",
+									width:"18rem",
+									margin:"1rem"
+								}} />
+						</Typography>
+						
+					</Box>
+					<Box
+						sx={{
+							display: "flex",
+							justifyContent: "flex-end",
+							gap: "1rem",
+						}}
+					>
+						<Button
+							onClick={() => {
+								//Changes left
+								setAddMedicationOpen(false);
+							}}
+							variant="contained"
+							color="error"
+						>
+							Cancel
+						</Button>
+						<Button 
+							onClick={() => {
+							const newMedication = {
+								name: medicationNameRef.current.value,
+								dosage: medicationDosageRef.current.value,
+								frequency: medicationFrequencyRef.current.value,
+							};
+							setMedications([...medications, newMedication]);
+							medicationNameRef.current.value = "";
+							medicationDosageRef.current.value = "";
+							medicationFrequencyRef.current.value = "";
+						}}
+						variant="contained" color="success">
 							Add
 						</Button>
 					</Box>
@@ -141,10 +317,18 @@ const Patient = () => {
 									>
 										Add Appointment
 									</Button>
-									<Button sx={{ fontSize: "1rem", backgroundColor: "#E1F5FE" }}>
+									<Button 
+									onClick={() => {
+											setAddDiagnosisOpen(true);
+										}}
+									sx={{ fontSize: "1rem", backgroundColor: "#E1F5FE" }}>
 										Add Diagnosis
 									</Button>
-									<Button sx={{ fontSize: "1rem", backgroundColor: "#E1F5FE" }}>
+									<Button 
+										onClick={() => {
+											setAddMedicationOpen(true);
+										}}
+									sx={{ fontSize: "1rem", backgroundColor: "#E1F5FE" }}>
 										Add Medication
 									</Button>
 								</Box>
