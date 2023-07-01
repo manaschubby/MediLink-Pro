@@ -118,3 +118,8 @@ ipcMain.on("make-patient-active", (e, arg) => {
 ipcMain.on("make-patient-inactive", (e, arg) => {
 	return makePatientInactive(e, arg);
 });
+
+// Event listener for searching patients
+ipcMain.on("search-patients", (e, arg) => {
+	return searchPatients(e, arg);
+});
