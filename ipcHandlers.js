@@ -10,6 +10,8 @@ const {
 const getPatients = async (event, ipcMain) => {
 	const patients = await Patient.find({})
 		.sort({ name: 1, dateAdded: -1 })
+		.populate("diagnosis.disease")
+		.populate("medications.medicine")
 		.populate({ path: "appointments", populate: { path: "patient" } })
 		.populate({ path: "visitHistory", populate: { path: "patient" } });
 	console.log(patients);
@@ -62,52 +64,60 @@ const createPatient = async (event, arg) => {
 	const { diagnosis, medications, symptoms } = arg;
 
 	// Unique Symptoms
-	const newSymptoms = symptoms.map(async (symptom) => {
-		let newSymptom = await checkSymptom(symptom.name.toLowerCase());
-		if (!newSymptom) {
-			newSymptom = await Symptom.create({
-				name: symptom.name.toLowerCase(),
-				date: symptom.date,
-			});
-		}
-		return { name: newSymptom, date: symptom.date };
-	});
+	const newSymptoms = await Promise.all(
+		symptoms.map(async (symptom) => {
+			let newSymptom = await checkSymptom(symptom.toLowerCase());
+			if (!newSymptom) {
+				newSymptom = await Symptom.create({
+					name: symptom.toLowerCase(),
+				});
+			}
+			return newSymptom;
+		})
+	);
 
 	// Format Diagnosis
-	const newDiagnosis = diagnosis.map(async (disease) => {
-		let newDisease = await checkDisease(disease.name.toLowerCase());
-		if (!newDisease) {
-			newDisease = await Disease.create({
-				name: disease.name.toLowerCase(),
-				date: disease.date,
-			});
-		}
-		return { disease: newDisease._id, date: disease.date };
-	});
+	const newDiagnosis = await Promise.all(
+		diagnosis.map(async (disease) => {
+			let newDisease = await checkDisease(disease.name.toLowerCase());
+			try {
+				if (!newDisease) {
+					newDisease = await Disease.create({
+						name: disease.name.toLowerCase(),
+					});
+				}
+			} catch (err) {
+				console.log(err);
+				throw err;
+			}
+			return { disease: newDisease._id, date: disease.date };
+		})
+	);
 
 	// Format Medications
-	const newMedications = medications.map(async (medication) => {
-		let medicine = checkMedicine(medication.name.toLowerCase());
-		if (!medicine) {
-			medicine = await Medicine.create({
-				name: medication.name.toLowerCase(),
-			});
-		}
-		return {
-			medicine: medicine._id,
-			dosage: medication.dosage,
-			frequency: medication.frequency,
-		};
-	});
+	const newMedications = await Promise.all(
+		medications.map(async (medication) => {
+			let medicine = checkMedicine(medication.name.toLowerCase());
+			if (!medicine) {
+				medicine = await Medicine.create({
+					name: medication.name.toLowerCase(),
+				});
+			}
+			return {
+				medicine: medicine._id,
+				dosage: medication.dosage,
+				frequency: medication.frequency,
+			};
+		})
+	);
 
 	const diagnoses = await Diagnosis.insertMany(newDiagnosis);
 	const addMedications = await Medication.insertMany(newMedications);
-	const addSymptoms = await Symptom.insertMany(newSymptoms);
 	const patient = await Patient.create({
 		...arg,
 		diagnosis: diagnoses,
 		medications: addMedications,
-		symptoms: addSymptoms,
+		symptoms: newSymptoms,
 	});
 
 	return event.reply("patient-created", JSON.stringify(patient));

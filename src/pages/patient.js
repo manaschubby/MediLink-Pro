@@ -493,9 +493,23 @@ const Patient = () => {
 										No Symptoms Logged
 									</Typography>
 								)}
-								<Typography variant="h5" sx={h5Style}>
-									Diagnosis
-								</Typography>
+
+								<Box
+									sx={{
+										display: "flex",
+										justifyContent: "space-between",
+										alignItems: "center",
+									}}
+								>
+									<Typography variant="h5" sx={h5Style}>
+										Diagnosis
+									</Typography>
+									{patient.diagnosis.length > 0 && (
+										<Typography variant="body1" gutterBottom>
+											Diagnosis Date
+										</Typography>
+									)}
+								</Box>
 								{patient.diagnosis.length > 0 ? (
 									patient.diagnosis
 										.sort((diagnosis1, diagnosis2) => {
@@ -511,8 +525,12 @@ const Patient = () => {
 														justifyContent: "space-between",
 													}}
 												>
-													<Typography variant="body1" gutterBottom>
-														{diagnosis.name}
+													<Typography
+														textTransform={"capitalize"}
+														variant="body1"
+														gutterBottom
+													>
+														{diagnosis.disease.name}
 													</Typography>
 													<Typography variant="body1" gutterBottom>
 														{dayjs(diagnosis.date).format("DD/MM/YYYY")}
