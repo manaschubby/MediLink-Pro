@@ -14,6 +14,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
 import React, { useRef } from "react";
+import Alert from "../components/patients/alert";
 const electron = window.require("electron");
 const { ipcRenderer } = electron;
 const AddPatient = (props) => {
@@ -29,6 +30,9 @@ const AddPatient = (props) => {
 	const [allergies, setAllergies] = React.useState([]);
 
 	const [loadingOpen, setLoadingOpen] = React.useState(false);
+	const [alertOpen, setAlertOpen] = React.useState(false);
+	const [alertMessage, setAlertMessage] = React.useState("");
+	const [alertTitle, setAlertTitle] = React.useState("");
 
 	// Refs
 	const firstNameRef = useRef();
@@ -48,6 +52,12 @@ const AddPatient = (props) => {
 	const medicationDosageRef = useRef();
 	const medicationFrequencyRef = useRef();
 	const allergyRef = useRef();
+
+	const alert = (message) => {
+		setAlertTitle("Attention!");
+		setAlertMessage(message);
+		setAlertOpen(true);
+	};
 
 	// Check if required fields are present
 	const validate = () => {
@@ -127,6 +137,15 @@ const AddPatient = (props) => {
 				scrollbarWidth: "10px",
 			}}
 		>
+			<Alert
+				open={alertOpen}
+				setOpen={setAlertOpen}
+				title={alertTitle}
+				message={alertMessage}
+				accept={() => {
+					setAlertOpen(false);
+				}}
+			/>
 			<Button
 				onClick={() => {
 					if (

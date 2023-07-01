@@ -147,6 +147,53 @@ const patientSchema = new mongoose.Schema({
 	// Add more fields related to patients as needed
 });
 
+// Add static methods to patientSchema
+patientSchema.statics.findPatientByDisease = async function (diseaseName) {
+	const patients = await this.find({
+		diagnosis: {
+			$elemMatch: { disease: { $regex: diseaseName, $options: "i" } },
+		},
+	}).exec();
+	return patients;
+};
+
+patientSchema.statics.findPatientByMedicine = async function (medicineName) {
+	const patients = await this.find({
+		medications: {
+			$elemMatch: { medicine: { $regex: medicineName, $options: "i" } },
+		},
+	}).exec();
+	return patients;
+};
+
+patientSchema.statics.findPatientBySymptom = async function (symptom) {
+	const patients = await this.find({
+		symptoms: { $elemMatch: { name: { $regex: symptomName, $options: "i" } } },
+	}).exec();
+	return patients;
+};
+patientSchema.statics.findPatientByAllergen = async function (allergen) {
+	const patients = await this.find({
+		allergies: { $elemMatch: { name: { $regex: allergen, $options: "i" } } },
+	}).exec();
+	return patients;
+};
+
+patientSchema.pre("find", function () {
+	this.populate("symptoms");
+	this.populate({
+		path: "diagnosis",
+		model: "Diagnosis",
+		populate: { path: "disease", model: "Disease" },
+	});
+	this.populate({
+		path: "medications",
+		populate: { path: "medicine", model: "Medicine" },
+	});
+	this.populate({ path: "appointments", populate: { path: "patient" } });
+	this.populate({ path: "visitHistory", populate: { path: "patient" } });
+});
+
 // Create a schema for Appointments
 const appointmentSchema = new mongoose.Schema({
 	patient: {
