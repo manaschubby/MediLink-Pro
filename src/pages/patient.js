@@ -18,7 +18,8 @@ const Patient = () => {
 
 	// Hooks
 	const { showAddFile, file } = useAddFile();
-	const { patient, patientLoaded } = usePatient(id);
+	const { patient, patientLoaded, makePatientActive, makePatientInactive } =
+		usePatient(id);
 	const isTabletOrMobile = useMediaQuery("(max-width: 1224px)");
 
 	// State Variables
@@ -181,17 +182,15 @@ const Patient = () => {
 								>
 									<Typography variant="body1" gutterBottom>
 										The patient's current status is{" "}
-										{patient.isActive ? "Active" : "Inactive"}
+										{patient.inReview ? "Active" : "Inactive"}
 									</Typography>
 									<Button
 										onClick={
-											patient.isActive
-												? patient.makePatientInactive
-												: patient.makePatientActive
+											patient.inReview ? makePatientInactive : makePatientActive
 										}
 										sx={{ fontSize: "0.75rem", backgroundColor: "#E1F5FE" }}
 									>
-										Make {patient.isActive ? "Inactive" : "Active"}
+										Make {patient.inReview ? "Inactive" : "Active"}
 									</Button>
 								</Box>
 							</Box>
@@ -516,7 +515,11 @@ const Patient = () => {
 													justifyContent: "space-between",
 												}}
 											>
-												<Typography variant="body1" gutterBottom>
+												<Typography
+													textTransform={"capitalize"}
+													variant="body1"
+													gutterBottom
+												>
 													{symptom.name}
 												</Typography>
 											</Box>

@@ -169,18 +169,19 @@ const createPatient = async (event, arg) => {
 const makePatientActive = async (event, arg) => {
 	const patient = await Patient.findByIdAndUpdate(
 		arg,
-		{ isActive: true },
+		{ inReview: true },
 		{
 			new: true,
 		}
 	);
+	console.log(patient);
 	return event.reply("patient-active", JSON.stringify(patient));
 };
 
 const makePatientInactive = async (event, arg) => {
 	const patient = await Patient.findByIdAndUpdate(
 		arg,
-		{ isActive: false },
+		{ inReview: false },
 		{
 			new: true,
 		}

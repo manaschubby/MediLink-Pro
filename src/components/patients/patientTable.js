@@ -34,7 +34,7 @@ const PatientTable = (props) => {
 			return (
 				latestDiagnosis.disease.name +
 				" - " +
-				dayjs(latestDiagnosis.date).format("MM/DD/YYYY")
+				dayjs(latestDiagnosis.date).format("DD/MM/YYYY")
 			);
 		}
 		return "";
