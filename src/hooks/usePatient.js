@@ -18,16 +18,23 @@ export default function usePatient(id) {
 		};
 	}, []);
 
+	const patientWithActive = (active) => {
+		return {
+			...patient,
+			inReview: active,
+		};
+	};
+
 	const makePatientActive = () => {
 		ipcRenderer.send("make-patient-active", patient._id);
 		ipcRenderer.on("patient-active", (event, patient) => {
-			setPatient(JSON.parse(patient));
+			setPatient(patientWithActive(true));
 		});
 	};
 	const makePatientInactive = () => {
 		ipcRenderer.send("make-patient-inactive", patient._id);
 		ipcRenderer.on("patient-inactive", (event, patient) => {
-			setPatient(JSON.parse(patient));
+			setPatient(patientWithActive(false));
 		});
 	};
 
