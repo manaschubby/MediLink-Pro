@@ -78,7 +78,7 @@ const PatientTable = (props) => {
 					<TableBody>
 						{patients.map((patient) => (
 							<TableRow
-								class="trr"
+								className="trr"
 								key={patient._id}
 								sx={{
 									"&:last-child td, &:last-child th": { border: 0 },

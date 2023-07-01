@@ -7,11 +7,30 @@ const {
 	Medicine,
 } = require("./database/schemas");
 
+/*
+ * Get all patients
+ * @param {Object} event - The event object
+ * @param {Object} ipcMain - The ipcMain object
+ * @returns {Object} - The patients object
+ * @returns {Array} - The patients array
+ * @returns {Array} - The patients diagnosis array
+ * @returns {Array} - The patients medications array
+ * @returns {Array} - The patients symptoms array
+ */
+
 const getPatients = async (event, ipcMain) => {
 	const patients = await Patient.find({})
 		.sort({ name: 1, dateAdded: -1 })
-		.populate("diagnosis.disease")
-		.populate("medications.medicine")
+		.populate("symptoms")
+		.populate({
+			path: "diagnosis",
+			model: "Diagnosis",
+			populate: { path: "disease", model: "Disease" },
+		})
+		.populate({
+			path: "medications",
+			populate: { path: "medicine", model: "Medicine" },
+		})
 		.populate({ path: "appointments", populate: { path: "patient" } })
 		.populate({ path: "visitHistory", populate: { path: "patient" } });
 	console.log(patients);
@@ -20,8 +39,16 @@ const getPatients = async (event, ipcMain) => {
 
 const getPatient = async (event, arg) => {
 	const patient = await Patient.findById(arg)
-		.populate("diagnosis.disease")
-		.populate("medications.medicine")
+		.populate("symptoms")
+		.populate({
+			path: "diagnosis",
+			model: "Diagnosis",
+			populate: { path: "disease", model: "Disease" },
+		})
+		.populate({
+			path: "medications",
+			populate: { path: "medicine", model: "Medicine" },
+		})
 		.populate({
 			path: "appointments",
 			populate: { path: "patient" },
@@ -33,7 +60,23 @@ const getPatient = async (event, arg) => {
 	return event.reply("patient", JSON.stringify(patient));
 };
 
-// Creation functions
+/*
+ * Create a new patient
+ * @param {Object} event - The event object
+ * @param {Object} arg - The patient object
+ * @param {Array} arg.diagnosis - The diagnosis array
+ * @param {Array} arg.medications - The medications array
+ * @param {Array} arg.symptoms - The symptoms array
+
+ * @param {Object} diagnosis - The diagnosis object
+ * @param {String} diagnosis.name - The name of the disease
+ * @param {Date} diagnosis.date - The date of diagnosis
+ * @param {Object} medication - The medication object
+ * @param {String} medication.name - The name of the medicine
+ * @param {String} medication.dosage - The dosage of the medicine
+ * @param {String} medication.frequency - The frequency of the medicine
+ * @param {String} symptom - The name of the symptom
+*/
 
 // Check the uniqueness of the syymptom and return the symptom if it exists
 const checkSymptom = async (symptom) => {
@@ -97,7 +140,7 @@ const createPatient = async (event, arg) => {
 	// Format Medications
 	const newMedications = await Promise.all(
 		medications.map(async (medication) => {
-			let medicine = checkMedicine(medication.name.toLowerCase());
+			let medicine = await checkMedicine(medication.name.toLowerCase());
 			if (!medicine) {
 				medicine = await Medicine.create({
 					name: medication.name.toLowerCase(),
@@ -123,4 +166,32 @@ const createPatient = async (event, arg) => {
 	return event.reply("patient-created", JSON.stringify(patient));
 };
 
-module.exports = { getPatients, createPatient, getPatient };
+const makePatientActive = async (event, arg) => {
+	const patient = await Patient.findByIdAndUpdate(
+		arg,
+		{ isActive: true },
+		{
+			new: true,
+		}
+	);
+	return event.reply("patient-active", JSON.stringify(patient));
+};
+
+const makePatientInactive = async (event, arg) => {
+	const patient = await Patient.findByIdAndUpdate(
+		arg,
+		{ isActive: false },
+		{
+			new: true,
+		}
+	);
+	return event.reply("patient-inactive", JSON.stringify(patient));
+};
+
+module.exports = {
+	getPatients,
+	createPatient,
+	getPatient,
+	makePatientActive,
+	makePatientInactive,
+};

@@ -163,6 +163,40 @@ const Patient = () => {
 								</Button>
 							</Box>
 						</Box>
+						<Box sx={{ display: "flex", gap: "1rem" }}>
+							<Box
+								sx={{
+									width: "75%",
+									backgroundColor: "white",
+									borderRadius: "0.5rem",
+									p: "1rem",
+									mb: "0.5rem",
+								}}
+							>
+								<Box
+									sx={{
+										display: "flex",
+										justifyContent: "space-between",
+									}}
+								>
+									<Typography variant="body1" gutterBottom>
+										The patient's current status is{" "}
+										{patient.isActive ? "Active" : "Inactive"}
+									</Typography>
+									<Button
+										onClick={
+											patient.isActive
+												? patient.makePatientInactive
+												: patient.makePatientActive
+										}
+										sx={{ fontSize: "0.75rem", backgroundColor: "#E1F5FE" }}
+									>
+										Make {patient.isActive ? "Inactive" : "Active"}
+									</Button>
+								</Box>
+							</Box>
+						</Box>
+
 						{/*
                         Visit History
                         */}

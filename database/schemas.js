@@ -90,12 +90,27 @@ const patientSchema = new mongoose.Schema({
 		phone: String,
 		email: String,
 	},
-	symptoms: [symptomSchema],
-	diagnosis: [diagnosisSchema],
+	symptoms: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Symptom",
+		},
+	],
+	diagnosis: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Diagnosis",
+		},
+	],
 	allergies: {
 		type: [String],
 	},
-	medications: [medicationSchema],
+	medications: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Medication",
+		},
+	],
 	insurance: {
 		provider: String,
 		policyNumber: String,
