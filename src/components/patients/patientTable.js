@@ -11,8 +11,6 @@ import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./patientTable.css";
-const electron = window.require("electron");
-const { ipcRenderer } = electron;
 
 const PatientTable = (props) => {
 	const { patients } = props;
@@ -34,9 +32,9 @@ const PatientTable = (props) => {
 				}
 			)[0];
 			return (
-				latestDiagnosis.name +
+				latestDiagnosis.disease.name +
 				" - " +
-				dayjs(latestDiagnosis.date).format("MM/DD/YYYY")
+				dayjs(latestDiagnosis.date).format("DD/MM/YYYY")
 			);
 		}
 		return "";
@@ -80,7 +78,7 @@ const PatientTable = (props) => {
 					<TableBody>
 						{patients.map((patient) => (
 							<TableRow
-								class="trr"
+								className="trr"
 								key={patient._id}
 								sx={{
 									"&:last-child td, &:last-child th": { border: 0 },
@@ -96,7 +94,12 @@ const PatientTable = (props) => {
 								<TableCell align="right">
 									{calculateAge(patient.dateOfBirth)} years
 								</TableCell>
-								<TableCell align="right">
+								<TableCell
+									sx={{
+										textTransform: "capitalize",
+									}}
+									align="right"
+								>
 									{patient.diagnosis.length > 0 && renderDiagnosis(patient)}
 								</TableCell>
 								<TableCell align="right">

@@ -18,7 +18,8 @@ const Patient = () => {
 
 	// Hooks
 	const { showAddFile, file } = useAddFile();
-	const { patient, patientLoaded } = usePatient(id);
+	const { patient, patientLoaded, makePatientActive, makePatientInactive } =
+		usePatient(id);
 	const isTabletOrMobile = useMediaQuery("(max-width: 1224px)");
 
 	// State Variables
@@ -163,6 +164,38 @@ const Patient = () => {
 								</Button>
 							</Box>
 						</Box>
+						<Box sx={{ display: "flex", gap: "1rem" }}>
+							<Box
+								sx={{
+									width: "75%",
+									backgroundColor: "white",
+									borderRadius: "0.5rem",
+									p: "1rem",
+									mb: "0.5rem",
+								}}
+							>
+								<Box
+									sx={{
+										display: "flex",
+										justifyContent: "space-between",
+									}}
+								>
+									<Typography variant="body1" gutterBottom>
+										The patient's current status is{" "}
+										{patient.inReview ? "Active" : "Inactive"}
+									</Typography>
+									<Button
+										onClick={
+											patient.inReview ? makePatientInactive : makePatientActive
+										}
+										sx={{ fontSize: "0.75rem", backgroundColor: "#E1F5FE" }}
+									>
+										Make {patient.inReview ? "Inactive" : "Active"}
+									</Button>
+								</Box>
+							</Box>
+						</Box>
+
 						{/*
                         Visit History
                         */}
@@ -482,7 +515,11 @@ const Patient = () => {
 													justifyContent: "space-between",
 												}}
 											>
-												<Typography variant="body1" gutterBottom>
+												<Typography
+													textTransform={"capitalize"}
+													variant="body1"
+													gutterBottom
+												>
 													{symptom.name}
 												</Typography>
 											</Box>
@@ -493,9 +530,23 @@ const Patient = () => {
 										No Symptoms Logged
 									</Typography>
 								)}
-								<Typography variant="h5" sx={h5Style}>
-									Diagnosis
-								</Typography>
+
+								<Box
+									sx={{
+										display: "flex",
+										justifyContent: "space-between",
+										alignItems: "center",
+									}}
+								>
+									<Typography variant="h5" sx={h5Style}>
+										Diagnosis
+									</Typography>
+									{patient.diagnosis.length > 0 && (
+										<Typography variant="body1" gutterBottom>
+											Diagnosis Date
+										</Typography>
+									)}
+								</Box>
 								{patient.diagnosis.length > 0 ? (
 									patient.diagnosis
 										.sort((diagnosis1, diagnosis2) => {
@@ -511,8 +562,12 @@ const Patient = () => {
 														justifyContent: "space-between",
 													}}
 												>
-													<Typography variant="body1" gutterBottom>
-														{diagnosis.name}
+													<Typography
+														textTransform={"capitalize"}
+														variant="body1"
+														gutterBottom
+													>
+														{diagnosis.disease.name}
 													</Typography>
 													<Typography variant="body1" gutterBottom>
 														{dayjs(diagnosis.date).format("DD/MM/YYYY")}

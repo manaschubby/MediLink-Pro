@@ -17,6 +17,7 @@ export default function usePatients() {
 		});
 		ipcRenderer.on("patient-created", (event, patient) => {
 			reloadPatients();
+			console.log("Patient created");
 		});
 
 		return () => {
