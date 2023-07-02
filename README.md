@@ -9,14 +9,9 @@ git clone https://github.com/manaschubby/MediLink-Pro.git
 cd MediLink-Pro
 npm install
 ```
-- Run the React app
+- Run the app by
 ```bash
-npm start
+npm run dev
 ```
-- Duplicate the .env.example file and rename it to .env
-- Add your MongoDB connection string to the .env file
 
-- Run the Electron app
-```bash
-npm run electron
-```
+- Wait for the browser to open with the localhost:3000. Then press `CMD+R` or `Ctrl+R` to load the application.

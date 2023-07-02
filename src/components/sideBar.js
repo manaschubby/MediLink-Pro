@@ -5,6 +5,7 @@ import React from "react";
 const SideBar = (props) => {
 	const { type } = props;
 	const buttons = () => {
+		// eslint-disable-next-line default-case
 		switch (type) {
 			case "dashboard":
 				return <></>;

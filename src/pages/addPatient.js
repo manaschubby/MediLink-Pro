@@ -406,7 +406,7 @@ const AddPatient = (props) => {
 				}}
 			>
 				<TextField
-					inputRef={diagnosisRef}
+				inputRef={diagnosisRef}
 					sx={{
 						width: "20rem",
 						mt: "1rem",
@@ -434,7 +434,7 @@ const AddPatient = (props) => {
 					}}
 					onClick={() => {
 						const newDiagnosis = {
-							name: diagnosisRef.current.value,
+						name: diagnosisRef.current.value,
 							date: new Date(dateOfDiagnosis),
 						};
 						setDiagnosis([...diagnosis, newDiagnosis]);
@@ -633,7 +633,7 @@ const AddPatient = (props) => {
 					width: "20rem",
 					mt: "1rem",
 				}}
-				onClick={() => {
+				onClick={()=>{
 					handleAddPatient();
 				}}
 				variant="contained"
