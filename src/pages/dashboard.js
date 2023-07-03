@@ -2,7 +2,29 @@ import React from "react";
 import SideBar from "../components/sideBar";
 import { Box, Button, Typography } from "@mui/material";
 
+import usePatients from "../hooks/usePatients";
+import dayjs from "dayjs";
+
 const Dashboard = () => {
+	
+	const { patients } = usePatients();
+	console.log(patients);
+
+	const renderDiagnosis = (patient) => {
+		console.log(patient.diagnosis);
+		if (patient.diagnosis.length > 0) {
+			const latestDiagnosis = patient.diagnosis.sort(
+				(diagnosis1, diagnosis2) => {
+					return new Date(diagnosis2.date) - new Date(diagnosis1.date);
+				}
+			)[0];
+			return (
+				dayjs(latestDiagnosis.date).format("DD/MM/YYYY")
+			);
+		}
+		return "";
+	};
+
 	return (
 		<div>
 			<SideBar type="dashboard" />
@@ -44,27 +66,16 @@ const Dashboard = () => {
 								<Typography variant="h6">Patient Name</Typography>
 								<Typography variant="h6">Date</Typography>
 							</Box>
+							{patients.filter((patient)=>(!patient.inReview)).map((patient) => (
 							<Box
 								mt={"1rem"}
 								sx={{ display: "flex", justifyContent: "space-between" }}
 							>
-								<Typography variant="body1">Azeez Kaur</Typography>
-								<Typography variant="body1">
-									{new Date().toLocaleString()}
-								</Typography>
+								<Typography variant="body1">{patient.firstName} {patient.lastName}</Typography>
+								<Typography variant="body1">{patient.diagnosis.length > 0 && renderDiagnosis(patient)}</Typography>
+							
 							</Box>
-							<Box sx={{ display: "flex", justifyContent: "space-between" }}>
-								<Typography variant="body1">Patient Name</Typography>
-								<Typography variant="body1">Date</Typography>
-							</Box>
-							<Box sx={{ display: "flex", justifyContent: "space-between" }}>
-								<Typography variant="body1">Patient Name</Typography>
-								<Typography variant="body1">Date</Typography>
-							</Box>
-							<Box sx={{ display: "flex", justifyContent: "space-between" }}>
-								<Typography variant="body1">Patient Name</Typography>
-								<Typography variant="body1">Date</Typography>
-							</Box>
+						))}
 						</Box>
 					</Box>
 					<Box
@@ -99,13 +110,16 @@ const Dashboard = () => {
 							<Typography variant="h6">Patient Name</Typography>
 							<Typography variant="h6">Next Action</Typography>
 						</Box>
-						<Box
-							mt={"1rem"}
-							sx={{ display: "flex", justifyContent: "space-between" }}
-						>
-							<Typography variant="body1">Azeez Kaur</Typography>
-							<Typography variant="body1">CT Scan</Typography>
-						</Box>
+						{patients.filter((patient)=>patient.inReview).map((patient) => (
+							<Box
+								mt={"1rem"}
+								sx={{ display: "flex", justifyContent: "space-between" }}
+							>
+								<Typography variant="body1">{patient.firstName} {patient.lastName}</Typography>
+								<Typography variant="body1">{patient.diagnosis.length > 0 && renderDiagnosis(patient)}</Typography>
+							
+							</Box>
+						))}
 					</Box>
 				</Box>
 			</Box>
