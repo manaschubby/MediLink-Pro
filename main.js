@@ -11,6 +11,7 @@ const {
 	getPatient,
 	makePatientActive,
 	makePatientInactive,
+	addNewDiagnosisToPatient,
 } = require("./ipcHandlers");
 const { createPatient } = require("./ipcHandlers");
 // Enable live reload for all the files inside the project directory
@@ -117,6 +118,11 @@ ipcMain.on("make-patient-active", (e, arg) => {
 });
 ipcMain.on("make-patient-inactive", (e, arg) => {
 	return makePatientInactive(e, arg);
+});
+
+// Event listener for adding diagnosis
+ipcMain.on("add-diagnosis", (e, arg) => {
+	return addNewDiagnosisToPatient(e, arg);
 });
 
 // Event listener for searching patients
