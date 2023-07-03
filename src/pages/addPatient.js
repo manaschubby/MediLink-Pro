@@ -33,6 +33,7 @@ const AddPatient = (props) => {
 	const [alertOpen, setAlertOpen] = React.useState(false);
 	const [alertMessage, setAlertMessage] = React.useState("");
 	const [alertTitle, setAlertTitle] = React.useState("");
+	const [saveOrCancelAlert, setSaveOrCancelAlert] = React.useState(false); // true for save button validation, false for cancel button confirmation
 
 	// Refs
 	const firstNameRef = useRef();
@@ -53,7 +54,8 @@ const AddPatient = (props) => {
 	const medicationFrequencyRef = useRef();
 	const allergyRef = useRef();
 
-	const alert = (message) => {
+	const alert = (message, saveOrCancelAlert) => {
+		setSaveOrCancelAlert(saveOrCancelAlert);
 		setAlertTitle("Attention!");
 		setAlertMessage(message);
 		setAlertOpen(true);
@@ -62,22 +64,22 @@ const AddPatient = (props) => {
 	// Check if required fields are present
 	const validate = () => {
 		if (firstNameRef.current.value == "") {
-			alert("Please enter a first name.");
+			alert("Please enter a first name.", true);
 			return false;
 		}
 		if (lastNameRef.current.value == "") {
-			alert("Please enter a last name.");
+			alert("Please enter a last name.", true);
 			return false;
 		}
 		if (bloodGroup.current.value == "default") {
-			alert("Please select a blood group.");
+			alert("Please select a blood group.", true);
 			return false;
 		}
 		let returnVal = true;
 		// Check repeat medicine in medications
 		medications.forEach((medication, index) => {
 			if (medications.indexOf(medication) != index) {
-				alert("Medications cannot be repeated.");
+				alert("Medications cannot be repeated.", true);
 				returnVal = false;
 			}
 		});
@@ -85,7 +87,8 @@ const AddPatient = (props) => {
 		diagnosis.forEach((disease, index) => {
 			if (diagnosis.indexOf(disease) != index) {
 				alert(
-					"Diagnosis disease cannot be repeated. If you need to add a new diagnosis for the same disease, please add the patient first and then add each diagnosis separately from the patient's page."
+					"Diagnosis disease cannot be repeated. If you need to add a new diagnosis for the same disease, please add the patient first and then add each diagnosis separately from the patient's page.",
+					true
 				);
 				returnVal = false;
 			}
@@ -143,18 +146,23 @@ const AddPatient = (props) => {
 				title={alertTitle}
 				message={alertMessage}
 				accept={() => {
-					setAlertOpen(false);
+					if (saveOrCancelAlert) {
+						setAlertOpen(false);
+					} else {
+						ipcRenderer.send("add-patient-submit");
+					}
 				}}
+				reject={
+					saveOrCancelAlert
+						? null
+						: () => {
+								setAlertOpen(false);
+						  }
+				}
 			/>
 			<Button
 				onClick={() => {
-					if (
-						window.confirm(
-							"Are you sure you want to cancel? All changes will be lost."
-						)
-					) {
-						ipcRenderer.send("add-patient-submit");
-					}
+					alert("Are you sure you want to cancel?", false);
 				}}
 				variant="contained"
 				color="error"
@@ -406,7 +414,7 @@ const AddPatient = (props) => {
 				}}
 			>
 				<TextField
-				inputRef={diagnosisRef}
+					inputRef={diagnosisRef}
 					sx={{
 						width: "20rem",
 						mt: "1rem",
@@ -434,7 +442,7 @@ const AddPatient = (props) => {
 					}}
 					onClick={() => {
 						const newDiagnosis = {
-						name: diagnosisRef.current.value,
+							name: diagnosisRef.current.value,
 							date: new Date(dateOfDiagnosis),
 						};
 						setDiagnosis([...diagnosis, newDiagnosis]);
@@ -633,7 +641,7 @@ const AddPatient = (props) => {
 					width: "20rem",
 					mt: "1rem",
 				}}
-				onClick={()=>{
+				onClick={() => {
 					handleAddPatient();
 				}}
 				variant="contained"

@@ -42,7 +42,7 @@ const Alert = (props) => {
 			>
 				{reject && (
 					<Button color="error" variant="contained" onClick={reject}>
-						Cancel Add Patient
+						Cancel
 					</Button>
 				)}
 				{accept && (
