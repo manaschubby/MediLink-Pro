@@ -189,10 +189,103 @@ const makePatientInactive = async (event, arg) => {
 	return event.reply("patient-inactive", JSON.stringify(patient));
 };
 
+const addNewDiagnosisToPatient = async (event, arg) => {
+	const { patientId, diagnosis } = arg;
+	checkDisease(diagnosis.name.toLowerCase())
+		.then((disease) => {
+			if (!disease) {
+				Disease.create({ name: diagnosis.name.toLowerCase() })
+					.then((newDisease) => {
+						Diagnosis.create({
+							disease: newDisease._id,
+							date: diagnosis.date,
+						})
+							.then((newDiagnosis) => {
+								Patient.findByIdAndUpdate(
+									patientId,
+									{
+										$push: {
+											diagnosis: newDiagnosis._id,
+										},
+									},
+									{ new: true }
+								)
+									.populate({
+										path: "diagnosis",
+										model: "Diagnosis",
+										populate: {
+											path: "disease",
+											model: "Disease",
+										},
+									})
+									.then((patient) => {
+										return event.reply(
+											"patient-diagnosis-added",
+											JSON.stringify(patient)
+										);
+									})
+									.catch((err) => {
+										console.log(err);
+										throw err;
+									});
+							})
+							.catch((err) => {
+								console.log(err);
+								throw err;
+							});
+					})
+					.catch((err) => {
+						console.log(err);
+						throw err;
+					});
+			} else {
+				Diagnosis.create({
+					disease: disease._id,
+					date: diagnosis.date,
+				})
+					.then((newDiagnosis) => {
+						Patient.findByIdAndUpdate(
+							patientId,
+							{
+								$push: {
+									diagnosis: newDiagnosis._id,
+								},
+							},
+							{ new: true }
+						)
+							.populate({
+								path: "diagnosis",
+								model: "Diagnosis",
+								populate: { path: "disease", model: "Disease" },
+							})
+							.then((patient) => {
+								return event.reply(
+									"patient-diagnosis-added",
+									JSON.stringify(patient)
+								);
+							})
+							.catch((err) => {
+								console.log(err);
+								throw err;
+							});
+					})
+					.catch((err) => {
+						console.log(err);
+						throw err;
+					});
+			}
+		})
+		.catch((err) => {
+			console.log(err);
+			throw err;
+		});
+};
+
 module.exports = {
 	getPatients,
 	createPatient,
 	getPatient,
 	makePatientActive,
 	makePatientInactive,
+	addNewDiagnosisToPatient,
 };

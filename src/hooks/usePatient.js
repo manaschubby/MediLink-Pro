@@ -38,10 +38,25 @@ export default function usePatient(id) {
 		});
 	};
 
+	const addNewDiagnosis = (diagnosis) => {
+		ipcRenderer.send("add-diagnosis", {
+			patientId: patient._id,
+			diagnosis,
+		});
+		ipcRenderer.on("patient-diagnosis-added", (event, patient) => {
+			console.log(patient);
+			setPatient({
+				...patient,
+				diagnosis: JSON.parse(patient).diagnosis,
+			});
+		});
+	};
+
 	return {
 		patient,
 		patientLoaded,
 		makePatientActive,
 		makePatientInactive,
+		addNewDiagnosis,
 	};
 }
