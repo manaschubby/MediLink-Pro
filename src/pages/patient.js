@@ -118,7 +118,7 @@ const Patient = () => {
 						alignItems: "center",
 						alignContent: "center",
 						left: "80px",
-						width: "calc(100vw - 112px)",
+						width: "calc(100vw - 128px)",
 						height: "fit-content",
 						backgroundColor: "#f5f5f5",
 						padding: "1rem",
@@ -247,7 +247,7 @@ const Patient = () => {
 								<Typography variant="h5" sx={h5Style}>
 									Visit History
 								</Typography>
-								{patient.visitHistory.length > 0 ? (
+								{patient.visitHistory && patient.visitHistory.length > 0 ? (
 									patient.visitHistory
 										.sort((visit1, visit2) => {
 											return new Date(visit2.date) - new Date(visit1.date);
@@ -259,6 +259,7 @@ const Patient = () => {
 														display: "flex",
 														justifyContent: "space-between",
 													}}
+													key={visit._id}
 												>
 													<Typography variant="body1" gutterBottom>
 														{dayjs(visit.date).format("DD/MM/YYYY")}
@@ -549,6 +550,7 @@ const Patient = () => {
 													display: "flex",
 													justifyContent: "space-between",
 												}}
+												key={symptom._id}
 											>
 												<Typography
 													textTransform={"capitalize"}
@@ -596,6 +598,7 @@ const Patient = () => {
 														display: "flex",
 														justifyContent: "space-between",
 													}}
+													key={diagnosis._id}
 												>
 													<Typography
 														textTransform={"capitalize"}
@@ -626,6 +629,7 @@ const Patient = () => {
 													display: "flex",
 													justifyContent: "space-between",
 												}}
+												key={medication._id}
 											>
 												<Typography variant="body1" gutterBottom>
 													{medication.name}
@@ -655,6 +659,7 @@ const Patient = () => {
 													display: "flex",
 													justifyContent: "flex-start",
 												}}
+												key={allergy}
 											>
 												<Typography variant="body1" gutterBottom>
 													{allergy}

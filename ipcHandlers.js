@@ -210,6 +210,14 @@ const addNewDiagnosisToPatient = async (event, arg) => {
 									},
 									{ new: true }
 								)
+									.populate({
+										path: "diagnosis",
+										model: "Diagnosis",
+										populate: {
+											path: "disease",
+											model: "Disease",
+										},
+									})
 									.then((patient) => {
 										return event.reply(
 											"patient-diagnosis-added",

@@ -44,6 +44,7 @@ export default function usePatient(id) {
 			diagnosis,
 		});
 		ipcRenderer.on("patient-diagnosis-added", (event, patient) => {
+			console.log(patient);
 			setPatient({
 				...patient,
 				diagnosis: JSON.parse(patient).diagnosis,
