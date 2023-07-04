@@ -196,6 +196,10 @@ patientSchema.pre("find", function () {
 
 // Create a schema for Appointments
 const appointmentSchema = new mongoose.Schema({
+	name: {
+		type: String,
+		required: true,
+	},
 	patient: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Patient",
