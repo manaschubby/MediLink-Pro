@@ -37,7 +37,7 @@ const SideBar = (props) => {
 							}}
 						>
 							<Button
-								variant={selectedFilter == "All" ? "contained" : "outlined"}
+								variant={selectedFilter === "All" ? "contained" : "outlined"}
 								onClick={() => setSelectedFilter("All")}
 								sx={{
 									fontSize: "0.8rem",
@@ -47,7 +47,7 @@ const SideBar = (props) => {
 								All
 							</Button>
 							<Button
-								variant={selectedFilter == "Active" ? "contained" : "outlined"}
+								variant={selectedFilter === "Active" ? "contained" : "outlined"}
 								onClick={() => setSelectedFilter("Active")}
 								sx={{
 									fontSize: "0.8rem",

@@ -4,7 +4,6 @@ import {
 	CircularProgress,
 	Dialog,
 	InputLabel,
-	Menu,
 	MenuItem,
 	Select,
 	TextField,
@@ -17,9 +16,7 @@ import React, { useRef } from "react";
 import Alert from "../components/patients/alert";
 const electron = window.require("electron");
 const { ipcRenderer } = electron;
-const AddPatient = (props) => {
-	const { edit } = props;
-
+const AddPatient = () => {
 	// State Variables
 	const [gender, setGender] = React.useState(false);
 	const [dateOfBirth, setDateOfBirth] = React.useState(new Date());
@@ -63,29 +60,29 @@ const AddPatient = (props) => {
 
 	// Check if required fields are present
 	const validate = () => {
-		if (firstNameRef.current.value == "") {
+		if (firstNameRef.current.value === "") {
 			alert("Please enter a first name.", true);
 			return false;
 		}
-		if (lastNameRef.current.value == "") {
+		if (lastNameRef.current.value === "") {
 			alert("Please enter a last name.", true);
 			return false;
 		}
-		if (bloodGroup.current.value == "default") {
+		if (bloodGroup.current.value === "default") {
 			alert("Please select a blood group.", true);
 			return false;
 		}
 		let returnVal = true;
 		// Check repeat medicine in medications
 		medications.forEach((medication, index) => {
-			if (medications.indexOf(medication) != index) {
+			if (medications.indexOf(medication) !== index) {
 				alert("Medications cannot be repeated.", true);
 				returnVal = false;
 			}
 		});
 		// Check repeat disease in diagnosis
 		diagnosis.forEach((disease, index) => {
-			if (diagnosis.indexOf(disease) != index) {
+			if (diagnosis.indexOf(disease) !== index) {
 				alert(
 					"Diagnosis disease cannot be repeated. If you need to add a new diagnosis for the same disease, please add the patient first and then add each diagnosis separately from the patient's page.",
 					true
@@ -392,7 +389,7 @@ const AddPatient = (props) => {
 						<Typography variant="body1">{symptom}</Typography>
 						<Button
 							onClick={() => {
-								setSymptoms(symptoms.filter((symptom, i) => i != index));
+								setSymptoms(symptoms.filter((symptom, i) => i !== index));
 							}}
 							variant="text"
 							color="error"
@@ -472,7 +469,7 @@ const AddPatient = (props) => {
 						</Typography>
 						<Button
 							onClick={() => {
-								setDiagnosis(diagnosis.filter((diagnosis, i) => i != index));
+								setDiagnosis(diagnosis.filter((diagnosis, i) => i !== index));
 							}}
 							variant="text"
 							color="error"
@@ -564,7 +561,7 @@ const AddPatient = (props) => {
 						<Button
 							onClick={() => {
 								setMedications(
-									medications.filter((medication, i) => i != index)
+									medications.filter((medication, i) => i !== index)
 								);
 							}}
 							variant="text"
@@ -625,7 +622,7 @@ const AddPatient = (props) => {
 
 						<Button
 							onClick={() => {
-								setAllergies(allergies.filter((allergy, i) => i != index));
+								setAllergies(allergies.filter((allergy, i) => i !== index));
 							}}
 							variant="text"
 							color="error"

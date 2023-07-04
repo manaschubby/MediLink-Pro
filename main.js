@@ -12,6 +12,7 @@ const {
 	makePatientActive,
 	makePatientInactive,
 	addNewDiagnosisToPatient,
+	addNewAppointmentToPatient,
 	addFile,
 } = require("./ipcHandlers");
 const fs = require("fs");
@@ -184,6 +185,11 @@ ipcMain.on("make-patient-inactive", (e, arg) => {
 // Event listener for adding diagnosis
 ipcMain.on("add-diagnosis", (e, arg) => {
 	return addNewDiagnosisToPatient(e, arg);
+});
+
+// Event listener for adding appointment
+ipcMain.on("add-appointment", (e, arg) => {
+	return addNewAppointmentToPatient(e, arg);
 });
 
 // Event listener for searching patients

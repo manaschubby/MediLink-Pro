@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { useEffect } from "react";
 import { RouterProvider, Outlet, createHashRouter } from "react-router-dom";

@@ -5,6 +5,7 @@ const {
 	Symptom,
 	Medication,
 	Medicine,
+	Appointment,
 } = require("./database/schemas");
 const fs = require("fs");
 const Store = require("./store.js");
@@ -299,6 +300,12 @@ const addNewDiagnosisToPatient = async (event, arg) => {
 		});
 };
 
+// Add Appointment to Patient
+const addNewAppointmentToPatient = async (event, arg) => {
+	const newAppointment = await Appointment.create(arg);
+	event.reply("patient-appointment-added", JSON.stringify(newAppointment));
+};
+
 // Add File Handler
 const addFile = async (e, arg, result) => {
 	try {
@@ -370,5 +377,6 @@ module.exports = {
 	makePatientActive,
 	makePatientInactive,
 	addNewDiagnosisToPatient,
+	addNewAppointmentToPatient,
 	addFile,
 };
