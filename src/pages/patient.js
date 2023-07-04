@@ -30,6 +30,7 @@ const Patient = () => {
 		makePatientInactive,
 		addNewDiagnosis,
 		addNewAppointment,
+		fileClicked,
 	} = usePatient(id);
 	const isTabletOrMobile = useMediaQuery("(max-width: 1224px)");
 
@@ -37,12 +38,6 @@ const Patient = () => {
 	const [addAppointmentOpen, setAddAppointmentOpen] = React.useState(false);
 	const [addDiagnosisOpen, setAddDiagnosisOpen] = React.useState(false);
 	const [addMedicationOpen, setAddMedicationOpen] = React.useState(false);
-	const [medications, setMedications] = React.useState([]);
-
-	//Refs
-	const medicationNameRef = useRef();
-	const medicationDosageRef = useRef();
-	const medicationFrequencyRef = useRef();
 
 	// Styles
 	const rowTitleStyle = { color: "rgba(0,0,0, 0.6)" };
@@ -259,19 +254,45 @@ const Patient = () => {
 										Patient Files
 									</Typography>
 									<Button
-										onClick={showAddFile}
+										onClick={() => showAddFile(patient._id)}
 										sx={{ fontSize: "1rem", backgroundColor: "#E1F5FE" }}
 									>
 										Add File
 									</Button>
 								</Box>
-								{file ? (
+								{patient.files && patient.files.length > 0 ? (
 									<Box
-										sx={{ display: "flex", justifyContent: "space-between" }}
+										sx={{
+											display: "flex",
+											justifyContent: "space-between",
+											flexDirection: "column",
+										}}
 									>
-										<Typography variant="body1" gutterBottom>
-											{file}
-										</Typography>
+										{patient.files.map((file) => {
+											return (
+												<Box
+													component={"div"}
+													onClick={() => {
+														fileClicked(file);
+													}}
+													key={file}
+													sx={{
+														display: "flex",
+														justifyContent: "space-between",
+														cursor: "pointer",
+														"&:hover": {
+															color: "blue",
+															textDecoration: "underline",
+															textDecorationColor: "blue",
+														},
+													}}
+												>
+													<Typography variant="body1" gutterBottom>
+														{file}
+													</Typography>
+												</Box>
+											);
+										})}
 									</Box>
 								) : (
 									<Typography variant="body1" gutterBottom>

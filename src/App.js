@@ -1,13 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { useEffect } from "react";
-import {
-	RouterProvider,
-	Link,
-	Switch,
-	Outlet,
-	createBrowserRouter,
-} from "react-router-dom";
+import { RouterProvider, Outlet, createHashRouter } from "react-router-dom";
 import NavBar from "./components/navBar";
 import Patients from "./pages/patients";
 import Appointments from "./pages/appointments";
@@ -17,6 +11,7 @@ import AddPatient from "./pages/addPatient";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Patient from "./pages/patient";
+import PatientFile from "./pages/patientFile";
 
 const Template = () => {
 	return (
@@ -27,7 +22,7 @@ const Template = () => {
 	);
 };
 
-const HashRouter = createBrowserRouter([
+const HashRouter = createHashRouter([
 	{
 		path: "/",
 		element: <Template />,
@@ -57,6 +52,10 @@ const HashRouter = createBrowserRouter([
 	{
 		path: "/add-patient",
 		element: <AddPatient />,
+	},
+	{
+		path: "/patient-file",
+		element: <PatientFile />,
 	},
 ]);
 
