@@ -7,10 +7,9 @@
 	"dependencies": {
 		"@emotion/react": "^11.11.1",
 		"@emotion/styled": "^11.11.0",
-		"@fullcalendar/daygrid": "^6.1.8",
 		"@fullcalendar/interaction": "^6.1.8",
+		"@fullcalendar/list": "^6.1.8",
 		"@fullcalendar/react": "^6.1.8",
-		"@fullcalendar/timegrid": "^6.1.8",
 		"@mui/icons-material": "^5.11.16",
 		"@mui/material": "^5.13.6",
 		"@mui/x-date-pickers": "^6.9.0",
