@@ -3,7 +3,9 @@
 	"version": "0.1.0",
 	"description": "Streamline medical care and research. Digitize patient data, enhance accessibility, optimize healthcare workflows.",
 	"private": true,
-	"main": "main.js",
+	"main": "public/main.js",
+	"homepage": "./",
+	"productName": "MediLink Pro",
 	"dependencies": {
 		"@emotion/react": "^11.11.1",
 		"@emotion/styled": "^11.11.0",
@@ -18,8 +20,6 @@
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^13.5.0",
 		"dayjs": "^1.11.8",
-		"electron": "^25.2.0",
-		"electron-reload": "^2.0.0-alpha.1",
 		"moment": "^2.29.4",
 		"mongoose": "^7.3.1",
 		"react": "^18.2.0",
@@ -27,15 +27,18 @@
 		"react-dom": "^18.2.0",
 		"react-router-dom": "^6.14.0",
 		"react-scripts": "5.0.1",
-		"web-vitals": "^2.1.4"
+		"web-vitals": "^2.1.4",
+		"electron-reload": "^2.0.0-alpha.1",
+		"electron": "^25.2.0"
 	},
 	"scripts": {
 		"start": "react-scripts start",
-		"build": "react-scripts build",
+		"prebuild": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"electron": "electron .",
-		"dev": "concurrently \"npm start\" \"electron .\""
+		"dev": "concurrently \"npm start\" \"electron .\"",
+		"package": "electron-builder build --mac -c.extraMetadata.main=build/main.js --publish never"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -57,5 +60,15 @@
 	},
 	"devDependencies": {
 		"concurrently": "^8.2.0"
+	},
+	"build": {
+		"appId": "com.example.electron-cra",
+		"files": [
+			"build/**/*",
+			"node_modules/**/*"
+		],
+		"directories": {
+			"buildResources": "assets"
+		}
 	}
 }

@@ -32,7 +32,14 @@ async function createWindow() {
 		},
 	});
 	// Load the index.html file of the application
-	mainWindow.loadURL("http://localhost:3000/patients");
+	const startUrl =
+		process.env.ELECTRON_START_URL ||
+		url.format({
+			pathname: path.join(__dirname, "../index.html"),
+			protocol: "file:",
+			slashes: true,
+		});
+	mainWindow.loadURL(startUrl);
 }
 
 // Event listener for when Electron has finished initialization

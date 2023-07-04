@@ -1,5 +1,6 @@
-import { Box, Typography } from "@mui/material";
-import React from "react";
+import { Box, CircularProgress } from "@mui/material";
+import React, { useEffect, useRef } from "react";
+import useInit from "../hooks/useInit";
 
 /*
 
@@ -37,10 +38,45 @@ import React from "react";
 */
 
 const InitPage = () => {
+	const { intitializing } = useInit();
+	const videoRef = useRef();
+	useEffect(() => {
+		videoRef.current.play();
+	}, []);
 	return (
-		<Box>
-			<img src="/favicon.ico" alt="logo" />
-			{intitialzing && <Typography variant="h1">Intitialzing</Typography>}
+		<Box
+			sx={{
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center",
+				flexDirection: "column",
+				height: "100vh",
+				width: "100vw",
+				backgroundColor: "#42a5f5",
+			}}
+		>
+			<video
+				ref={videoRef}
+				autoPlay
+				loop
+				muted
+				style={{
+					position: "absolute",
+					width: "100vw",
+					height: "100vh",
+					objectFit: "cover",
+				}}
+			>
+				<source src="/loading.mp4" type="video/mp4" />
+			</video>
+			<CircularProgress
+				title="Loading"
+				sx={{
+					color: "white",
+					position: "absolute",
+					top: "80%",
+				}}
+			/>
 		</Box>
 	);
 };

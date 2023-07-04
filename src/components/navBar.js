@@ -42,7 +42,7 @@ const NavBar = () => {
 					cursor: "pointer",
 				}}
 				onClick={() => {
-					navigate("/");
+					navigate("#/");
 				}}
 				src="/favicon.ico"
 				alt="MediLink Pro Logo"
@@ -53,22 +53,22 @@ const NavBar = () => {
 				sx={{
 					pl: "7rem",
 					flexGrow: 1,
-					color: "white",	
+					color: "white",
 					fontWeight: "bold",
 				}}
 			>
-				<Link sx={{ textDecoration: "none", color: "white" }} href="/"></Link>
+				<Link sx={{ textDecoration: "none", color: "white" }} href="#/"></Link>
 			</Typography>
-			<Link sx={linkStyle} href="/">
+			<Link sx={linkStyle} href="#/">
 				Dashboard
 			</Link>
-			<Link sx={linkStyle} href="/patients">
+			<Link sx={linkStyle} href="#/patients">
 				Patients
 			</Link>
-			<Link sx={linkStyle} href="/appointments">
+			<Link sx={linkStyle} href="#/appointments">
 				Appointments
 			</Link>
-			<Link mr={"3rem"} sx={linkStyle} href="/search">
+			<Link mr={"3rem"} sx={linkStyle} href="#/search">
 				<Search />
 			</Link>
 		</Box>
