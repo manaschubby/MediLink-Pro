@@ -6,7 +6,6 @@ import usePatients from "../hooks/usePatients";
 import dayjs from "dayjs";
 
 const Dashboard = () => {
-	
 	const { patients } = usePatients();
 	console.log(patients);
 
@@ -18,9 +17,7 @@ const Dashboard = () => {
 					return new Date(diagnosis2.date) - new Date(diagnosis1.date);
 				}
 			)[0];
-			return (
-				dayjs(latestDiagnosis.date).format("DD/MM/YYYY")
-			);
+			return dayjs(latestDiagnosis.date).format("DD/MM/YYYY");
 		}
 		return "";
 	};
@@ -59,23 +56,30 @@ const Dashboard = () => {
 							}}
 						>
 							<Typography variant="h5">Upcoming Appointments</Typography>
-							<Button href="/appointments" variant="text">View All</Button>
+							<Button href="#/appointments" variant="text">
+								View All
+							</Button>
 						</Box>
 						<Box sx={{ display: "flex", flexDirection: "column", mt: "1rem" }}>
 							<Box sx={{ display: "flex", justifyContent: "space-between" }}>
 								<Typography variant="h6">Patient Name</Typography>
 								<Typography variant="h6">Date</Typography>
 							</Box>
-							{patients.filter((patient)=>(!patient.inReview)).map((patient) => (
-							<Box
-								mt={"1rem"}
-								sx={{ display: "flex", justifyContent: "space-between" }}
-							>
-								<Typography variant="body1">{patient.firstName} {patient.lastName}</Typography>
-								<Typography variant="body1">{patient.diagnosis.length > 0 && renderDiagnosis(patient)}</Typography>
-							
-							</Box>
-						))}
+							{patients
+								.filter((patient) => !patient.inReview)
+								.map((patient) => (
+									<Box
+										mt={"1rem"}
+										sx={{ display: "flex", justifyContent: "space-between" }}
+									>
+										<Typography variant="body1">
+											{patient.firstName} {patient.lastName}
+										</Typography>
+										<Typography variant="body1">
+											{patient.diagnosis.length > 0 && renderDiagnosis(patient)}
+										</Typography>
+									</Box>
+								))}
 						</Box>
 					</Box>
 					<Box
@@ -96,7 +100,7 @@ const Dashboard = () => {
 							}}
 						>
 							<Typography variant="h5">Active Patients</Typography>
-							<Button href="/patients" variant="text">
+							<Button href="#/patients" variant="text">
 								View All
 							</Button>
 						</Box>
@@ -110,16 +114,21 @@ const Dashboard = () => {
 							<Typography variant="h6">Patient Name</Typography>
 							<Typography variant="h6">Next Action</Typography>
 						</Box>
-						{patients.filter((patient)=>patient.inReview).map((patient) => (
-							<Box
-								mt={"1rem"}
-								sx={{ display: "flex", justifyContent: "space-between" }}
-							>
-								<Typography variant="body1">{patient.firstName} {patient.lastName}</Typography>
-								<Typography variant="body1">{patient.diagnosis.length > 0 && renderDiagnosis(patient)}</Typography>
-							
-							</Box>
-						))}
+						{patients
+							.filter((patient) => patient.inReview)
+							.map((patient) => (
+								<Box
+									mt={"1rem"}
+									sx={{ display: "flex", justifyContent: "space-between" }}
+								>
+									<Typography variant="body1">
+										{patient.firstName} {patient.lastName}
+									</Typography>
+									<Typography variant="body1">
+										{patient.diagnosis.length > 0 && renderDiagnosis(patient)}
+									</Typography>
+								</Box>
+							))}
 					</Box>
 				</Box>
 			</Box>

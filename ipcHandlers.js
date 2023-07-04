@@ -6,6 +6,15 @@ const {
 	Medication,
 	Medicine,
 } = require("./database/schemas");
+const fs = require("fs");
+const Store = require("./store.js");
+const store = new Store({
+	// We'll call our data file 'user-preferences'
+	configName: "user-preferences",
+	defaults: {
+		patientFilePath: "unset",
+	},
+});
 
 /*
  * Get all patients
@@ -38,7 +47,7 @@ const getPatients = async (event, ipcMain) => {
 };
 
 const getPatient = async (event, arg) => {
-	const patient = await Patient.findById(arg)
+	let patient = await Patient.findById(arg)
 		.populate("symptoms")
 		.populate({
 			path: "diagnosis",
@@ -57,7 +66,16 @@ const getPatient = async (event, arg) => {
 			path: "visitHistory",
 			populate: { path: "patient" },
 		});
-	return event.reply("patient", JSON.stringify(patient));
+	if (
+		fs.existsSync(store.get("patientFilePath") + "/" + patient._id) === false
+	) {
+		return event.reply("patient", JSON.stringify(patient));
+	}
+	const sendPatient = {
+		...patient._doc,
+		files: fs.readdirSync(store.get("patientFilePath") + "/" + patient._id),
+	};
+	return event.reply("patient", JSON.stringify(sendPatient));
 };
 
 /*
@@ -281,6 +299,70 @@ const addNewDiagnosisToPatient = async (event, arg) => {
 		});
 };
 
+// Add File Handler
+const addFile = async (e, arg, result) => {
+	try {
+		if (
+			fs.existsSync(store.get("patientFilePath") + "/" + arg.toString()) ===
+			false
+		) {
+			fs.mkdirSync(store.get("patientFilePath") + "/" + arg.toString());
+		}
+		// Check if file already exists
+		if (
+			fs.existsSync(
+				store.get("patientFilePath") +
+					"/" +
+					arg.toString() +
+					"/" +
+					result.filePaths[0].split("\\").pop().split("/").pop()
+			) === true
+		) {
+			// change file name
+			const file_name = result.filePaths[0].split("\\").pop().split("/").pop();
+			const file_extension = file_name.split(".").pop();
+			const file_name_without_extension = file_name
+				.split(".")
+				.slice(0, -1)
+				.join(".");
+			const new_file_name =
+				file_name_without_extension + " (1)." + file_extension;
+
+			// and copy
+			fs.copyFileSync(
+				result.filePaths[0],
+				store.get("patientFilePath") +
+					"/" +
+					arg.toString() +
+					"/" +
+					new_file_name,
+				fs.constants.COPYFILE_FICLONE
+			);
+			e.reply(
+				"file-path",
+				store.get("patientFilePath") +
+					"/" +
+					arg.toString() +
+					"/" +
+					new_file_name
+			);
+			return;
+		}
+		fs.copyFileSync(
+			result.filePaths[0],
+			store.get("patientFilePath") +
+				"/" +
+				arg.toString() +
+				"/" +
+				result.filePaths[0].split("\\").pop().split("/").pop(),
+			fs.constants.COPYFILE_FICLONE
+		);
+		e.reply("file-path", result.filePaths[0]);
+	} catch (err) {
+		console.log(err);
+	}
+};
+
 module.exports = {
 	getPatients,
 	createPatient,
@@ -288,4 +370,5 @@ module.exports = {
 	makePatientActive,
 	makePatientInactive,
 	addNewDiagnosisToPatient,
+	addFile,
 };

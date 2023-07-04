@@ -199,7 +199,6 @@ const appointmentSchema = new mongoose.Schema({
 	patient: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Patient",
-		required: true,
 	},
 	date: {
 		type: Date,
@@ -207,8 +206,8 @@ const appointmentSchema = new mongoose.Schema({
 	},
 	info: {
 		type: "String",
-		required: false
-	}
+		required: false,
+	},
 	// Add more fields related to appointments as needed
 });
 

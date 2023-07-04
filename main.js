@@ -12,27 +12,57 @@ const {
 	makePatientActive,
 	makePatientInactive,
 	addNewDiagnosisToPatient,
+	addFile,
 } = require("./ipcHandlers");
+const fs = require("fs");
 const { createPatient } = require("./ipcHandlers");
+const Store = require("./store.js");
 // Enable live reload for all the files inside the project directory
 require("electron-reload")(__dirname, {
 	electron: require(`${__dirname}/node_modules/electron`),
 });
 
+const store = new Store({
+	// We'll call our data file 'user-preferences'
+	configName: "user-preferences",
+	defaults: {
+		// 800x600 is the default size of our window
+		patientFilePath: "unset",
+	},
+});
+
 async function createWindow() {
-	const mainWindow = new BrowserWindow({
-		width: 1000,
-		height: 600,
-		minWidth: 780,
-		minHeight: 600,
-		webPreferences: {
-			nodeIntegration: true,
-			contextIsolation: false,
-			enableRemoteModule: true,
-		},
-	});
-	// Load the index.html file of the application
-	mainWindow.loadURL("http://localhost:3000/patients");
+	if (store.get("patientFilePath") === "unset") {
+		// Open a window to ask user to select a patient file
+		const patientFileWindow = new BrowserWindow({
+			width: 900,
+			height: 600,
+			webPreferences: {
+				nodeIntegration: true,
+				contextIsolation: false,
+				enableRemoteModule: true,
+			},
+		});
+		patientFileWindow.removeMenu();
+		patientFileWindow.loadURL("http://localhost:3000/patient-file");
+		patientFileWindow.once("ready-to-show", () => {
+			patientFileWindow.show();
+		});
+	} else {
+		const mainWindow = new BrowserWindow({
+			width: 1000,
+			height: 600,
+			minWidth: 780,
+			minHeight: 600,
+			webPreferences: {
+				nodeIntegration: true,
+				contextIsolation: false,
+				enableRemoteModule: true,
+			},
+		});
+		// Load the index.html file of the application
+		mainWindow.loadURL("http://localhost:3000/patients");
+	}
 }
 
 // Event listener for when Electron has finished initialization
@@ -107,9 +137,40 @@ ipcMain.on("add-file", (e, arg) => {
 		})
 		.then((result) => {
 			if (!result.canceled) {
-				e.reply("file-path", result.filePaths[0]);
+				addFile(e, arg, result);
 			}
 		});
+});
+
+// Event listeners for selecting file location to store patient files
+ipcMain.on("file-location-select", (e, arg) => {
+	const currentWindow = BrowserWindow.getFocusedWindow();
+	dialog
+		.showOpenDialog(currentWindow, {
+			properties: ["openDirectory", "createDirectory"],
+		})
+		.then((result) => {
+			if (!result.canceled) {
+				e.reply("file-location", result.filePaths[0]);
+			}
+		});
+});
+ipcMain.on("file-location-submit", (e, arg) => {
+	const currentWindow = BrowserWindow.getFocusedWindow();
+	if (arg) {
+		// Check if file path is valid and accessible
+		fs.access(arg, fs.constants.W_OK, (err) => {
+			if (err) {
+				e.reply("file-location-error", true);
+			} else {
+				store.set("patientFilePath", arg);
+				currentWindow.hide();
+				createWindow();
+			}
+		});
+	} else {
+		e.reply("file-location-error", true);
+	}
 });
 
 // Event listeners for making patients active or inactive

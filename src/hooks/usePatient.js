@@ -64,6 +64,12 @@ export default function usePatient(id) {
 			});
 		});
 	};
+	const fileClicked = (file) => {
+		ipcRenderer.send("file-clicked", {
+			patientId: patient._id,
+			file,
+		});
+	};
 
 	return {
 		patient,
@@ -71,6 +77,7 @@ export default function usePatient(id) {
 		makePatientActive,
 		makePatientInactive,
 		addNewDiagnosis,
-		addNewAppointment
+		addNewAppointment,
+		fileClicked,
 	};
 }
