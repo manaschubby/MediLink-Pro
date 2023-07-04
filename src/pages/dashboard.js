@@ -7,10 +7,10 @@ import dayjs from "dayjs";
 
 const Dashboard = () => {
 	const { patients } = usePatients();
-	console.log(patients);
+	// console.log(patients);
 
 	const renderDiagnosis = (patient) => {
-		console.log(patient.diagnosis);
+		// console.log(patient.diagnosis);
 		if (patient.diagnosis.length > 0) {
 			const latestDiagnosis = patient.diagnosis.sort(
 				(diagnosis1, diagnosis2) => {
