@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import useAddFile from "../hooks/useAddFile";
 import AddDiagnosis from "../components/patients/addDiagnosis";
 import AddMedication from "../components/patients/addMedication";
+import AddAppointment from "../components/patients/addAppointment";
 
 const Patient = () => {
 	const { id } = useParams();
@@ -28,6 +29,7 @@ const Patient = () => {
 		makePatientActive,
 		makePatientInactive,
 		addNewDiagnosis,
+		addNewAppointment,
 	} = usePatient(id);
 	const isTabletOrMobile = useMediaQuery("(max-width: 1224px)");
 
@@ -59,50 +61,11 @@ const Patient = () => {
 		>
 			<SideBar type="patient" />
 
-			<Dialog open={addAppointmentOpen}>
-				{/* Changes left */}
-				<Box
-					sx={{
-						display: "flex",
-						flexDirection: "column",
-						gap: "1rem",
-						padding: "1rem",
-					}}
-				>
-					<Typography variant="h4">Add Appointment</Typography>
-					<Box
-						sx={{
-							display: "flex",
-							flexDirection: "column",
-							gap: "1rem",
-						}}
-					>
-						<Typography variant="h6">Date</Typography>
-						<Typography variant="h6">Time</Typography>
-						<Typography variant="h6">Notes</Typography>
-					</Box>
-					<Box
-						sx={{
-							display: "flex",
-							justifyContent: "flex-end",
-							gap: "1rem",
-						}}
-					>
-						<Button
-							onClick={() => {
-								setAddAppointmentOpen(false);
-							}}
-							variant="contained"
-							color="error"
-						>
-							Cancel
-						</Button>
-						<Button variant="contained" color="success">
-							Add
-						</Button>
-					</Box>
-				</Box>
-			</Dialog>
+			<AddAppointment
+				open={addAppointmentOpen}
+				setOpen={setAddAppointmentOpen}
+				addNewAppointment={addNewAppointment}
+			/>
 			<AddDiagnosis
 				open={addDiagnosisOpen}
 				setOpen={setAddDiagnosisOpen}

@@ -21,7 +21,8 @@ const Appointments = () => {
           margin: "20px",
 		  marginLeft:"6%",
 		  padding:"2%",
-		
+      height:"auto"
+
         }}
       >
         <Calendar />

@@ -168,7 +168,7 @@ patientSchema.statics.findPatientByMedicine = async function (medicineName) {
 
 patientSchema.statics.findPatientBySymptom = async function (symptom) {
 	const patients = await this.find({
-		symptoms: { $elemMatch: { name: { $regex: symptomName, $options: "i" } } },
+		symptoms: { $elemMatch: { name: { $regex: symptom, $options: "i" } } },
 	}).exec();
 	return patients;
 };
@@ -205,6 +205,10 @@ const appointmentSchema = new mongoose.Schema({
 		type: Date,
 		required: true,
 	},
+	info: {
+		type: "String",
+		required: false
+	}
 	// Add more fields related to appointments as needed
 });
 
