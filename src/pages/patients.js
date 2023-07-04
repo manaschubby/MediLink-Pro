@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import SideBar from "../components/sideBar";
 import usePatients from "../hooks/usePatients";
 import { useMemo, useState } from "react";
@@ -7,17 +7,17 @@ const electron = window.require("electron");
 const { ipcRenderer } = electron;
 
 const Patients = () => {
-	const { patients, patientsLoaded, reloadPatients } = usePatients();
+	const { patients } = usePatients();
 	const [selectedFilter, setSelectedFilter] = useState("All");
 	const patientList = useMemo(() => {
 		return patients.filter((patient) => {
-			if (selectedFilter == "All") {
+			if (selectedFilter === "All") {
 				return true;
-			} else if (selectedFilter == "Active") {
+			} else {
 				return patient.inReview;
 			}
 		});
-	}, [patients, selectedFilter, patientsLoaded]);
+	}, [patients, selectedFilter]);
 
 	const handleAddPatient = () => {
 		ipcRenderer.send("add-patient");
@@ -56,7 +56,7 @@ const Patients = () => {
 						{patientList.length > 0 && (
 							<Typography variant="h6">
 								{patientList.length}{" "}
-								{selectedFilter == "All" ? "Patients" : "Active Patients"}
+								{selectedFilter === "All" ? "Patients" : "Active Patients"}
 							</Typography>
 						)}
 					</Box>

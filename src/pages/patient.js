@@ -1,10 +1,9 @@
-import React, { useRef } from "react";
+import React from "react";
 import SideBar from "../components/sideBar";
 import {
 	Box,
 	Button,
 	CircularProgress,
-	Dialog,
 	Modal,
 	Typography,
 	useMediaQuery,
@@ -22,7 +21,7 @@ const Patient = () => {
 	const { id } = useParams();
 
 	// Hooks
-	const { showAddFile, file } = useAddFile();
+	const { showAddFile } = useAddFile();
 	const {
 		patient,
 		patientLoaded,

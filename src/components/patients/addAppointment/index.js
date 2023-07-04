@@ -20,18 +20,22 @@ const AddAppointment = (props) => {
 		setAlertMessage(message);
 		setAlertAccept(accept);
 		setAlertOpen(true);
-	};	
+	};
 
 	const handleAddAppointment = () => {
 		// Validate
 		if (appointmentRef.current.value === "") {
-			alert("Error", "Please enter a appointment name.", null);
+			alert(
+				"Error",
+				"Please enter a appointment name. Like: CT Scan, Clinic Review, Follow-up",
+				null
+			);
 			return;
 		}
 		const newAppointment = {
 			name: appointmentRef.current.value,
 			date: new Date(dateOfAppointment),
-			info: appointmentInfoRef.current.value
+			info: appointmentInfoRef.current.value,
 		};
 		addNewAppointment(newAppointment);
 		appointmentRef.current.value = "";
@@ -39,10 +43,8 @@ const AddAppointment = (props) => {
 		setOpen(false);
 	};
 
-
 	return (
 		<Dialog open={open}>
-        
 			<Alert
 				open={alertOpen}
 				setOpen={setAlertOpen}
@@ -138,5 +140,3 @@ const AddAppointment = (props) => {
 };
 
 export default AddAppointment;
-
-

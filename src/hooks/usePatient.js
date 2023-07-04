@@ -16,7 +16,7 @@ export default function usePatient(id) {
 		return () => {
 			ipcRenderer.removeAllListeners("patient");
 		};
-	}, []);
+	}, [id]);
 
 	const patientWithActive = (active) => {
 		return {

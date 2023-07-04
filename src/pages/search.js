@@ -3,19 +3,13 @@ import {
 	Button,
 	CircularProgress,
 	Dialog,
-	InputLabel,
-	Menu,
 	MenuItem,
 	Select,
 	TextField,
 	Typography,
 } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
 
 import React, { useRef } from "react";
-const electron = window.require("electron");
-const { ipcRenderer } = electron;
 const AddPatient = () => {
 	// State Variables
 	const [loadingOpen, setLoadingOpen] = React.useState(false);
@@ -193,7 +187,7 @@ const AddPatient = () => {
 							<Typography variant="body1">{symptom}</Typography>
 							<Button
 								onClick={() => {
-									setSymptoms(symptoms.filter((symptom, i) => i != index));
+									setSymptoms(symptoms.filter((symptom, i) => i !== index));
 								}}
 								variant="text"
 								color="error"
@@ -255,7 +249,7 @@ const AddPatient = () => {
 							<Typography variant="body1">{diagnosis}</Typography>
 							<Button
 								onClick={() => {
-									setDiagnosis(diagnosis.filter((diagnosis, i) => i != index));
+									setDiagnosis(diagnosis.filter((diagnosis, i) => i !== index));
 								}}
 								variant="text"
 								color="error"
@@ -319,7 +313,7 @@ const AddPatient = () => {
 							<Button
 								onClick={() => {
 									setMedications(
-										medications.filter((medication, i) => i != index)
+										medications.filter((medication, i) => i !== index)
 									);
 								}}
 								variant="text"
