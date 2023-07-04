@@ -5,15 +5,15 @@ const {
 	ipcRenderer,
 	dialog,
 } = require("electron");
-const connectDB = require("./database/connectDB");
+const connectDB = require("./public/database/connectDB");
 const {
 	getPatients,
 	getPatient,
 	makePatientActive,
 	makePatientInactive,
 	addNewDiagnosisToPatient,
-} = require("./ipcHandlers");
-const { createPatient } = require("./ipcHandlers");
+} = require("./public/ipcHandlers");
+const { createPatient } = require("./public/ipcHandlers");
 // Enable live reload for all the files inside the project directory
 require("electron-reload")(__dirname, {
 	electron: require(`${__dirname}/node_modules/electron`),

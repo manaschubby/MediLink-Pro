@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"description": "Streamline medical care and research. Digitize patient data, enhance accessibility, optimize healthcare workflows.",
 	"private": true,
-	"main": "public/main.js",
+	"main": "./main.js",
 	"homepage": "./",
 	"productName": "MediLink Pro",
 	"dependencies": {
