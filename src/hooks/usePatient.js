@@ -43,11 +43,11 @@ export default function usePatient(id) {
 			patientId: patient._id,
 			diagnosis,
 		});
-		ipcRenderer.on("patient-diagnosis-added", (event, patient) => {
-			console.log(patient);
+		ipcRenderer.on("patient-diagnosis-added", (event, newPatient) => {
+			console.log(newPatient);
 			setPatient({
 				...patient,
-				diagnosis: JSON.parse(patient).diagnosis,
+				diagnosis: JSON.parse(newPatient).diagnosis,
 			});
 		});
 	};
@@ -56,11 +56,11 @@ export default function usePatient(id) {
 			patientId: patient._id,
 			...appointment,
 		});
-		ipcRenderer.on("patient-appointment-added", (event, patient) => {
-			console.log(patient);
+		ipcRenderer.on("patient-appointment-added", (event, newPatient) => {
+			console.log(newPatient);
 			setPatient({
 				...patient,
-				appointment: JSON.parse(patient).appointment,
+				appointment: JSON.parse(newPatient).appointment,
 			});
 		});
 	};
