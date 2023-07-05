@@ -1,74 +1,83 @@
 {
-	"name": "medilink-pro",
-	"version": "0.1.0",
-	"description": "Streamline medical care and research. Digitize patient data, enhance accessibility, optimize healthcare workflows.",
-	"private": true,
-	"main": "public/main.js",
-	"homepage": "./",
-	"productName": "MediLink Pro",
-	"dependencies": {
-		"@emotion/react": "^11.11.1",
-		"@emotion/styled": "^11.11.0",
-		"@fullcalendar/daygrid": "^6.1.8",
-		"@fullcalendar/interaction": "^6.1.8",
-		"@fullcalendar/react": "^6.1.8",
-		"@fullcalendar/timegrid": "^6.1.8",
-		"@mui/icons-material": "^5.11.16",
-		"@mui/material": "^5.13.6",
-		"@mui/x-date-pickers": "^6.9.0",
-		"@testing-library/jest-dom": "^5.16.5",
-		"@testing-library/react": "^13.4.0",
-		"@testing-library/user-event": "^13.5.0",
-		"dayjs": "^1.11.8",
-		"moment": "^2.29.4",
-		"mongoose": "^7.3.1",
-		"react": "^18.2.0",
-		"react-big-calendar": "^1.8.1",
-		"react-dom": "^18.2.0",
-		"react-router-dom": "^6.14.0",
-		"react-scripts": "5.0.1",
-		"web-vitals": "^2.1.4",
-		"electron-reload": "^2.0.0-alpha.1",
-		"electron": "^25.2.0"
-	},
-	"scripts": {
-		"start": "react-scripts start",
-		"prebuild": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject",
-		"electron": "electron .",
-		"dev": "concurrently \"npm start\" \"electron .\"",
-		"package": "electron-builder build --mac -c.extraMetadata.main=build/main.js --publish never"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		]
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	},
-	"devDependencies": {
-		"concurrently": "^8.2.0"
-	},
-	"build": {
-		"appId": "com.example.electron-cra",
-		"files": [
-			"build/**/*",
-			"node_modules/**/*"
-		],
-		"directories": {
-			"buildResources": "assets"
-		}
-	}
+  "name": "medilink-pro",
+  "version": "0.1.0",
+  "description": "Streamline medical care and research. Digitize patient data, enhance accessibility, optimize healthcare workflows.",
+  "private": true,
+  "author": "put author name here",
+  "main": "./main.js",
+  "homepage": "./",
+  "productName": "MediLink Pro",
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@fullcalendar/daygrid": "^6.1.8",
+    "@fullcalendar/interaction": "^6.1.8",
+    "@fullcalendar/react": "^6.1.8",
+    "@fullcalendar/timegrid": "^6.1.8",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.13.6",
+    "@mui/x-date-pickers": "^6.9.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "dayjs": "^1.11.8",
+    "electron-reload": "^2.0.0-alpha.1",
+    "electron-squirrel-startup": "^1.0.0",
+    "moment": "^2.29.4",
+    "mongoose": "^7.3.1",
+    "react": "^18.2.0",
+    "react-big-calendar": "^1.8.1",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "electron-forge start",
+    "prebuild": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "dev": "concurrently \"npm start\" \"electron .\"",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.2.1",
+    "@electron-forge/maker-deb": "^6.2.1",
+    "@electron-forge/maker-rpm": "^6.2.1",
+    "@electron-forge/maker-squirrel": "^6.2.1",
+    "@electron-forge/maker-zip": "^6.2.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^6.2.1",
+    "concurrently": "^8.2.0",
+    "electron": "^25.2.0"
+  },
+  "build": {
+    "appId": "com.example.electron-cra",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  }
 }
