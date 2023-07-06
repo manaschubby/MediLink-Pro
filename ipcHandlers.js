@@ -303,7 +303,19 @@ const addNewDiagnosisToPatient = async (event, arg) => {
 // Add Appointment to Patient
 const addNewAppointmentToPatient = async (event, arg) => {
 	const newAppointment = await Appointment.create(arg);
-	event.reply("patient-appointment-added", JSON.stringify(newAppointment));
+	const newPatient = await Patient.findByIdAndUpdate(
+		arg.patient,
+		{
+			$push: {
+				appointments: newAppointment._id,
+			},
+		},
+		{ new: true }
+	).populate({
+		path: "appointments",
+		populate: { path: "patient", model: "Patient" },
+	});
+	event.reply("patient-appointment-added", JSON.stringify(newPatient));
 };
 
 // Add File Handler
@@ -370,6 +382,14 @@ const addFile = async (e, arg, result) => {
 	}
 };
 
+// Appointments
+const getAppointments = async (event, arg) => {
+	const appointments = await Appointment.find({})
+		.sort({ date: -1 })
+		.populate("patient");
+	return event.reply("appointments", JSON.stringify(appointments));
+};
+
 module.exports = {
 	getPatients,
 	createPatient,
@@ -379,4 +399,5 @@ module.exports = {
 	addNewDiagnosisToPatient,
 	addNewAppointmentToPatient,
 	addFile,
+	getAppointments,
 };
