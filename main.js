@@ -45,7 +45,7 @@ async function createWindow() {
 			},
 		});
 		patientFileWindow.removeMenu();
-		patientFileWindow.loadURL("http://localhost:3000/patient-file");
+		patientFileWindow.loadURL("http://localhost:3000#/patient-file");
 		patientFileWindow.once("ready-to-show", () => {
 			patientFileWindow.show();
 		});
@@ -194,5 +194,5 @@ ipcMain.on("add-appointment", (e, arg) => {
 
 // Event listener for searching patients
 ipcMain.on("search-patients", (e, arg) => {
-	return searchPatients(e, arg);
+	// return searchPatients(e, arg);
 });
