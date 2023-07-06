@@ -89,7 +89,7 @@ const AddAppointment = (props) => {
 							mt: "1rem",
 							mr: "1rem",
 						}}
-						maxDate={dayjs(new Date())}
+						minDate={dayjs(new Date())}
 						onChange={(newValue) => {
 							setDateOfAppointment(newValue);
 						}}

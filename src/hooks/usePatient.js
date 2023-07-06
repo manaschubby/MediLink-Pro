@@ -53,14 +53,14 @@ export default function usePatient(id) {
 	};
 	const addNewAppointment = (appointment) => {
 		ipcRenderer.send("add-appointment", {
-			patientId: patient._id,
+			patient: patient._id,
 			...appointment,
 		});
 		ipcRenderer.on("patient-appointment-added", (event, newPatient) => {
 			console.log(newPatient);
 			setPatient({
 				...patient,
-				appointment: JSON.parse(newPatient).appointment,
+				appointments: JSON.parse(newPatient).appointments,
 			});
 		});
 	};

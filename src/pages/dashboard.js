@@ -4,13 +4,13 @@ import { Box, Button, Typography } from "@mui/material";
 
 import usePatients from "../hooks/usePatients";
 import dayjs from "dayjs";
+import useDashboard from "../hooks/useDashboard";
 
 const Dashboard = () => {
-	const { patients } = usePatients();
-	// console.log(patients);
+
+	const { patients, appointments, dashboardLoaded } = useDashboard();
 
 	const renderDiagnosis = (patient) => {
-		// console.log(patient.diagnosis);
 		if (patient.diagnosis.length > 0) {
 			const latestDiagnosis = patient.diagnosis.sort(
 				(diagnosis1, diagnosis2) => {
@@ -65,18 +65,33 @@ const Dashboard = () => {
 								<Typography variant="h6">Patient Name</Typography>
 								<Typography variant="h6">Date</Typography>
 							</Box>
-							{patients
-								.filter((patient) => !patient.inReview)
-								.map((patient) => (
+							{appointments
+								.filter((appointment) => {
+									// Get all appointments that are in the future
+									return new Date(appointment.date) > new Date();
+								})
+								.sort((appointment1, appointment2) => {
+									return (
+										new Date(appointment1.date) - new Date(appointment2.date)
+									);
+								})
+								.map((appointment) => (
 									<Box
 										mt={"1rem"}
-										sx={{ display: "flex", justifyContent: "space-between" }}
+										sx={{
+											display: "flex",
+											justifyContent: "space-between",
+										}}
 									>
 										<Typography variant="body1">
-											{patient.firstName} {patient.lastName}
+											{appointment.patient.firstName}{" "}
+											{appointment.patient.lastName}
 										</Typography>
 										<Typography variant="body1">
-											{patient.diagnosis.length > 0 && renderDiagnosis(patient)}
+											{dayjs(appointment.date).format("DD/MM/YYYY")}
+										</Typography>
+										<Typography variant="body1">
+											{appointment.info.length > 0 && appointment.info}
 										</Typography>
 									</Box>
 								))}
