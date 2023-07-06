@@ -62,7 +62,7 @@ async function createWindow() {
 			},
 		});
 		// Load the index.html file of the application
-		mainWindow.loadURL("http://localhost:3000/patients");
+		mainWindow.loadURL("http://localhost:3000#/patients");
 	}
 }
 
@@ -116,7 +116,7 @@ ipcMain.on("add-patient", (e, arg) => {
 		},
 	});
 	addPatientWindow.removeMenu();
-	addPatientWindow.loadURL("http://localhost:3000/add-patient");
+	addPatientWindow.loadURL("http://localhost:3000#/add-patient");
 	addPatientWindow.once("ready-to-show", () => {
 		addPatientWindow.show();
 	});
