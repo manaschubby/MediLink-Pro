@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import useDashboard from "../hooks/useDashboard";
 
 const Dashboard = () => {
+
 	const { patients, appointments, dashboardLoaded } = useDashboard();
 
 	const renderDiagnosis = (patient) => {

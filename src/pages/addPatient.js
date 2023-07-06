@@ -94,7 +94,7 @@ const AddPatient = () => {
 	};
 
 	const handleAddPatient = () => {
-		console.log(dateRef.current.value);
+		// console.log(dateRef.current.value);
 		if (validate()) {
 			setLoadingOpen(true);
 

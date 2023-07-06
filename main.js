@@ -195,7 +195,7 @@ ipcMain.on("add-appointment", (e, arg) => {
 
 // Event listener for searching patients
 ipcMain.on("search-patients", (e, arg) => {
-	return searchPatients(e, arg);
+	// return searchPatients(e, arg);
 });
 
 // Event listener for getting appointments
