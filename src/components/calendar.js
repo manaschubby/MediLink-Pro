@@ -1,21 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Fullcalendar from "@fullcalendar/react";
 import listPlugin from '@fullcalendar/list';
-import usePatients from "../hooks/usePatients";
-
-
-const events = [
-  { title: "Meeting1", start: new Date(Date.parse('2023-07-05T15:51:50.417')),description: 'CT Scan'},
-  { title: "Meeting1", start: new Date(Date.parse('2023-07-05T16:51:50.417')),description: 'CT Scan'},
-  { title: "Meeting1", start: new Date(Date.parse('2023-07-05T12:51:50.417')),description: 'CT Scan'},
-  { title: "Meeting1", start: new Date(Date.parse('2023-07-05T14:51:50.417')),description: 'CT Scan'},
-  { title: "Meeting1", start: "2023-07-06",color: '#378006',description: 'CT Scan' },
-  { title: "Meeting2", start: "2023-07-05",color: '#378006' ,description: 'CT Scan'},
-];
+import useAppointments from "../hooks/useAppointments"
+import { useState } from "react";
 
 
 function Calendar() {
-  const [meetings, setMeetings] = React.useState([]);
+ 
+  const { appointments } = useAppointments();
+  const [events,setEvents]=useState([]);
+
+ function addEvents(){
+  setEvents(
+    appointments.map((meet)=>{
+      const newEvent={
+        title: meet.name,
+        start: new Date(Date.parse(meet.date)),
+        description: meet.info
+      }
+      return newEvent;
+    })
+  );
+ }
+  useEffect(()=>{
+    addEvents();
+  },[appointments]);
 
   function renderEventContent(eventInfo) {
     return (
@@ -54,9 +63,8 @@ function Calendar() {
           //show description
              alert(info.event.title +" : "+info.event.extendedProps.description);
           }}
-
-        
       />
+      
     </div>
   );
 }

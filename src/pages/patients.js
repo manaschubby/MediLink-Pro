@@ -18,6 +18,7 @@ const Patients = () => {
 			}
 		});
 	}, [patients, selectedFilter]);
+	console.log(patients);
 
 	const handleAddPatient = () => {
 		ipcRenderer.send("add-patient");
