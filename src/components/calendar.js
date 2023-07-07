@@ -45,7 +45,7 @@ function Calendar() {
       <Fullcalendar
 
         plugins={[listPlugin]}
-        initialView={"listDay"}
+        initialView={"listWeek"}
         views={
           {listDay: { buttonText: 'Day' },
           listWeek: { buttonText: 'Week' },

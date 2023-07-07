@@ -41,11 +41,15 @@ const PatientTable = (props) => {
 	};
 
 	return (
-		<div>
+		<div 
+			style={{boxShadow: "1px 1px 10px 1px #90caf9",}}
+		>
 			<TableContainer component={Paper}>
 				<Table sx={{ minWidth: 650 }} aria-label="simple table">
 					<TableHead>
-						<TableRow>
+						<TableRow sx={{
+						boxShadow:"1px 1px 2px 1px black",
+					}}>
 							<TableCell sx={{ fontWeight: "bold", fontSize: "1rem" }}>
 								Name
 							</TableCell>

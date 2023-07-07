@@ -40,7 +40,7 @@ const Patients = () => {
 					left: "80px",
 					width: "calc(100vw - 128px)",
 					height: "100%",
-					backgroundColor: "#f5f5f5",
+					backgroundColor: "white",
 					padding: "1rem",
 				}}
 			>
