@@ -72,7 +72,7 @@ const AddPatient = () => {
 				sx={{
 					width: "30%",
 					height: "calc(100vh - 5rem)",
-					backgroundColor: "#FAF9F6",
+					backgroundColor: "#F6F9F6",
 					paddingLeft: "2rem",
 					paddingRight: "2rem",
 					display: "flex",

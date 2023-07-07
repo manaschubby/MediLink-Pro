@@ -33,7 +33,7 @@ const Dashboard = () => {
 					left: "80px",
 					width: "calc(100vw - 128px)",
 					height: "100%",
-					backgroundColor: "#f5f5f5",
+					backgroundColor: "white",
 					padding: "1rem",
 				}}
 			>
@@ -47,6 +47,7 @@ const Dashboard = () => {
 							borderRadius: "0.5rem",
 							p: "1rem",
 							paddingRight: "2.5rem",
+							boxShadow: "1px 1px 10px 1px #90caf9",
 						}}
 					>
 						<Box
@@ -55,11 +56,19 @@ const Dashboard = () => {
 								justifyContent: "space-between",
 							}}
 						>
-							<Typography variant="h5">Upcoming Appointments</Typography>
+							<Typography variant="h5" style={{color:"#42a5f5"}}>Upcoming Appointments</Typography>
 							<Button href="#/appointments" variant="text">
 								View All
 							</Button>
 						</Box>
+						<hr
+							style={{
+							background: 'black',
+							color: 'black',
+							borderColor: 'black',
+							height: '0.1px',
+							}}
+						/>
 						<Box sx={{ display: "flex", flexDirection: "column", mt: "1rem" }}>
 							<Box sx={{ display: "flex", justifyContent: "space-between" }}>
 								<Typography variant="h6">Patient Name</Typography>
@@ -103,6 +112,7 @@ const Dashboard = () => {
 							p: "1rem",
 							paddingRight: "2.5rem",
 							marginRight: "3rem",
+							boxShadow: "1px 1px 10px 1px #90caf9",
 						}}
 					>
 						<Box
@@ -111,11 +121,19 @@ const Dashboard = () => {
 								justifyContent: "space-between",
 							}}
 						>
-							<Typography variant="h5">Active Patients</Typography>
+							<Typography variant="h5" style={{color:"green"}}>Active Patients</Typography>
 							<Button href="#/patients" variant="text">
 								View All
 							</Button>
 						</Box>
+						<hr
+							style={{
+							background: 'black',
+							color: 'black',
+							borderColor: 'black',
+							height: '0.1px',
+							}}
+						/>
 						<Box
 							sx={{
 								display: "flex",
