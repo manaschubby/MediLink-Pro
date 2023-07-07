@@ -56,7 +56,7 @@ const Dashboard = () => {
 								justifyContent: "space-between",
 							}}
 						>
-							<Typography variant="h5">Upcoming Appointments</Typography>
+							<Typography variant="h5" style={{color:"#42a5f5"}}>Upcoming Appointments</Typography>
 							<Button href="#/appointments" variant="text">
 								View All
 							</Button>
@@ -121,7 +121,7 @@ const Dashboard = () => {
 								justifyContent: "space-between",
 							}}
 						>
-							<Typography variant="h5">Active Patients</Typography>
+							<Typography variant="h5" style={{color:"green"}}>Active Patients</Typography>
 							<Button href="#/patients" variant="text">
 								View All
 							</Button>
