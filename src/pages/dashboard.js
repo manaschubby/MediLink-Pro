@@ -90,9 +90,6 @@ const Dashboard = () => {
 										<Typography variant="body1">
 											{dayjs(appointment.date).format("DD/MM/YYYY")}
 										</Typography>
-										<Typography variant="body1">
-											{appointment.info.length > 0 && appointment.info}
-										</Typography>
 									</Box>
 								))}
 						</Box>

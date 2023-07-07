@@ -64,6 +64,19 @@ export default function usePatient(id) {
 			});
 		});
 	};
+	const addNewReport = (report) => {
+		ipcRenderer.send("add-report", {
+			patient: patient._id,
+			...report,
+		});
+		ipcRenderer.on("patient-report-added", (event, newPatient) => {
+			console.log(newPatient);
+			setPatient({
+				...patient,
+				reports: JSON.parse(newPatient).reports,
+			});
+		});
+	};
 	const fileClicked = (file) => {
 		ipcRenderer.send("file-clicked", {
 			patientId: patient._id,
@@ -78,6 +91,7 @@ export default function usePatient(id) {
 		makePatientInactive,
 		addNewDiagnosis,
 		addNewAppointment,
+		addNewReport,
 		fileClicked,
 	};
 }
