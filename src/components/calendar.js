@@ -1,6 +1,7 @@
 import React from "react";
 import Fullcalendar from "@fullcalendar/react";
 import listPlugin from '@fullcalendar/list';
+import usePatients from "../hooks/usePatients";
 
 
 const events = [
@@ -12,30 +13,10 @@ const events = [
   { title: "Meeting2", start: "2023-07-05",color: '#378006' ,description: 'CT Scan'},
 ];
 
-// //Database
-// const eventSources= [
-
-//   // your event source
-//   {
-//     url: '/myfeed.php',
-//     method: 'POST',
-//     extraParams: {
-//       custom_param1: 'something',
-//       custom_param2: 'somethingelse'
-//     },
-//     failure: function() {
-//       alert('there was an error while fetching events!');
-//     },
-//     color: 'yellow',   // a non-ajax option
-//     textColor: 'black' // a non-ajax option
-//   }
-
-//   // any other sources...
-
-// ]
-
 
 function Calendar() {
+  const [meetings, setMeetings] = React.useState([]);
+
   function renderEventContent(eventInfo) {
     return (
       <>{/*Button */}

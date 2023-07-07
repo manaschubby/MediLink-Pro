@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Button, Dialog, Typography } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
+import { MobileDateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import Alert from "../alert";
 
@@ -81,7 +81,7 @@ const AddAppointment = (props) => {
 							}}
 						/>
 					</Typography>
-					<DatePicker
+					<MobileDateTimePicker
 						label={"Date of Appointment"}
 						value={dayjs(dateOfAppointment)}
 						sx={{
@@ -89,7 +89,7 @@ const AddAppointment = (props) => {
 							mt: "1rem",
 							mr: "1rem",
 						}}
-						maxDate={dayjs(new Date())}
+						minDate={dayjs(new Date())}
 						onChange={(newValue) => {
 							setDateOfAppointment(newValue);
 						}}

@@ -190,7 +190,6 @@ patientSchema.pre("find", function () {
 		path: "medications",
 		populate: { path: "medicine", model: "Medicine" },
 	});
-	this.populate({ path: "appointments", populate: { path: "patient" } });
 	this.populate({ path: "visitHistory", populate: { path: "patient" } });
 });
 

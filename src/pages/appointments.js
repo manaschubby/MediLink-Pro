@@ -2,8 +2,10 @@ import React from "react";
 import SideBar from "../components/sideBar";
 import { Typography } from "@mui/material";
 import Calendar from "../components/calendar";
+
 const electron = window.require("electron");
 const { ipcRenderer } = electron;
+
 
 const Appointments = () => {
   const handleAddAppointment = () => {
@@ -25,7 +27,7 @@ const Appointments = () => {
 
         }}
       >
-        <Calendar />
+        <Calendar  />
       </div>
     </div>
   );

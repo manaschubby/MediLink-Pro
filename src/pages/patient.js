@@ -16,6 +16,7 @@ import useAddFile from "../hooks/useAddFile";
 import AddDiagnosis from "../components/patients/addDiagnosis";
 import AddMedication from "../components/patients/addMedication";
 import AddAppointment from "../components/patients/addAppointment";
+import AddReport from "../components/patients/addReport";
 
 const Patient = () => {
 	const { id } = useParams();
@@ -29,6 +30,7 @@ const Patient = () => {
 		makePatientInactive,
 		addNewDiagnosis,
 		addNewAppointment,
+		addNewReport,
 		fileClicked,
 	} = usePatient(id);
 	const isTabletOrMobile = useMediaQuery("(max-width: 1224px)");
@@ -37,6 +39,7 @@ const Patient = () => {
 	const [addAppointmentOpen, setAddAppointmentOpen] = React.useState(false);
 	const [addDiagnosisOpen, setAddDiagnosisOpen] = React.useState(false);
 	const [addMedicationOpen, setAddMedicationOpen] = React.useState(false);
+	const [addReportOpen, setAddReportOpen] = React.useState(false);
 
 	// Styles
 	const rowTitleStyle = { color: "rgba(0,0,0, 0.6)" };
@@ -66,6 +69,11 @@ const Patient = () => {
 				addNewDiagnosis={addNewDiagnosis}
 			/>
 			<AddMedication open={addMedicationOpen} setOpen={setAddMedicationOpen} />
+			<AddReport
+				open={addReportOpen}
+				setOpen={setAddReportOpen}
+				addNewReport={addNewReport}
+			/>
 
 			{patientLoaded ? (
 				<Box
@@ -117,14 +125,6 @@ const Patient = () => {
 								>
 									<Button
 										onClick={() => {
-											setAddAppointmentOpen(true);
-										}}
-										sx={{ fontSize: "1rem", backgroundColor: "#E1F5FE" }}
-									>
-										Add Appointment
-									</Button>
-									<Button
-										onClick={() => {
 											setAddDiagnosisOpen(true);
 										}}
 										sx={{ fontSize: "1rem", backgroundColor: "#E1F5FE" }}
@@ -154,6 +154,58 @@ const Patient = () => {
 								>
 									Delete Patient
 								</Button>
+							</Box>
+						</Box>
+						{/* 
+								Add Report, Add Appointment
+						 */}
+						<Box
+							sx={{
+								display: "flex",
+								justifyContent: "space-between",
+								flexDirection: isTabletOrMobile ? "column" : "row",
+								alignItems: "center",
+								mt: "1rem",
+								mb: "1rem",
+								width: "73%",
+								gap: "1rem",
+							}}
+						>
+							<Box
+								sx={{
+									display: "flex",
+									gap: "1rem",
+									flexFlow: "wrap",
+									overflow: "wrap",
+									flexWrap: "nowrap",
+								}}
+							>
+								<Button
+									onClick={() => {
+										setAddAppointmentOpen(true);
+									}}
+									sx={{ fontSize: "1rem", backgroundColor: "#E1F5FE" }}
+								>
+									Add Appointment
+								</Button>
+								<Button
+									onClick={() => {
+										setAddReportOpen(true);
+									}}
+									sx={{ fontSize: "1rem", backgroundColor: "#E1F5FE" }}
+								>
+									Add Report
+								</Button>
+								{patient.inReview && (
+									<Button
+										sx={{
+											fontSize: "1rem",
+											backgroundColor: "#E1F5FE",
+										}}
+									>
+										Add Next Action
+									</Button>
+								)}
 							</Box>
 						</Box>
 						<Box sx={{ display: "flex", gap: "1rem" }}>

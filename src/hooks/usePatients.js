@@ -29,5 +29,6 @@ export default function usePatients() {
 		patients,
 		patientsLoaded,
 		reloadPatients,
+		
 	};
 }
