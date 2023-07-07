@@ -13,11 +13,15 @@ function Calendar() {
  function addEvents(){
   setEvents(
     appointments.map((meet)=>{
+      var now=new Date().toISOString();
       const newEvent={
         title: meet.name,
         start: new Date(Date.parse(meet.date)),
+        color: (now <= meet.date)?((now.substring(0,10)==meet.date.substring(0,10))?"green":"#42a5f5") :"red",
+        
         description: meet.info
       }
+      
       return newEvent;
     })
   );
