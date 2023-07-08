@@ -18,6 +18,7 @@ const Patients = () => {
 			}
 		});
 	}, [patients, selectedFilter]);
+	console.log(patients);
 
 	const handleAddPatient = () => {
 		ipcRenderer.send("add-patient");
@@ -39,7 +40,7 @@ const Patients = () => {
 					left: "80px",
 					width: "calc(100vw - 128px)",
 					height: "100%",
-					backgroundColor: "#f5f5f5",
+					backgroundColor: "white",
 					padding: "1rem",
 				}}
 			>

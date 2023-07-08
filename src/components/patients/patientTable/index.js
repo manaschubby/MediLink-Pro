@@ -6,6 +6,7 @@ import {
 	Table,
 	TableBody,
 	Paper,
+	Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import React from "react";
@@ -41,11 +42,15 @@ const PatientTable = (props) => {
 	};
 
 	return (
-		<div>
+		<div 
+			style={{boxShadow: "1px 1px 10px 1px #90caf9",}}
+		>
 			<TableContainer component={Paper}>
 				<Table sx={{ minWidth: 650 }} aria-label="simple table">
 					<TableHead>
-						<TableRow>
+						<TableRow sx={{
+						boxShadow:"1px 1px 2px 1px black",
+					}}>
 							<TableCell sx={{ fontWeight: "bold", fontSize: "1rem" }}>
 								Name
 							</TableCell>
@@ -88,22 +93,23 @@ const PatientTable = (props) => {
 									navigate(`/patient/${patient._id}`);
 								}}
 							>
-								<TableCell component="th" scope="row">
+								<TableCell component="th" scope="row" sx={{fontSize:"1rem"}}>
 									{patient.firstName} {patient.lastName}
 								</TableCell>
-								<TableCell align="right">
+								<TableCell align="right" sx={{fontSize:"1rem"}}>
 									{calculateAge(patient.dateOfBirth)} years
 								</TableCell>
 								<TableCell
 									sx={{
 										textTransform: "capitalize",
+										fontSize:"1rem"
 									}}
 									align="right"
 								>
 									{patient.diagnosis.length > 0 && renderDiagnosis(patient)}
 								</TableCell>
-								<TableCell align="right">
-									{patient.inReview ? "Active" : "Not Active"}
+								<TableCell align="right" sx={{fontSize:"1rem"}}>
+									{patient.inReview ? <div style={{color:"green"}}>Active</div> : <div style={{color:"red"}}>Not Active</div>}
 								</TableCell>
 								<TableCell align="right">{patient.lastVisit}</TableCell>
 							</TableRow>
