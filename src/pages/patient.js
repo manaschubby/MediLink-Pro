@@ -344,6 +344,19 @@ const Patient = () => {
 												</Box>
 											);
 										})}
+										<Box
+											mt={1}
+											sx={{ display: "flex", justifyContent: "space-between" }}
+										>
+											<Typography variant="body1" gutterBottom>
+												{patient.files.length} Files Uploaded
+											</Typography>
+											<Button
+												sx={{ fontSize: "1rem", backgroundColor: "#E1F5FE" }}
+											>
+												View Files
+											</Button>
+										</Box>
 									</Box>
 								) : (
 									<Typography variant="body1" gutterBottom>
