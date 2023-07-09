@@ -41,7 +41,7 @@ function Calendar() {
     );
   }
   return (
-    <div>
+    <div style={{boxShadow: "1px 15px 90px 1px #90caf9",}}>
       <Fullcalendar
 
         plugins={[listPlugin]}
