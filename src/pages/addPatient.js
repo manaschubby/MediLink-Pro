@@ -12,8 +12,12 @@ import {
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import Alert from "../components/patients/alert";
+import ProfileLogo from "../profile_logo.jpg"
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import CameraAltRoundedIcon from '@mui/icons-material/CameraAltRounded';
+import './addPatient.css'
 const electron = window.require("electron");
 const { ipcRenderer } = electron;
 const AddPatient = () => {
@@ -25,6 +29,9 @@ const AddPatient = () => {
 	const [dateOfDiagnosis, setDateOfDiagnosis] = React.useState(new Date());
 	const [medications, setMedications] = React.useState([]);
 	const [allergies, setAllergies] = React.useState([]);
+	const [image,setImage] = React.useState(null);
+	const [openCam,setOpenCam] = React.useState(false);
+	const [dataUrlState,setDataUrlState] = React.useState(null);
 
 	const [loadingOpen, setLoadingOpen] = React.useState(false);
 	const [alertOpen, setAlertOpen] = React.useState(false);
@@ -50,6 +57,10 @@ const AddPatient = () => {
 	const medicationDosageRef = useRef();
 	const medicationFrequencyRef = useRef();
 	const allergyRef = useRef();
+	const imageRef = useRef();
+	const videoRef = useRef(null);
+	const canvasRef = useRef(null);
+	
 
 	const alert = (message, saveOrCancelAlert) => {
 		setSaveOrCancelAlert(saveOrCancelAlert);
@@ -72,6 +83,10 @@ const AddPatient = () => {
 			alert("Please select a blood group.", true);
 			return false;
 		}
+		if (image==null){
+			alert("Please Insert Profile Photo",true);
+			return false;
+		}
 		let returnVal = true;
 		// Check repeat medicine in medications
 		medications.forEach((medication, index) => {
@@ -92,9 +107,75 @@ const AddPatient = () => {
 		});
 		return returnVal;
 	};
+	
+	//function to convert image to base-64 dataurl 
+	const toBase64 = file => new Promise((resolve, reject) => {
+		const reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onload = () => resolve(reader.result);
+		reader.onerror = reject;
+	});
+	 //event lisneter to store reference of image in image state 
+    const onImageChange = async (event) => {
+        //checking if event contain any file and image should be on 0th index of file
+	
+        if(event.target.files && event.target.files[0]){
+
+            let img = event.target.files[0];
+            //setting state
+
+
+			try {
+				const result = await toBase64(img);
+				setImage({
+					image: result,
+				});
+				return result
+			 } catch(error) {
+				console.error(error);
+				return;
+			 }
+            
+        }
+    };
+
+	// Request access to the user's camera 
+	const handleOpenCamera = () => {
+		setOpenCam(true);
+		navigator.mediaDevices.getUserMedia({ video: true })
+		.then(stream => {
+		const video = videoRef.current;
+		video.srcObject = stream;
+		video.play();
+		})
+		.catch(error => {
+		console.log('Error accessing camera:', error);
+		});
+	}
+	
+		
+	const handleCapture = () => {
+		const video = videoRef.current;
+		const canvas = canvasRef.current;
+		const context = canvas.getContext('2d');
+	
+		// Draw the video frame onto the canvas
+		context.drawImage(video, 0, 0, canvas.width, canvas.height);
+	
+		// Get the captured photo as a base64-encoded data URL
+		const capturedPhoto = canvas.toDataURL('image/jpeg');
+	
+		// Set the captured photo in state
+		setImage({image: capturedPhoto});
+		setOpenCam(false);
+	  };
+	
+	
+
 
 	const handleAddPatient = () => {
 		// console.log(dateRef.current.value);
+		
 		if (validate()) {
 			setLoadingOpen(true);
 
@@ -118,6 +199,7 @@ const AddPatient = () => {
 				allergies: allergies,
 				medications: medications,
 				bloodGroup: bloodGroup.current.value,
+				profilePhoto: image,
 			});
 			ipcRenderer.on("patient-created", (event, patient) => {
 				setLoadingOpen(false);
@@ -185,6 +267,65 @@ const AddPatient = () => {
 					my: "1rem",
 				}}
 			>
+				<div className="photo-container">
+					{!image && (
+					<img src={ProfileLogo} 
+						style={{height: "200px", width:"200px"}} 	
+						onClick={()=>imageRef.current.click()}
+					>
+						
+					</img>
+					)}
+
+					{image && (
+					<img src={image.image} 
+						style=
+						{{
+							height: "200px", 
+							width:"200px",
+							
+						}} 	
+						onClick={()=>imageRef.current.click()}
+					>
+						
+					</img>
+
+					)}
+					<div>
+						<div className="button-container">
+							<button className="photo-button" onClick={()=>imageRef.current.click()}>Add Photo From Gallery</button>
+						</div>
+						
+						
+					</div>
+					
+					
+				</div>
+				
+				<div style={{display:"none"}}>
+                    <input type="file" name='myImage' ref={imageRef} onChange={onImageChange}/>
+                </div>
+				
+				
+			</Box>
+			<div className="video-container">
+			
+				
+				{openCam==true &&( <video ref={videoRef} className="video" /> )}
+				{openCam==false &&(<Button sx={{mt: "1rem",}}onClick={handleOpenCamera} variant="contained" startIcon={<CameraAltRoundedIcon/>}>Capture New Photo</Button>)}
+				{openCam==true && (<button onClick={handleCapture} className="capture-photo" style={{}}><CameraAltRoundedIcon/></button>)}
+          		<canvas ref={canvasRef} style={{ display: 'none' }} />
+
+			</div>
+			
+
+			<Box
+				sx={{
+					display: "flex",
+					gap: "1rem",
+					my: "1rem",
+				}}
+			>
 				<input
 					ref={firstNameRef}
 					type="text"
@@ -203,6 +344,8 @@ const AddPatient = () => {
 					}}
 					placeholder="Last Name"
 				/>
+			
+				
 			</Box>
 			<Box
 				sx={{
