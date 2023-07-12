@@ -11,7 +11,7 @@ import {
 
 import usePatient from "../hooks/usePatient";
 import dayjs from "dayjs";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAddFile from "../hooks/useAddFile";
 import AddDiagnosis from "../components/patients/addDiagnosis";
 import AddMedication from "../components/patients/addMedication";
@@ -19,9 +19,9 @@ import AddAppointment from "../components/patients/addAppointment";
 import AddReport from "../components/patients/addReport";
 
 const Patient = () => {
-	const { id } = useParams();
-
 	// Hooks
+	const navigate = useNavigate();
+	const { id } = useParams();
 	const { showAddFile } = useAddFile();
 	const {
 		patient,
@@ -352,6 +352,9 @@ const Patient = () => {
 												{patient.files.length} Files Uploaded
 											</Typography>
 											<Button
+												onClick={() => {
+													navigate("/view-files");
+												}}
 												sx={{ fontSize: "1rem", backgroundColor: "#E1F5FE" }}
 											>
 												View Files

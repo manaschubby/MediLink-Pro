@@ -11,6 +11,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Patient from "./pages/patient";
 import PatientFile from "./pages/patientFile";
+import ViewFiles from "./pages/viewFiles";
 
 const Template = () => {
 	return (
@@ -55,6 +56,10 @@ const HashRouter = createHashRouter([
 	{
 		path: "/patient-file",
 		element: <PatientFile />,
+	},
+	{
+		path: "view-files",
+		element: <ViewFiles />,
 	},
 ]);
 
