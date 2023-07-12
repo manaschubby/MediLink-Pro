@@ -1,0 +1,58 @@
+.photo-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .button-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 1s ease;
+    
+  }
+
+  .photo-container:hover,
+.button-container:hover {
+  opacity: 1;
+}
+
+
+.photo-button {
+    padding: 10px 20px;
+    background-color: aliceblue;
+    color: black;
+    width: 150px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 5px 5px 30px rgba(66,165,245,255);
+}
+
+.video-container{
+  position: relative;
+}
+.video{
+  position: relative;
+ 
+}
+.capture-photo{
+  position: absolute;
+  
+  
+  top: 50%;
+  
+  border-radius: 50% ;
+  width: 50px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+  
+  
+}
+.capture-photo:hover{
+  box-shadow: 5px 5px 30px rgba(66,165,245,255);
+  cursor: pointer;
+  transition: opacity 1s ease;
+  width: 60px;
+  height: 60px;
+}

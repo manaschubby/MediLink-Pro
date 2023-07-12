@@ -17,6 +17,7 @@ import AddDiagnosis from "../components/patients/addDiagnosis";
 import AddMedication from "../components/patients/addMedication";
 import AddAppointment from "../components/patients/addAppointment";
 import AddReport from "../components/patients/addReport";
+import { blue } from "@mui/material/colors";
 
 const Patient = () => {
 	// Hooks
@@ -97,6 +98,19 @@ const Patient = () => {
 							padding: "1rem",
 						}}
 					>
+						<img src={patient.profilePhoto.image} 
+							style=
+							{{
+								borderRadius:"50%",
+								width: "300px",
+								height: "300px",
+								marginRight: "20%",
+								marginLeft: "20%",
+								border: "5px solid rgba(66,165,245,255)",
+								
+							}}>
+
+						</img>
 						<Typography variant="h3">{patient.firstName}</Typography>
 						{/*
                     Actions
