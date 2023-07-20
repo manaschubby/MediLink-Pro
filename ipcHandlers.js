@@ -386,7 +386,7 @@ const addFile = async (e, arg, result) => {
 const getAppointments = async (event, arg) => {
 	const appointments = await Appointment.find({})
 		.sort({ date: -1 })
-		.populate("patient");
+		.populate({ path: "patient", model: "Patient" });
 	return event.reply("appointments", JSON.stringify(appointments));
 };
 
