@@ -318,6 +318,95 @@ const addNewAppointmentToPatient = async (event, arg) => {
 	event.reply("patient-appointment-added", JSON.stringify(newPatient));
 };
 
+// Add Medication to Patient
+const addNewMedicationToPatient = async (event, arg) => {
+	checkMedicine(arg.name.toLowerCase())
+		.then((medicine) => {
+			if (!medicine) {
+				Medicine.create({ name: arg.name.toLowerCase() })
+					.then((newMedicine) => {
+						Medication.create({
+							medicine: newMedicine._id,
+							dosage: arg.dosage,
+							frequency: arg.frequency,
+						})
+							.then((newMedication) => {
+								Patient.findByIdAndUpdate(
+									arg.patientId,
+									{
+										$push: {
+											medications: newMedication._id,
+										},
+									},
+									{ new: true }
+								)
+									.populate({
+										path: "medications",
+										populate: { path: "medicine", model: "Medicine" },
+									})
+									.then((patient) => {
+										return event.reply(
+											"patient-medication-added",
+											JSON.stringify(patient)
+										);
+									})
+									.catch((err) => {
+										console.log(err);
+										throw err;
+									});
+							})
+							.catch((err) => {
+								console.log(err);
+								throw err;
+							});
+					})
+					.catch((err) => {
+						console.log(err);
+						throw err;
+					});
+			} else {
+				Medication.create({
+					medicine: medicine._id,
+					dosage: arg.dosage,
+					frequency: arg.frequency,
+				})
+					.then((newMedication) => {
+						Patient.findByIdAndUpdate(
+							arg.patientId,
+							{
+								$push: {
+									medications: newMedication._id,
+								},
+							},
+							{ new: true }
+						)
+							.populate({
+								path: "medications",
+								populate: { path: "medicine", model: "Medicine" },
+							})
+							.then((patient) => {
+								return event.reply(
+									"patient-medication-added",
+									JSON.stringify(patient)
+								);
+							})
+							.catch((err) => {
+								console.log(err);
+								throw err;
+							});
+					})
+					.catch((err) => {
+						console.log(err);
+						throw err;
+					});
+			}
+		})
+		.catch((err) => {
+			console.log(err);
+			throw err;
+		});
+};
+
 // Add File Handler
 const addFile = async (e, arg, result) => {
 	try {

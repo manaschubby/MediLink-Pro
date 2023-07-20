@@ -30,6 +30,7 @@ const Patient = () => {
 		makePatientInactive,
 		addNewDiagnosis,
 		addNewAppointment,
+		addNewMedication,
 		addNewReport,
 		fileClicked,
 	} = usePatient(id);
@@ -68,7 +69,11 @@ const Patient = () => {
 				setOpen={setAddDiagnosisOpen}
 				addNewDiagnosis={addNewDiagnosis}
 			/>
-			<AddMedication open={addMedicationOpen} setOpen={setAddMedicationOpen} />
+			<AddMedication
+				open={addMedicationOpen}
+				setOpen={setAddMedicationOpen}
+				addNewMedication={addNewMedication}
+			/>
 			<AddReport
 				open={addReportOpen}
 				setOpen={setAddReportOpen}

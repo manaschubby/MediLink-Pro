@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 const electron = window.require("electron");
 const { ipcRenderer } = electron;
 
 export default function usePatient(id) {
 	const [patient, setPatient] = useState();
 	const [patientLoaded, setPatientLoaded] = useState(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		ipcRenderer.send("get-patient", id);
@@ -77,11 +79,24 @@ export default function usePatient(id) {
 			});
 		});
 	};
+	const addNewMedication = (medication) => {
+		ipcRenderer.send("add-medication", {
+			...medication,
+		});
+		ipcRenderer.on("medication-added", (event, newPatient) => {
+			console.log(newPatient);
+			setPatient({
+				...patient,
+				medications: JSON.parse(newPatient).medications,
+			});
+		});
+	};
 	const fileClicked = (file) => {
 		ipcRenderer.send("file-clicked", {
 			patientId: patient._id,
 			file,
 		});
+		navigate("/view-files");
 	};
 
 	return {
@@ -91,6 +106,7 @@ export default function usePatient(id) {
 		makePatientInactive,
 		addNewDiagnosis,
 		addNewAppointment,
+		addNewMedication,
 		addNewReport,
 		fileClicked,
 	};
