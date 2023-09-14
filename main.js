@@ -64,7 +64,7 @@ async function createWindow() {
 			},
 		});
 		// Load the index.html file of the application
-		mainWindow.loadURL("http://localhost:3000#/patients");
+		mainWindow.loadFile("app/build/index.html");
 	}
 }
 

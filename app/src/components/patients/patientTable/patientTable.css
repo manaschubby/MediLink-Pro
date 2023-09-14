@@ -1,0 +1,12 @@
+
+.trr{
+    cursor: pointer;
+  transition: 0.05s background cubic-bezier(0.86, 0, 0.07, 1);
+  &:hover {
+    background: rgba(0,0,0,0.1);
+    .options {
+      width: auto;
+      opacity: 1;
+      }
+    }
+}
