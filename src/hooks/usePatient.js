@@ -83,7 +83,7 @@ export default function usePatient(id) {
 		ipcRenderer.send("add-medication", {
 			...medication,
 		});
-		ipcRenderer.on("medication-added", (event, newPatient) => {
+		ipcRenderer.on("patient-medication-added", (event, newPatient) => {
 			console.log(newPatient);
 			setPatient({
 				...patient,

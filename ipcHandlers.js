@@ -487,6 +487,7 @@ module.exports = {
 	makePatientInactive,
 	addNewDiagnosisToPatient,
 	addNewAppointmentToPatient,
+	addNewMedicationToPatient,
 	addFile,
 	getAppointments,
 };
