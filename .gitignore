@@ -132,3 +132,5 @@ dist
 .DS_Store
 
 medilink-pro.code-workspace
+
+app/build

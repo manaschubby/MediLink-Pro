@@ -83,7 +83,7 @@ const SideBar = (props) => {
 								color: "white",
 							}}
 							variant="text"
-							href="/patients"
+							href="#/patients"
 						>
 							<ArrowBack />
 						</Button>

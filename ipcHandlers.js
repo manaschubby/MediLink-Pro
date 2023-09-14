@@ -41,8 +41,8 @@ const getPatients = async (event, ipcMain) => {
 			path: "medications",
 			populate: { path: "medicine", model: "Medicine" },
 		})
-		.populate({ path: "appointments", populate: { path: "patient" } })
-		.populate({ path: "visitHistory", populate: { path: "patient" } });
+		.populate({ path: "appointments" })
+		.populate({ path: "visitHistory" });
 	console.log(patients);
 	return event.reply("patients", JSON.stringify(patients));
 };
@@ -79,24 +79,6 @@ const getPatient = async (event, arg) => {
 	return event.reply("patient", JSON.stringify(sendPatient));
 };
 
-/*
- * Create a new patient
- * @param {Object} event - The event object
- * @param {Object} arg - The patient object
- * @param {Array} arg.diagnosis - The diagnosis array
- * @param {Array} arg.medications - The medications array
- * @param {Array} arg.symptoms - The symptoms array
-
- * @param {Object} diagnosis - The diagnosis object
- * @param {String} diagnosis.name - The name of the disease
- * @param {Date} diagnosis.date - The date of diagnosis
- * @param {Object} medication - The medication object
- * @param {String} medication.name - The name of the medicine
- * @param {String} medication.dosage - The dosage of the medicine
- * @param {String} medication.frequency - The frequency of the medicine
- * @param {String} symptom - The name of the symptom
-*/
-
 // Check the uniqueness of the syymptom and return the symptom if it exists
 const checkSymptom = async (symptom) => {
 	const foundSymptom = await Symptom.findOne({ name: symptom });
@@ -121,7 +103,22 @@ const checkMedicine = async (medicine) => {
 	}
 	return null;
 };
-
+/**
+ * Create a new patient
+ * @param {Object} event - The event object
+ * @param {Object} arg - The patient object
+ * @param {Array} arg.diagnosis - The diagnosis array
+ * @param {Array} arg.medications - The medications array
+ * @param {Array} arg.symptoms - The symptoms array
+ * @param {Object} diagnosis - The diagnosis object
+ * @param {String} diagnosis.name - The name of the disease
+ * @param {Date} diagnosis.date - The date of diagnosis
+ * @param {Object} medication - The medication object
+ * @param {String} medication.name - The name of the medicine
+ * @param {String} medication.dosage - The dosage of the medicine
+ * @param {String} medication.frequency - The frequency of the medicine
+ * @param {String} symptom - The name of the symptom
+ */
 const createPatient = async (event, arg) => {
 	const { diagnosis, medications, symptoms } = arg;
 

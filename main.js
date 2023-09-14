@@ -34,6 +34,22 @@ const store = new Store({
 	},
 });
 
+const isDev = process.env.NODE_ENV === "development" ? true : false;
+
+const loadURL = (window, url) => {
+	if (isDev) {
+		window.loadURL(`http://localhost:3000#${url}`);
+	} else {
+		if (url === "") {
+			window.loadFile(`app/build/index.html`);
+		} else {
+			window.loadFile(`app/build/index.html/#${url}`);
+		}
+	}
+	window.once("ready-to-show", () => {
+		window.show();
+	});
+};
 async function createWindow() {
 	if (store.get("patientFilePath") === "unset") {
 		// Open a window to ask user to select a patient file
@@ -47,10 +63,7 @@ async function createWindow() {
 			},
 		});
 		patientFileWindow.removeMenu();
-		patientFileWindow.loadURL("http://localhost:3000#/patient-file");
-		patientFileWindow.once("ready-to-show", () => {
-			patientFileWindow.show();
-		});
+		loadURL(patientFileWindow, "patient-file");
 	} else {
 		const mainWindow = new BrowserWindow({
 			width: 1000,
@@ -64,14 +77,15 @@ async function createWindow() {
 			},
 		});
 		// Load the index.html file of the application
-		mainWindow.loadFile("app/build/index.html");
+		loadURL(mainWindow, "");
 	}
 }
 
 // Event listener for when Electron has finished initialization
 app.whenReady().then(async () => {
-	await createWindow();
 	await connectDB();
+	await createWindow();
+
 	// Event listener for macOS when all windows are closed
 	app.on("window-all-closed", () => {
 		if (process.platform !== "darwin") {
@@ -118,10 +132,7 @@ ipcMain.on("add-patient", (e, arg) => {
 		},
 	});
 	addPatientWindow.removeMenu();
-	addPatientWindow.loadURL("http://localhost:3000#/add-patient");
-	addPatientWindow.once("ready-to-show", () => {
-		addPatientWindow.show();
-	});
+	loadURL(addPatientWindow, "add-patient");
 });
 
 ipcMain.on("add-patient-submit", (e, arg) => {
